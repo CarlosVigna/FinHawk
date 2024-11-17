@@ -24,7 +24,7 @@ public class ContasModel implements Serializable {
 
     @Column(name = "foto_url")
     private String fotoUrl;
-
+    
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "usuarios_contas",

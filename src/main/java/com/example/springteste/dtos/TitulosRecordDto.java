@@ -8,6 +8,7 @@ import java.util.Date;
 
 public record TitulosRecordDto(
         @NotNull LocalDate vencimento,
+        @NotNull String descricao,
         @NotNull LocalDate emissao,
         @NotNull Long categoriaId,
         String categoriaNome,

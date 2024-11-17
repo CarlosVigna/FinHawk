@@ -15,7 +15,7 @@ public class TitulosModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String descricao;
     private LocalDate vencimento;
     private LocalDate emissao;
 
@@ -34,14 +34,15 @@ public class TitulosModel implements Serializable {
     public TitulosModel() {
     }
 
-    public TitulosModel(Long id, LocalDate vencimento, LocalDate emissao, CategoriasModel categoria, BigDecimal valor, String status, ContasModel conta) {
+    public TitulosModel(Long id, String descricao, LocalDate vencimento, LocalDate emissao, CategoriasModel categoria, BigDecimal valor, String status, ContasModel conta) {
         this.id = id;
+        this.descricao = descricao;
         this.vencimento = vencimento;
         this.emissao = emissao;
         this.categoria = categoria;
         this.valor = valor;
         this.status = status;
-        this.conta = conta;  // Inicializando a conta
+        this.conta = conta;
     }
 
 
@@ -51,6 +52,14 @@ public class TitulosModel implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public LocalDate getVencimento() {
@@ -100,4 +109,6 @@ public class TitulosModel implements Serializable {
     public void setConta(ContasModel conta) {
         this.conta = conta;
     }
+
+
 }
