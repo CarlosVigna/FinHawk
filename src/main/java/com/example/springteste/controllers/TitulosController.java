@@ -61,18 +61,35 @@ public class TitulosController {
                 .body("{\"message\":\"Título salvo com sucesso!\"}");
     }
 
-//
-//    @GetMapping("/titulos")
-//    @CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", allowCredentials = "true")
-//    public ResponseEntity<List<TitulosModel>> getTitulosPorConta(@RequestParam Long contaId) {
-//        List<TitulosModel> titulos = titulosRepository.findByContaId(contaId);
-//        return ResponseEntity.status(HttpStatus.OK).body(titulos);
-//    }
-
-    @GetMapping("/titulos/recebidos/{id}")
+    @GetMapping("/titulos")
     @CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", allowCredentials = "true")
-    public ResponseEntity<List<TitulosModel>> getTitulosRecebidos (@PathVariable Long contaId) {
-        List<TitulosModel> titulos = titulosRepository.findRecebimentosRecebidos(contaId);
+    public ResponseEntity<List<TitulosModel>> getTitulosPorConta(@RequestParam Long contaId) {
+        List<TitulosModel> titulos = titulosRepository.findByContaId(contaId);
+        return ResponseEntity.status(HttpStatus.OK).body(titulos);
+    }
+
+
+    @GetMapping("/titulos/recebidos")
+    public ResponseEntity<List<TitulosModel>> getTitulosRecebidos (@RequestParam Long contaId) {
+        List<TitulosModel> titulos = titulosRepository.findRecebimentosRecebidosByContaId(contaId);
+        return ResponseEntity.status(HttpStatus.OK).body(titulos);
+    }
+
+    @GetMapping("/titulos/pagos")
+    public ResponseEntity<List<TitulosModel>> getTitulosPagos (@RequestParam Long contaId) {
+        List<TitulosModel> titulos = titulosRepository.findPagamentosPagosByContaId(contaId);
+        return ResponseEntity.status(HttpStatus.OK).body(titulos);
+    }
+
+    @GetMapping("/titulos/rec-aberto")
+    public ResponseEntity<List<TitulosModel>> getTitulosRecAberto (@RequestParam Long contaId) {
+        List<TitulosModel> titulos = titulosRepository.findRecebimentosAbertoByContaId(contaId);
+        return ResponseEntity.status(HttpStatus.OK).body(titulos);
+    }
+
+    @GetMapping("/titulos/pag-aberto")
+    public ResponseEntity<List<TitulosModel>> getTitulosPagAberto (@RequestParam Long contaId) {
+        List<TitulosModel> titulos = titulosRepository.findPagamentoAbertoByContaId(contaId);
         return ResponseEntity.status(HttpStatus.OK).body(titulos);
     }
 

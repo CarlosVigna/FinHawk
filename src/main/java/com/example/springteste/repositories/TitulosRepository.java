@@ -13,9 +13,15 @@ import java.util.List;
 public interface TitulosRepository extends JpaRepository<TitulosModel, Long> {
     List<TitulosModel> findByContaId(Long contaId);
 
-    @Query(value = "SELECT * FROM v_Recebimentos_Recebidos WHERE conta_id = :contaId", nativeQuery = true)
-    List<TitulosModel> findRecebimentosRecebidos(@Param("contaId") Long contaId);
+    @Query("SELECT t FROM TitulosModel t WHERE t.conta.id = :contaId AND t.categoria.tipo = 'Recebimento' AND t.status = 'Recebido'")
+    List<TitulosModel> findRecebimentosRecebidosByContaId(@Param("contaId") Long contaId);
 
-    @Query(value = "SELECT * FROM v_Recebimentos_Em_Aberto WHERE conta_id = :contaId", nativeQuery = true)
-    List<TitulosModel> findRecebimentosEmAberto(@Param("contaId") Long contaId);
+    @Query("SELECT t FROM TitulosModel t WHERE t.conta.id = :contaId AND t.categoria.tipo = 'Pagamento' AND t.status = 'Pago'")
+    List<TitulosModel> findPagamentosPagosByContaId(@Param("contaId") Long contaId);
+
+    @Query("SELECT t FROM TitulosModel t WHERE t.conta.id = :contaId AND t.categoria.tipo = 'Recebimento' AND t.status = 'Em aberto'")
+    List<TitulosModel> findRecebimentosAbertoByContaId(@Param("contaId") Long contaId);
+
+    @Query("SELECT t FROM TitulosModel t WHERE t.conta.id = :contaId AND t.categoria.tipo = 'Pagamento' AND t.status = 'Em aberto'")
+    List<TitulosModel> findPagamentoAbertoByContaId(@Param("contaId") Long contaId);
 }
