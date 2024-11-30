@@ -37,15 +37,13 @@ public class TitulosController {
     @PostMapping("/contas/{idConta}/titulos")
     @CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", allowCredentials = "true")
     public ResponseEntity<String> saveTitulo(@PathVariable Long idConta, @RequestBody @Valid TitulosRecordDto titulosRecordDto) {
-        // Buscando a conta através do idConta que vem na URL
+
         ContasModel conta = contasRepository.findById(idConta)
                 .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
 
-        // Verificando se a categoria existe
         CategoriasModel categoria = categoriasRepository.findById(titulosRecordDto.categoriaId())
                 .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
 
-        // Chamando a stored procedure para salvar o título
         String sql = "EXEC sp_cadTitulo ?, ?, ?, ?, ?, ?, ?";
         jdbcTemplate.update(sql,
                 titulosRecordDto.descricao(),

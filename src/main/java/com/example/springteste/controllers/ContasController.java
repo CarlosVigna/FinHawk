@@ -41,9 +41,9 @@ public class ContasController {
             ContasModel contaSalva = contasService.salvarConta(conta, authentication);
             return ResponseEntity.status(HttpStatus.CREATED).body(contaSalva);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // Retorna 400
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (Exception e) {
-            e.printStackTrace(); // REMOVA EM PRODUÇÃO. Use um logger apropriado.
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
@@ -68,7 +68,7 @@ public class ContasController {
     public ResponseEntity<ContasModel> updateConta(@PathVariable Long id, @RequestBody @Valid ContasRecordDto contasRecordDto) {
         ContasModel contaExistente = contasRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
-        BeanUtils.copyProperties(contasRecordDto, contaExistente, "id"); // Não alterar o ID
+        BeanUtils.copyProperties(contasRecordDto, contaExistente, "id");
         return ResponseEntity.ok(contasRepository.save(contaExistente));
     }
 
@@ -78,7 +78,7 @@ public class ContasController {
             List<ContasModel> contas = contasRepository.findContasByUserId(id);
             return ResponseEntity.ok(contas);
         } catch (Exception e) {
-            e.printStackTrace(); // REMOVA EM PRODUÇÃO. Use um logger apropriado.
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }

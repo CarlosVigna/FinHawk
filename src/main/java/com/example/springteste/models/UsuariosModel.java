@@ -94,9 +94,6 @@ public class UsuariosModel implements UserDetails {
     }
 
 
-
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.regra == RegrasUsuarios.ADMIN) {

@@ -30,7 +30,7 @@ public class ContasService {
             conta.setUsuarios(Set.of(usuarioLogado));
             return contasRepository.save(conta);
         } catch (RuntimeException e) {
-            throw e; // propaga a exceção para o controller
+            throw e;
         }
     }
 }

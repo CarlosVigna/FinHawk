@@ -15,7 +15,7 @@ public final class CategoriasModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private String tipo; // "Pagamento" ou "Recebimento"
+    private String tipo;
 
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
     @JsonBackReference

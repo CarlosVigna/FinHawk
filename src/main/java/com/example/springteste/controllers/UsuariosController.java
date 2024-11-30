@@ -16,7 +16,7 @@ import java.util.Optional;
 public class UsuariosController {
 
     @Autowired
-    private UsuariosService usuariosService;  // Agora o serviço de usuários centraliza as operações
+    private UsuariosService usuariosService;
 
     @PostMapping
     public ResponseEntity<?> saveUsuario(@RequestBody @Valid UsuariosRecordDto usuarioDto) {

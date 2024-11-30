@@ -1,7 +1,7 @@
 package com.example.springteste.dtos;
 
 public class LoginResponseDto {
-    private Long id; // ou o tipo apropriado para o seu ID
+    private Long id;
     private String token;
 
     public LoginResponseDto(Long id, String token) {

@@ -15,6 +15,7 @@ public interface ContasRepository extends JpaRepository<ContasModel, Long> {
 
     @Query("SELECT c FROM ContasModel c JOIN FETCH c.usuarios u WHERE u.id = :usuarioId")
     List<ContasModel> findByUsuarioId(@Param("usuarioId") Long usuarioId);
+
     @Query("SELECT c FROM ContasModel c JOIN FETCH c.usuarios u WHERE u.id = :userId")
     List<ContasModel> findContasByUserId(@Param("userId") Long userId);
 }
