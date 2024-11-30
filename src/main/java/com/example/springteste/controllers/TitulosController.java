@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,9 @@ import java.util.Optional;
 
 @RestController
 public class TitulosController {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private TitulosRepository titulosRepository;
@@ -37,25 +41,41 @@ public class TitulosController {
         ContasModel conta = contasRepository.findById(idConta)
                 .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
 
-        var titulosModel = new TitulosModel();
-        BeanUtils.copyProperties(titulosRecordDto, titulosModel);
-        titulosModel.setConta(conta);
+        // Verificando se a categoria existe
         CategoriasModel categoria = categoriasRepository.findById(titulosRecordDto.categoriaId())
                 .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
-        titulosModel.setCategoria(categoria);
 
-        titulosRepository.save(titulosModel);
+        // Chamando a stored procedure para salvar o título
+        String sql = "EXEC sp_cadTitulo ?, ?, ?, ?, ?, ?, ?";
+        jdbcTemplate.update(sql,
+                titulosRecordDto.descricao(),
+                titulosRecordDto.emissao(),
+                titulosRecordDto.status(),
+                titulosRecordDto.valor(),
+                titulosRecordDto.vencimento(),
+                titulosRecordDto.categoriaId(),
+                idConta
+        );
 
         return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.APPLICATION_JSON)
                 .body("{\"message\":\"Título salvo com sucesso!\"}");
     }
 
-    @GetMapping("/titulos")
+//
+//    @GetMapping("/titulos")
+//    @CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", allowCredentials = "true")
+//    public ResponseEntity<List<TitulosModel>> getTitulosPorConta(@RequestParam Long contaId) {
+//        List<TitulosModel> titulos = titulosRepository.findByContaId(contaId);
+//        return ResponseEntity.status(HttpStatus.OK).body(titulos);
+//    }
+
+    @GetMapping("/titulos/recebidos/{id}")
     @CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", allowCredentials = "true")
-    public ResponseEntity<List<TitulosModel>> getTitulosPorConta(@RequestParam Long contaId) {
-        List<TitulosModel> titulos = titulosRepository.findByContaId(contaId);
+    public ResponseEntity<List<TitulosModel>> getTitulosRecebidos (@PathVariable Long contaId) {
+        List<TitulosModel> titulos = titulosRepository.findRecebimentosRecebidos(contaId);
         return ResponseEntity.status(HttpStatus.OK).body(titulos);
     }
+
 
     @PutMapping("/titulos/{id}")
     @CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", allowCredentials = "true")

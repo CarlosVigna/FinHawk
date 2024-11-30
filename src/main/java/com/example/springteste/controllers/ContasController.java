@@ -20,6 +20,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", allowCredentials = "true")
 @RequestMapping("/contas")
 public class ContasController {
 
@@ -33,7 +34,6 @@ public class ContasController {
     private ContasService contasService;
 
     @PostMapping
-    @CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", allowCredentials = "true")
     public ResponseEntity<ContasModel> saveConta(@RequestBody @Valid ContasRecordDto contasRecordDto, Authentication authentication) {
         try {
             ContasModel conta = new ContasModel();
@@ -59,20 +59,12 @@ public class ContasController {
     }
 
     @GetMapping
-    @CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", allowCredentials = "true")
     public ResponseEntity<List<ContasModel>> getAllContas() {
         return ResponseEntity.status(HttpStatus.OK).body(contasRepository.findAll());
     }
 
-//    @GetMapping("/{id}/usuarios")
-//    public ResponseEntity<List<UsuariosModel>> getUsuariosByConta(@PathVariable Long id) {
-//        return contasRepository.findByIdWithUsers(id)
-//                .map(conta -> ResponseEntity.ok(new ArrayList<>(conta.getUsuarios())))
-//                .orElse(ResponseEntity.notFound().build());
-//    }
 
     @PutMapping("/{id}")
-    @CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", allowCredentials = "true")
     public ResponseEntity<ContasModel> updateConta(@PathVariable Long id, @RequestBody @Valid ContasRecordDto contasRecordDto) {
         ContasModel contaExistente = contasRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
@@ -81,7 +73,6 @@ public class ContasController {
     }
 
     @GetMapping("/usuario/{id}")
-    @CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", allowCredentials = "true")
     public ResponseEntity<List<ContasModel>> getContasPorUsuarioId(@PathVariable Long id) {
         try {
             List<ContasModel> contas = contasRepository.findContasByUserId(id);
