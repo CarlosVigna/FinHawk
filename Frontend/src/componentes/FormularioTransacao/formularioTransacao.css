@@ -1,0 +1,130 @@
+.container-transacao {
+    display: flex;
+    justify-content: space-between;
+    padding: 100px;
+    gap: 30px;    
+    background-color: #9da0a5;    
+    width: 100%;
+    flex-wrap: wrap; 
+    margin: 0 auto;
+}
+
+.titulo-transacao {
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    max-width: 1200px;
+    width: 100%;
+    margin-bottom: 20px; 
+}
+
+.formulario-transacao h2 {
+    color: #333;
+    text-align: center;
+    margin: 0;
+    width: 100%;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;  
+    gap: 20px;
+    padding: 10px;
+}
+
+.grid-container div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.formulario-transacao label {
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+    font-size: 14px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.formulario-transacao select, 
+.formulario-transacao input {
+    margin-top: 8px;
+    font-size: 16px;
+    padding: 12px;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    width: 100%;
+}
+
+.formulario-transacao select:hover,
+.formulario-transacao input:hover,
+.formulario-transacao select:focus,
+.formulario-transacao input:focus {
+    border-color: #0199a1;
+    outline: none;
+    box-shadow: 0 0 4px rgba(1, 153, 161, 0.6);
+}
+
+.botao-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.botao-container .botao-padrao {
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+}
+
+.botao-padrao.botao-salvar {
+    background-color: #0199a1;
+    color: #fff;
+}
+
+.botao-padrao.botao-salvar:hover {
+    background-color: #017c7d;
+}
+
+.botao-padrao.botao-sair {
+    background-color: #ccc;
+    color: #333;
+}
+
+.botao-padrao.botao-sair:hover {
+    background-color: #aaa;
+}
+
+.categoria-transacao, .status-transacao, .tipo-transacao {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+
+.lista-titulo {
+    width: 100%;
+    max-width: 1100px;
+    flex-grow: 1; 
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;  
+    }
+    .container-transacao {
+        flex-direction: column;  
+    }
+}

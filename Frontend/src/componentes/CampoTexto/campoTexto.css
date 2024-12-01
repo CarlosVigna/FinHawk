@@ -1,0 +1,27 @@
+
+.campo-texto label {
+    display: block; 
+    margin-bottom: 8px; 
+    font-weight: bold; 
+    color: rgb(255, 255, 255); 
+}
+
+.campo-texto input {
+    width: 100%; 
+    padding: 8px; 
+    border-radius: 4px; 
+    box-shadow: 4px 6px 4px rgb(124, 122, 122);
+    color: rgb(0, 0, 0); 
+    background-color: #2C3E50;
+}
+
+.campo-texto h1 {
+    color: rgb(255, 255, 255);
+}
+
+.campo-texto input:hover,
+.campo-texto input:focus {
+    border-color: #0199a1; 
+    outline: none; 
+    box-shadow: 0 0 8px rgba(1, 153, 161, 0.6); 
+}
