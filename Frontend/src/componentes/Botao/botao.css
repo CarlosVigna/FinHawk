@@ -1,0 +1,111 @@
+:root {
+    --primary-color: #b4e6e7; 
+    --primary-dark: #dee7e7;  
+    --secondary-color: #28a745; 
+    --secondary-dark: #218838;  
+    --hover-color: #ECF0F1;
+    --text-color: #121414;      
+    --hover-scale: 1.05;        
+    --transition-speed: 0.3s;   
+    
+}
+
+button, .botao-padrao {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: none;
+    color: var(--text-color);
+    background-color: var(--primary-color);
+    cursor: pointer;
+    transition: background-color var(--transition-speed), transform 0.2s ease, box-shadow var(--transition-speed);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.botao-card {
+    background-color: var(--primary-color);
+}
+
+.botao-card:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.botao-salvar, .botao-procurar, .botao-enviar, .botao-cadastrar, .botao-login {
+    background-color: var(--primary-color);
+}
+
+.botao-salvar:hover, .botao-procurar:hover, .botao-enviar:hover, .botao-cadastrar:hover, .botao-login:hover {
+    background-color: var(--primary-dark);
+    transform: scale(var(--hover-scale));
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.botao-enviar-cadastro {
+    background-color: var(--secondary-color);
+}
+
+.botao-enviar-cadastro:hover {
+    background-color: var(--secondary-dark);
+    transform: scale(var(--hover-scale));
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+button:active, 
+.botao-padrao:active, 
+.botao-salvar:active, 
+.botao-procurar:active, 
+.botao-enviar:active, 
+.botao-cadastrar:active, 
+.botao-login:active, 
+.botao-enviar-cadastro:active {
+    transform: scale(1);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:focus, 
+.botao-padrao:focus, 
+.botao-salvar:focus, 
+.botao-procurar:focus, 
+.botao-enviar:focus, 
+.botao-cadastrar:focus, 
+.botao-login:focus, 
+.botao-enviar-cadastro:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(1, 153, 161, 0.4);
+}
+
+@media (max-width: 768px) {
+    button, .botao-padrao {
+        width: 100%;
+        padding: 16px;
+        font-size: 18px;
+    }
+}
+
+button:active, 
+.botao-padrao:active {
+    transform: scale(0.95); 
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.botao-padrao {
+    background-color: var(--primary-color);
+}
+
+.botao-padrao:hover {
+    background-color: var(--hover-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    
+}
+
+.botao-padrao:active {
+    transform: translateY(-1px);
+}
+
+.botao-enviar {
+    background-color: #007bff;
+}

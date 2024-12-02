@@ -1,0 +1,116 @@
+:root {
+    --primary-color: #121414;
+    --primary-dark: #92dcdf;
+    --nav-background: #727475;
+    --nav-text-color: #ffffff;
+    --nav-hover-background: rgba(255, 255, 255, 0.15);
+    --nav-shadow: rgba(0, 0, 0, 0.1);
+    --font-family: 'Roboto', sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    background-color: var(--nav-background);
+    box-shadow: 0 4px 12px var(--nav-shadow);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.nav-left {
+    display: flex;
+    flex-grow: 1;
+}
+
+.nav-left a {
+    color: var(--nav-text-color);
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-left a:hover,
+.nav-left a:focus {
+    background-color: var(--nav-hover-background);
+    color: var(--primary-dark);
+    outline: none;
+    transform: translateY(-2px);
+}
+
+.nav-left a:active {
+    transform: translateY(1px);
+}
+
+.botao-container button.botao-login,
+.botao-container button.botao-cadastrar {
+    color: var(--nav-text-color);
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.botao-container button.botao-login:hover,
+.botao-container button.botao-cadastrar:hover {
+    background-color: #1abc9c;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.botao-container button.botao-login:focus,
+.botao-container button.botao-cadastrar:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.5);
+}
+
+.nav-dropdown .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--nav-background);
+    min-width: 160px;
+    box-shadow: 0 4px 8px var(--nav-shadow);
+    border-radius: 6px;
+    padding: 8px 0;
+    z-index: 100;
+    border: none;
+}
+
+.nav-dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.nav-dropdown .dropdown-item {
+    color: var(--nav-text-color);
+    background-color: transparent;
+    border: none;
+    font-weight: 400;
+}
+
+.nav-dropdown .dropdown-item:hover,
+.nav-dropdown .dropdown-item:focus {
+    background-color: var(--nav-hover-background);
+    color: var(--primary-dark);
+}
+
+.nav-dropdown .dropdown-item:active {
+    background-color: rgba(0, 0, 0, 0.1);
+}

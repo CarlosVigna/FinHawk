@@ -1,0 +1,83 @@
+.rel-receber-container {
+    padding: 20px;
+    background-color: #c0bebe;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 1450px;
+    margin: 0 auto;
+}
+
+.titulo-contas-receber {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.titulo-contas-receber h1 {
+    color: rgb(49, 48, 48);
+    font-size: 36px;
+}
+
+.filter-rel-container {
+    margin: 0 auto;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 36%;
+}
+
+.filter-rel-container label {
+    font-weight: bold; 
+    color: rgb(49, 48, 48); 
+    
+}
+
+
+
+.rel-table-hover {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.rel-table-hover th,
+.rel-table-hover td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ccc;
+}
+
+.rel-table-hover th {
+    background-color: #2C3E50;
+    color: #ffffff;
+}
+
+.rel-table-hover tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.rel-table-hover tr:hover {
+    background-color: #d1d1d1;
+}
+
+.rel-table-hover tr td {
+    border-bottom: 1px solid #eaeaea;
+}
+
+.totalizador-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: #2C3E50;
+    padding: 20px;
+    border-radius: 4px;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1.5em;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.totalizador-container span {
+    margin-left: 5px;
+}

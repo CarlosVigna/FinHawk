@@ -1,0 +1,116 @@
+.formulario {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  max-width: 600px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  padding: 30px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #000000;
+  
+}
+
+.formulario .header h2 {
+  color: #000000;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+h2 {
+  flex-grow: 1;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+.formulario .campos-container label {
+  color: #000000;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #070707;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #000000;
+  transition: border-color 0.3s ease;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="password"]:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.25);
+}
+
+input[type="text"] {
+  width: 100% !important;
+  padding: 12px !important;
+  margin: 8px 0 !important;
+  border: 1px solid #070707 !important;
+  border-radius: 6px !important;
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  transition: border-color 0.3s ease !important;
+  box-shadow: 2px 2px 2px rgb(124, 122, 122) !important;
+}
+
+input[type="text"]:focus {
+  border-color: #3498db !important;
+  outline: none !important;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.25) !important;
+}
+
+input[type="text"]:hover {
+  border-color: #0199a1 !important;
+  outline: none !important;
+  box-shadow: 0 0 8px rgba(1, 153, 161, 0.6) !important;
+}
+
+input::placeholder {
+  color: #aaa;
+}
+
+.botao-container {
+  display: flex;
+  justify-content: center;
+}
+
+.botao-enviar-cadastro {
+  background-color: #2694dd;
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.3rem;
+  transition: background-color 0.3s ease;
+}
+
+.botao-enviar-cadastro:hover {
+  background-color: #2980b9;
+}

@@ -1,0 +1,27 @@
+.container-login {    
+        display: flex;
+        justify-content: center; 
+        align-items: flex-start;
+        height: 50vh; 
+        background-color: #898e8f;
+        max-width: 100%;
+        padding: 0;
+    }
+
+.botao-container {
+    display: flex;
+    gap: 16px;
+    text-decoration: none;
+}
+
+.botao-login {
+    background-color: #0199a1; 
+    font-size: 16px; 
+    padding: 12px 24px;
+    text-decoration: none; 
+}
+
+.botao-login:hover {
+    background-color: #085659; 
+    text-decoration: none;
+}

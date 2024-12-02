@@ -1,0 +1,20 @@
+.contai-cadastro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    min-height: 80vh;
+    
+    background: linear-gradient(135deg, #5f5f5f, #a3a3a3);
+
+    background-size: cover; 
+    background-position: center;
+    box-sizing: border-box;
+}
+
+.erro-mensagem {
+    color: #e74c3c;  
+    margin-top: 20px;
+    font-weight: bold;
+    text-align: center;
+}

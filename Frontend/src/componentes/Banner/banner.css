@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap');
+
+.banner-container {
+    width: 100%;
+    height: 250px;
+    position: relative;
+    background: linear-gradient(135deg, #181818, #6e6d6d);
+    border-bottom: 2px solid #e0e0e0; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
+    overflow: hidden;
+}
+
+.banner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #ffffff;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.banner h1 {
+    font-family: 'Montserrat', sans-serif; 
+    font-size: 56px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: #ffffff;
+    text-transform: uppercase;
+    text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.6);
+    margin-bottom: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.banner p {
+    font-family: 'Montserrat', sans-serif; 
+    font-size: 24px;
+    color: #dcdcdc;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
+    font-weight: 500;
+    margin-top: 0;
+    letter-spacing: 0.5px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+@keyframes moveBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+.banner-container {
+    animation: moveBackground 20s ease infinite; 
+}
+
+.banner h1:hover {
+    transform: scale(1.05); 
+}
+
+.banner p:hover {
+    opacity: 0.9; 
+}
