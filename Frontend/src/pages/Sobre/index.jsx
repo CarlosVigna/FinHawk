@@ -70,7 +70,7 @@ const Sobre = () => {
         <ul>
           <li>Java - Para o back-end, utilizando o framework Spring Boot.</li>
           <li>React - Para a criação do front-end.</li>
-          <li>PostgreSQL - Banco de dados utilizado para gerenciar informações.</li>
+          <li>SQL Server - Banco de dados utilizado para gerenciar informações.</li>
           <li>CSS - Para o design e a personalização da interface.</li>
         </ul>
       </section>
