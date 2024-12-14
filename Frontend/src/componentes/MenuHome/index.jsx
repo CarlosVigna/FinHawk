@@ -3,7 +3,7 @@ import { useAuth } from '../../pages/Login/authContext';
 import Botao from '../../componentes/Botao';
 import './menuHome.css';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function MenuHome({ scrollToCadastro }) {
     const { isAuthenticated, logout } = useAuth();
@@ -25,39 +25,64 @@ function MenuHome({ scrollToCadastro }) {
         setIsDropdownOpen(false); // Close the dropdown after item click
     };
 
+    const isActive = (path) => {
+        if (path === '/home') {
+            return location.pathname === path;
+        }
+        return location.pathname.startsWith(path);
+    };
+
+    const closeDropdown = (e) => {
+        if (!e.target.closest('.dropdown')) {
+            setIsDropdownOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('click', closeDropdown);
+        return () => document.removeEventListener('click', closeDropdown);
+    }, []);
+
     return (
         <nav className='nav'>
             <ul className='nav-list'>
-                <li className={location.pathname === '/home' ? 'active' : ''}>
+                <li className={isActive('/home') ? 'active' : ''}>
                     <Link to="/home">Página Inicial</Link>
                 </li>
-                <li className={location.pathname === '/sobre' ? 'active' : ''}>
+                <li className={isActive('/sobre') ? 'active' : ''}>
                     <Link to="/sobre">Sobre</Link>
                 </li>
                 {isAuthenticated && (
                     <>
-                        <li className={location.pathname === '/contas' ? 'active' : ''}>
+                        <li className={isActive('/contas') ? 'active' : ''}>
                             <Link to="/contas">Contas</Link>
                         </li>
-                        <li className={location.pathname === '/cadastroTitulo' ? 'active' : ''}>
+                        <li className={isActive('/cadastroTitulo') ? 'active' : ''}>
                             <Link to="/cadastroTitulo">Cadastro de Títulos</Link>
                         </li>
-                        <li className={location.pathname === '/cadastrarCategoria' ? 'active' : ''}>
+                        <li className={isActive('/cadastrarCategoria') ? 'active' : ''}>
                             <Link to="/cadastrarCategoria">Cadastro Categoria</Link>
                         </li>
-                        <li className={`dropdown ${location.pathname.startsWith('/rel') ? 'active' : ''} ${isDropdownOpen ? 'open' : ''}`}>
-                            <Link to="#" className="dropdown-toggle" onClick={toggleDropdown}>Relatórios</Link>
-                            <ul className={`dropdown-content ${isDropdownOpen ? 'open' : ''}`}>
-                                <li className={location.pathname === '/relContasReceber' ? 'active' : ''}>
+                        <li className={`dropdown ${isActive('/rel') ? 'active' : ''} ${isDropdownOpen ? 'open' : ''}`}>
+                            <Link to="#" 
+                                className="dropdown-toggle" 
+                                onClick={toggleDropdown}
+                                aria-expanded={isDropdownOpen}
+                                role="button"
+                            >
+                                Relatórios
+                            </Link>
+                            <ul className="dropdown-content" role="menu">
+                                <li className={isActive('/relContasReceber') ? 'active' : ''}>
                                     <Link to="/relContasReceber" onClick={handleDropdownItemClick}>Contas a Receber</Link>
                                 </li>
-                                <li className={location.pathname === '/relContasPagar' ? 'active' : ''}>
+                                <li className={isActive('/relContasPagar') ? 'active' : ''}>
                                     <Link to="/relContasPagar" onClick={handleDropdownItemClick}>Contas a Pagar</Link>
                                 </li>
-                                <li className={location.pathname === '/relRecebimentos' ? 'active' : ''}>
+                                <li className={isActive('/relRecebimentos') ? 'active' : ''}>
                                     <Link to="/relRecebimentos" onClick={handleDropdownItemClick}>Recebimentos</Link>
                                 </li>
-                                <li className={location.pathname === '/relPagamentos' ? 'active' : ''}>
+                                <li className={isActive('/relPagamentos') ? 'active' : ''}>
                                     <Link to="/relPagamentos" onClick={handleDropdownItemClick}>Pagamentos</Link>
                                 </li>
                             </ul>
