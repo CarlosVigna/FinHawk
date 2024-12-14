@@ -1,3 +1,14 @@
+:root {
+    --primary-color: #0199a1;
+    --primary-hover: #017c7d;
+    --background-color: #ffffff;
+    --border-color: #e0e0e0;
+    --text-color: #333;
+    --label-color: #666;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+
 .container-transacao {
     display: flex;
     justify-content: center;
@@ -5,7 +16,6 @@
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    height: fit-content;
     width: 100%;
 }
 
@@ -20,122 +30,268 @@
 }
 
 .formulario-transacao h2 {
-    color: #333;
+    color: var(--text-color);
     text-align: center;
-    margin: 0;
-    width: 100%;
+    margin: 0 0 20px;
     font-size: 32px;
-    margin-bottom: 20px;
-}
-
-.grid-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    padding: 10px;
-}
-
-.grid-container div {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-.formulario-transacao label {
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #555;
-    font-size: 14px;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
-}
-
-.formulario-transacao select,
-.formulario-transacao input {
-    margin-top: 8px;
-    font-size: 16px;
-    padding: 12px;
-    border: 1px solid #000000;
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    width: 100%;
-}
-
-.formulario-transacao select:hover,
-.formulario-transacao input:hover,
-.formulario-transacao select:focus,
-.formulario-transacao input:focus {
-    border-color: #0199a1;
-    outline: none;
-    box-shadow: 0 0 4px rgba(1, 153, 161, 0.6);
-}
-
-.botao-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-.botao-container .botao-padrao {
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border: none;
-}
-
-.botao-padrao.botao-salvar {
-    background-color: #0199a1;
-    color: #fff;
-}
-
-.botao-padrao.botao-salvar:hover {
-    background-color: #017c7d;
-}
-
-.botao-padrao.botao-sair {
-    background-color: #ccc;
-    color: #333;
-}
-
-.botao-padrao.botao-sair:hover {
-    background-color: #aaa;
-}
-
-.categoria-transacao,
-.status-transacao,
-.tipo-transacao {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-    width: 100%;
 }
 
 
-.lista-titulo {
+.formulario-horizontal {
+    background: var(--background-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px var(--shadow-color);
+    padding: 30px 40px;
     width: 100%;
     max-width: 1100px;
-    flex-grow: 1;
-    margin-top: 20px;
-    margin-left: 20px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+
+.linha-formulario {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    align-items: flex-start;
+    margin-bottom: 0;
+    min-height: 85px;
+}
+
+
+.campo-formulario {
+    position: relative;
+    width: 100%;
+    min-width: unset;
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: flex-start;
+}
+
+.campo-formulario label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.campo-formulario input {
+    width: 100%;
+    padding: 8px 12px;
+    height: 42px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 14px;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    transition: all 0.3s ease;
+    margin: 0;
+}
+
+
+
+.campo-formulario select {
+    width: 100%;
+    padding: 8px 12px;
+    height: 42px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 14px;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    transition: all 0.3s ease;
+    margin: 0;
+}
+
+.campo-formulario input:focus,
+.campo-formulario select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(1, 153, 161, 0.1);
+    outline: none;
+}
+
+
+.linha-formulario:first-child {
+    .campo-formulario.tipo-transacao {
+        flex: 0 0 220px;
+    }
+
+    .campo-formulario.descricao {
+        flex: 1;
+    }
+
+    .campo-formulario.valor {
+        flex: 0 0 200px;
+    }
+}
+
+.linha-formulario:last-of-type {
+    .campo-formulario.categoria {
+        flex: 1;
+    }
+
+    .campo-formulario.datas {
+        flex: 0 0 200px;
+    }
+
+    .campo-formulario.status {
+        flex: 0 0 200px;
+    }
+}
+
+.campo-formulario.descricao {
+    flex: 2;
+}
+
+.campo-formulario.tipo-transacao select {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.botoes-formulario {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+    margin-top: 15px;
+    gap: 15px;
+}
+
+.botao-salvar {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 32px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 180px;
+    height: 45px;
+}
+
+.botao-salvar:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.botao-cancelar {
+    background-color: #e0e0e0;
+    color: #666;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 32px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 180px;
+    height: 45px;
+}
+
+.botao-cancelar:hover {
+    background-color: #d0d0d0;
+    transform: translateY(-1px);
+}
+
+.error-message,
+.success-message {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.error-message {
+    background-color: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+.success-message {
+    background-color: #dcfce7;
+    color: #16a34a;
+    border: 1px solid #bbf7d0;
 }
 
 @media (max-width: 768px) {
-    .grid-container {
+    .formulario-horizontal {
         grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 20px;
     }
 
-    .container-transacao {
+    .linha-formulario {
         flex-direction: column;
+        gap: 15px;
+    }
+
+    .campo-formulario {
+        flex: 1 1 100%;
+        min-width: 100%;
+        width: 100%;
+    }
+
+    .campo-formulario.descricao,
+    .botoes-formulario {
+        grid-column: 1;
+    }
+
+    .linha-formulario:first-child .campo-formulario.tipo-transacao,
+    .linha-formulario:first-child .campo-formulario.valor,
+    .linha-formulario:last-of-type .campo-formulario.datas,
+    .linha-formulario:last-of-type .campo-formulario.status {
+        flex: 1 1 100%;
+        width: 100%;
     }
 }
 
 @media (max-width: 1200px) {
-    .container-transacao {
-        padding: 15px;
+    .linha-formulario {
+        flex-wrap: wrap;
+        gap: 15px;
+        min-height: auto;
+    }
+
+    .campo-formulario {
+        flex: 1 1 calc(50% - 10px);
+        min-width: 200px;
+    }
+
+    .campo-formulario.tipo-transacao,
+    .campo-formulario.descricao,
+    .campo-formulario.valor {
+        flex: 1 1 100%;
+    }
+
+    .linha-formulario:first-child .campo-formulario.tipo-transacao,
+    .linha-formulario:first-child .campo-formulario.valor,
+    .linha-formulario:last-of-type .campo-formulario.datas,
+    .linha-formulario:last-of-type .campo-formulario.status {
+        flex: 1 1 calc(50% - 10px);
+        min-width: 200px;
+    }
+
+    .formulario-horizontal {
+        max-width: 100%;
     }
 }
 
-/* Ajustes de estilo se necessário */
+@media (min-width: 1201px) {
+    .formulario-horizontal {
+        max-width: 100%;
+    }
+}

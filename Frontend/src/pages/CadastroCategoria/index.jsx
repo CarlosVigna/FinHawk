@@ -1,7 +1,7 @@
-import './cadastroCategoria.css';
-import { useState } from 'react';
-import Formulario from '../../componentes/Formulario';
+import React, { useState } from 'react';
+import FormularioCategoria from '../../componentes/FormularioCategoria';
 import ListaCategorias from '../ListaCategorias';
+import './cadastroCategoria.css';
 
 const URL = "http://localhost:8080";
 
@@ -33,7 +33,7 @@ async function cadastrarCategoria(categoria) {
     }
 }
 
-function CadastroCategoria() {
+const CadastroCategoria = () => {
     const [valores, setValores] = useState({
         nome: '',
         tipo: 'Recebimento',
@@ -65,19 +65,15 @@ function CadastroCategoria() {
 
         try {
             await cadastrarCategoria(novaCategoria);
-            
-            // Primeiro atualiza o estado
+
+
             setValores({
                 nome: '',
                 tipo: 'Recebimento'
             });
             setErro("");
             setSucesso("Categoria cadastrada com sucesso!");
-            
-            // Depois força a atualização da lista
             setRefresh(prev => !prev);
-
-            // Limpa a mensagem de sucesso após 3 segundos
             setTimeout(() => {
                 setSucesso("");
             }, 3000);
@@ -102,27 +98,22 @@ function CadastroCategoria() {
     ];
 
     return (
-        <div className="cadastro-categoria-container">
-            <div className="lado-esquerdo">
-                <div className="formulario-categoria">
-                    <Formulario
-                        titulo="Cadastro de Categoria"
-                        campos={camposCadastro}
-                        botaoTexto="Cadastrar Categoria"
-                        className="botao-enviar-cadastro"
-                        handleInputChange={handleInputChange}
-                        valores={valores}
-                        onSubmit={handleCadastro}
-                        erro={erro}
-                        sucesso={sucesso} // Adicionar prop de sucesso
-                    />
-                </div>
+        <div className="cadastro-categoria-vertical">
+            <div className="secao-superior">
+                <FormularioCategoria
+                    valores={valores}
+                    handleInputChange={handleInputChange}
+                    onSubmit={handleCadastro}
+                    erro={erro}
+                    sucesso={sucesso}
+                />
             </div>
-            <div className="lado-direito">
+            <div className="historico-container">
+                <h2 className="historico-titulo">Categorias Cadastradas</h2>
                 <ListaCategorias refresh={refresh} />
             </div>
         </div>
     );
-}
+};
 
 export default CadastroCategoria;

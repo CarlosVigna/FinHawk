@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Formulario from '../Formulario';
 import './formularioTransacao.css';
 
-const FormularioTransacao = ({ tituloParaEditar, onSave }) => {
+const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => { 
     const [categorias, setCategorias] = useState([]);
     const [valores, setValores] = useState({
         descricao: '',
@@ -10,12 +9,12 @@ const FormularioTransacao = ({ tituloParaEditar, onSave }) => {
         emissao: '',
         vencimento: '',
         categoriaId: '',
-        status: 'Pendente'
+        status: 'Pendente',
+        tipo: '' 
     });
     const [erro, setErro] = useState('');
     const [sucesso, setSucesso] = useState('');
 
-    // Carregar categorias
     useEffect(() => {
         const fetchCategorias = async () => {
             try {
@@ -26,55 +25,60 @@ const FormularioTransacao = ({ tituloParaEditar, onSave }) => {
                         'Content-Type': 'application/json'
                     }
                 });
+                if (!response.ok) {
+                    throw new Error('Falha ao carregar categorias.');
+                }
                 const data = await response.json();
                 setCategorias(data);
             } catch (error) {
-                setErro('Erro ao carregar categorias');
+                setErro(error.message);
             }
         };
-
         fetchCategorias();
     }, []);
 
-    // Atualizar useEffect para manipular título para edição
+    
     useEffect(() => {
         if (tituloParaEditar) {
-            console.log('Carregando título para edição:', tituloParaEditar);
             setValores({
                 descricao: tituloParaEditar.descricao || '',
                 valor: tituloParaEditar.valor || '',
                 emissao: tituloParaEditar.emissao ? tituloParaEditar.emissao.split('T')[0] : '',
                 vencimento: tituloParaEditar.vencimento ? tituloParaEditar.vencimento.split('T')[0] : '',
                 categoriaId: tituloParaEditar.categoria?.id || '',
-                status: tituloParaEditar.status || 'Pendente'
+                status: tituloParaEditar.status || 'Pendente',
+                tipo: tituloParaEditar.tipo || '' 
+            });
+        } else {
+            
+            setValores({
+                descricao: '',
+                valor: '',
+                emissao: '',
+                vencimento: '',
+                categoriaId: '',
+                status: 'Pendente',
+                tipo: '' 
             });
         }
     }, [tituloParaEditar]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setValores(prev => ({
-            ...prev,
-            [name]: value
-        }));
+        setValores(prev => ({ ...prev, [name]: value }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErro('');
         setSucesso('');
-        
+
         try {
             const token = localStorage.getItem('token');
             const idConta = localStorage.getItem('id');
 
             if (!token || !idConta) {
-                throw new Error('Dados de autenticação não encontrados');
-            }
-
-            // Validação dos campos obrigatórios
-            if (!valores.descricao || !valores.valor || !valores.emissao || !valores.vencimento || !valores.categoriaId) {
-                throw new Error('Todos os campos são obrigatórios');
+                throw new Error('Dados de autenticação não encontrados.');
             }
 
             const dadosParaEnviar = {
@@ -86,10 +90,10 @@ const FormularioTransacao = ({ tituloParaEditar, onSave }) => {
                 contaId: parseInt(idConta)
             };
 
-            const url = tituloParaEditar 
+            const url = tituloParaEditar
                 ? `http://localhost:8080/titulos/${tituloParaEditar.id}`
                 : `http://localhost:8080/contas/${idConta}/titulos`;
-            
+
             const response = await fetch(url, {
                 method: tituloParaEditar ? 'PUT' : 'POST',
                 headers: {
@@ -100,69 +104,135 @@ const FormularioTransacao = ({ tituloParaEditar, onSave }) => {
             });
 
             const data = await response.json();
-
+            if (response.status === 400) {
+                throw new Error(data.message || 'Erro de validação do servidor');
+            }
             if (!response.ok) {
                 throw new Error(data.message || 'Erro ao processar operação');
             }
 
             setSucesso(data.message);
             if (onSave) onSave();
-
-            if (!tituloParaEditar) {
-                setValores({
-                    descricao: '',
-                    valor: '',
-                    emissao: '',
-                    vencimento: '',
-                    categoriaId: '',
-                    status: 'Pendente'
-                });
-            }
         } catch (error) {
-            console.error('Erro na operação:', error);
-            setErro(error.message || 'Erro ao processar operação');
+            setErro(error.message);
         }
     };
 
-    const camposTransacao = [
-        { label: "Descrição:", type: "text", name: "descricao", placeholder: "Descrição da transação" },
-        { label: "Valor:", type: "number", name: "valor", placeholder: "0.00" },
-        { label: "Data de Emissão:", type: "date", name: "emissao" },
-        { label: "Data de Vencimento:", type: "date", name: "vencimento" },
-        {
-            label: "Categoria:",
-            type: "select",
-            name: "categoriaId",
-            options: categorias.map(cat => ({
-                value: cat.id,
-                label: cat.nome
-            }))
-        },
-        {
-            label: "Status:",
-            type: "select",
-            name: "status",
-            options: [
-                { value: "Pendente", label: "Pendente" },
-                { value: "Pago", label: "Pago" },
-                { value: "Cancelado", label: "Cancelado" }
-            ]
-        }
-    ];
-
     return (
-        <div className="container-transacao">
-            <Formulario
-                titulo={tituloParaEditar ? "Editar Transação" : "Nova Transação"}
-                campos={camposTransacao}
-                botaoTexto={tituloParaEditar ? "Atualizar" : "Cadastrar"}
-                handleInputChange={handleInputChange}
-                valores={valores}
-                onSubmit={handleSubmit}
-                erro={erro}
-                sucesso={sucesso}
-            />
-        </div>
+        <form className="formulario-horizontal" onSubmit={handleSubmit}>
+            {erro && <div className="error-message">{erro}</div>}
+            {sucesso && <div className="success-message">{sucesso}</div>}
+
+            <div className="linha-formulario">
+                <div className="campo-formulario tipo-transacao">
+                    <label htmlFor="tipo">Tipo de Transação</label>
+                    <select
+                        id="tipo"
+                        name="tipo"
+                        value={valores.tipo}
+                        onChange={handleInputChange}
+                        required
+                    >
+                        <option value="">Selecione o tipo</option>
+                        <option value="Recebimento">Recebimento</option>
+                        <option value="Pagamento">Pagamento</option>
+                    </select>
+                </div>
+
+                <div className="campo-formulario descricao">
+                    <label htmlFor="descricao">Descrição</label>
+                    <input
+                        type="text"
+                        id="descricao"
+                        name="descricao"
+                        value={valores.descricao}
+                        onChange={handleInputChange}
+                        placeholder="Digite a descrição"
+                    />
+                </div>
+
+                <div className="campo-formulario valor">
+                    <label htmlFor="valor">Valor R$</label>
+                    <input
+                        type="number"
+                        id="valor"
+                        name="valor"
+                        value={valores.valor}
+                        onChange={handleInputChange}
+                        placeholder="0,00"
+                        step="0.01"
+                    />
+                </div>
+            </div>
+
+            <div className="linha-formulario">
+                <div className="campo-formulario categoria">
+                    <label htmlFor="categoriaId">Categoria</label>
+                    <select
+                        id="categoriaId"
+                        name="categoriaId"
+                        value={valores.categoriaId}
+                        onChange={handleInputChange}
+                    >
+                        <option value="">Selecione uma categoria</option>
+                        {categorias.map(cat => (
+                            <option key={cat.id} value={cat.id}>{cat.nome}</option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="campo-formulario datas">
+                    <label htmlFor="emissao">Data de Emissão</label>
+                    <input
+                        type="date"
+                        id="emissao"
+                        name="emissao"
+                        value={valores.emissao}
+                        onChange={handleInputChange}
+                    />
+                </div>
+
+                <div className="campo-formulario datas">
+                    <label htmlFor="vencimento">Data de Vencimento</label>
+                    <input
+                        type="date"
+                        id="vencimento"
+                        name="vencimento"
+                        value={valores.vencimento}
+                        onChange={handleInputChange}
+                    />
+                </div>
+
+                <div className="campo-formulario status">
+                    <label htmlFor="status">Status</label>
+                    <select
+                        id="status"
+                        name="status"
+                        value={valores.status}
+                        onChange={handleInputChange}
+                    >
+                        <option value="Pendente">Pendente</option>
+                        <option value="Pago">Pago</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
+                </div>
+            </div>
+
+            <div className="botoes-formulario">
+                <button type="submit" className="botao-salvar">
+                    {tituloParaEditar ? 'Atualizar' : 'Cadastrar'}
+                </button>
+                {tituloParaEditar && (
+                    <button 
+                        type="button" 
+                        className="botao-cancelar"
+                        onClick={onCancel}
+                    >
+                        Cancelar
+                    </button>
+                )}
+            </div>
+        </form>
     );
 };
 

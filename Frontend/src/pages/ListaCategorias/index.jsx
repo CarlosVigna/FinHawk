@@ -1,13 +1,13 @@
-import { useEffect, useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRotate } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash, faRotate } from '@fortawesome/free-solid-svg-icons';
 import './listaCategorias.css';
 
 const ListaCategorias = ({ refresh }) => {
     const [dados, setDados] = useState([]);
-    const [filterTipo, setFilterTipo] = useState('Todos');
+    const [tipoFiltro, setTipoFiltro] = useState('todos');
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(false);
 
     const fetchDados = useCallback(async () => {
         setLoading(true);
@@ -19,11 +19,11 @@ const ListaCategorias = ({ refresh }) => {
             const response = await fetch('http://localhost:8080/categorias', {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${token}`, 
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
             });
-            if (!response.ok){
+            if (!response.ok) {
                 throw new Error('Erro ao buscar dados');
             }
             const data = await response.json();
@@ -42,55 +42,51 @@ const ListaCategorias = ({ refresh }) => {
         fetchDados();
     }, [refresh, fetchDados]);
 
-    const handleFilterTipoChange = (event) => {
-        setFilterTipo(event.target.value);
-    };
-
-    const filteredData = dados.filter(item => 
-        filterTipo === 'Todos' || item.tipo === filterTipo
-    );
+    const filteredData = dados.filter((categoria) => {
+        if (tipoFiltro === 'todos') return true;
+        return categoria.tipo.toLowerCase() === tipoFiltro.toLowerCase();
+    });
 
     return (
-        <div className='categoria-container'>
-            <div className='titulo-categorias'>
-                <h1>Histórico de Categorias</h1>
+        <>
+            <div className="botoes-tipo-container">
+                <button
+                    className={`botao-tipo ${tipoFiltro === 'recebimento' ? 'ativo' : ''}`}
+                    onClick={() => setTipoFiltro(prev => prev === 'recebimento' ? 'todos' : 'recebimento')}
+                >
+                    Recebimentos
+                </button>
+                <button
+                    className={`botao-tipo ${tipoFiltro === 'pagamento' ? 'ativo' : ''}`}
+                    onClick={() => setTipoFiltro(prev => prev === 'pagamento' ? 'todos' : 'pagamento')}
+                >
+                    Pagamentos
+                </button>
             </div>
-            <div className='filter-container'>
-                <label htmlFor='filter'>Filtrar por:</label>
-                <select id="filter" value={filterTipo} onChange={handleFilterTipoChange}>
-                    <option value="Todos">Todos</option>
-                    <option value="Recebimento">Recebimento</option>
-                    <option value="Pagamento">Pagamento</option>
-                </select>
-                <div className='botao-atualizar'>
-                    <FontAwesomeIcon
-                        icon={faRotate}
-                        onClick={fetchDados}
-                        style={{ cursor: 'pointer', color: 'white', fontSize: '24px' }}
-                    />
-                </div>
-            </div>
-            {loading && <div className="loading">Carregando...</div>}
-            <table className='table-categorias'>
-                <thead>
-                    <tr>
-                        <th scope="col">Código:</th>
-                        <th scope="col">Desc. Categoria:</th>
-                        <th scope="col">Tipo Categoria:</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredData.map((item) => (
-                        <tr key={item.id}>
-                            <td>{item.id}</td>
-                            <td>{item.nome}</td>
-                            <td>{item.tipo}</td>
+
+            <div className="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome da Categoria</th>
+                            <th>Tipo</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-            {error && <p className="erro-mensagem">{error}</p>}
-        </div>
+                    </thead>
+                    <tbody>
+                        {filteredData.map((categoria) => (
+                            <tr key={categoria.id}>
+                                <td>{categoria.id}</td>
+                                <td>{categoria.nome}</td>
+                                <td>{categoria.tipo}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                {loading && <div className="loading">Carregando...</div>}
+                {error && <p className="erro-mensagem">{error}</p>}
+            </div>
+        </>
     );
 };
 

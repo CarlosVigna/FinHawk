@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faRotate } from '@fortawesome/free-solid-svg-icons';
 import './listaTitulo.css';
 
-const ListaTitulo = ({ onEdit, refresh }) => {
+const ListaTitulo = ({ onEdit, refresh, tipoTransacao, filtroData }) => {
     const [dados, setDados] = useState([]);
     const [filterTipo, setFilterTipo] = useState('Todos');
     const [filterStartDate, setFilterStartDate] = useState('');
@@ -86,7 +86,11 @@ const ListaTitulo = ({ onEdit, refresh }) => {
         const startDate = filterStartDate ? new Date(filterStartDate) : null;
         const endDate = filterEndDate ? new Date(filterEndDate) : null;
 
-        const tipoMatch = filterTipo === 'Todos' || item.categoria.tipo === filterTipo;
+        // Modificar a lógica de filtro para usar o tipoTransacao
+        const tipoMatch = tipoTransacao === 'todos' ? true : 
+                         tipoTransacao === 'recebimentos' ? item.categoria.tipo === 'Recebimento' :
+                         tipoTransacao === 'pagamentos' ? item.categoria.tipo === 'Pagamento' : true;
+
         const dateMatch = (!startDate || itemVenc >= startDate) && (!endDate || itemVenc <= endDate);
 
         return tipoMatch && dateMatch;
@@ -94,91 +98,73 @@ const ListaTitulo = ({ onEdit, refresh }) => {
 
     return (
         <div className="table-container">
-            <div className='titulo-lancamentos'>
-                <h1>Histórico de Lançamentos</h1>
-            </div>
-
-            {error && <div className="error-message">{error}</div>}
-
-            <div className="filter-container">
-                <label htmlFor="filter" className="white-label">Filtrar por: </label>
-                <select id="filter" value={filterTipo} onChange={(e) => setFilterTipo(e.target.value)}>
-                    <option value="Todos">Todos</option>
-                    <option value="Recebimento">Recebimentos</option>
-                    <option value="Pagamento">Pagamentos</option>
-                </select>
-
-                <label htmlFor="startDate" className="white-label">Data Inicial: </label>
-                <input
-                    type="date"
-                    id="startDate"
-                    value={filterStartDate}
-                    onChange={(e) => setFilterStartDate(e.target.value)}
-                />
-
-                <label htmlFor="endDate" className="white-label">Data Final: </label>
-                <input
-                    type="date"
-                    id="endDate"
-                    value={filterEndDate}
-                    onChange={(e) => setFilterEndDate(e.target.value)}
-                />
-                <div className='botao-atualizar'>
-                    <FontAwesomeIcon
-                        icon={faRotate} 
-                        onClick={handleRefreshData}  
-                        style={{ cursor: 'pointer', color: 'white', fontSize: '50px' }}
-                    />
+            <div className="filtros-historico">
+                <div className="filtro-periodo">
+                    <div className="campo-filtro">
+                        <label>De:</label>
+                        <input
+                            type="date"
+                            value={filterStartDate}
+                            onChange={(e) => setFilterStartDate(e.target.value)}
+                        />
+                    </div>
+                    <div className="campo-filtro">
+                        <label>Até:</label>
+                        <input
+                            type="date"
+                            value={filterEndDate}
+                            onChange={(e) => setFilterEndDate(e.target.value)}
+                        />
+                    </div>
                 </div>
+                <button className="botao-filtrar" onClick={handleRefreshData}>
+                    <FontAwesomeIcon icon={faRotate} /> Atualizar
+                </button>
             </div>
 
-            {loading ? (
-                <div>Carregando...</div>
-            ) : (
-                <table className="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Núm. Doc.</th>
-                            <th scope="col">Descrição</th>
-                            <th scope="col">Tipo Trans.</th>
-                            <th scope="col">Data Emissão</th>
-                            <th scope="col">Venc.</th>
-                            <th scope="col">Categoria</th>
-                            <th scope="col">Valor Título (R$)</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Ações</th>
+            <table className="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Núm. Doc.</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Tipo Trans.</th>
+                        <th scope="col">Data Emissão</th>
+                        <th scope="col">Venc.</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Valor Título (R$)</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {filteredData.map((item) => (
+                        <tr key={item.id}>
+                            <td>{item.id}</td>
+                            <td>{item.descricao}</td>
+                            <td>{item.categoria.tipo}</td>
+                            <td>{new Date(item.emissao).toLocaleDateString('pt-BR')}</td>
+                            <td>{new Date(item.vencimento).toLocaleDateString('pt-BR')}</td>
+                            <td>{item.categoria.nome}</td>
+                            <td>{Number(item.valor).toFixed(2).replace('.', ',')}</td>
+                            <td>{item.status}</td>
+                            <td>
+                                <FontAwesomeIcon
+                                    icon={faEdit}
+                                    onClick={() => handleEdit(item.id)}
+                                    style={{ cursor: 'pointer', marginRight: '10px', color: '#fff' }}
+                                    title="Editar"
+                                />
+                                <FontAwesomeIcon
+                                    icon={faTrash}
+                                    onClick={() => handleDelete(item.id)}
+                                    style={{ cursor: 'pointer', color: '#ff4444' }}
+                                    title="Excluir"
+                                />
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {filteredData.map((item) => (
-                            <tr key={item.id}>
-                                <td>{item.id}</td>
-                                <td>{item.descricao}</td>
-                                <td>{item.categoria.tipo}</td>
-                                <td>{new Date(item.emissao).toLocaleDateString('pt-BR')}</td>
-                                <td>{new Date(item.vencimento).toLocaleDateString('pt-BR')}</td>
-                                <td>{item.categoria.nome}</td>
-                                <td>{Number(item.valor).toFixed(2).replace('.', ',')}</td>
-                                <td>{item.status}</td>
-                                <td>
-                                    <FontAwesomeIcon
-                                        icon={faEdit}
-                                        onClick={() => handleEdit(item.id)}
-                                        style={{ cursor: 'pointer', marginRight: '10px', color: '#fff' }}
-                                        title="Editar"
-                                    />
-                                    <FontAwesomeIcon
-                                        icon={faTrash}
-                                        onClick={() => handleDelete(item.id)}
-                                        style={{ cursor: 'pointer', color: '#ff4444' }}
-                                        title="Excluir"
-                                    />
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            )}
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 };

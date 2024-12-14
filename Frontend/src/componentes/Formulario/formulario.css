@@ -127,13 +127,13 @@ h2 {
   }
 }
 
-form, 
-.formulario, 
-.formulario input, 
+form,
+.formulario,
+.formulario input,
 .formulario select,
 .formulario button {
-    box-shadow: none !important;
-    -webkit-appearance: none !important; 
-    -moz-appearance: none !important; 
-    appearance: none !important; 
+  box-shadow: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
 }
