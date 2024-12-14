@@ -2,7 +2,7 @@ import './campoTexto.css';
 
 const CampoTexto = (props) => {
     return (
-        <div className="campo-texto">
+        <div className="campo-texto form-control no-inner-shadow">
             {props.texto && <h1>{props.texto}</h1>}
             <label htmlFor={props.name}>{props.label}</label>
             <input 

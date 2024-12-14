@@ -1,0 +1,47 @@
+.cadastro-titulo {
+    display: flex;
+    flex-direction: row;
+    /* Mudando para row para ficar lado a lado */
+    gap: 20px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    min-height: 80vh;
+}
+
+.lado-esquerdo {
+    flex: 0 0 40%;
+    /* Define largura fixa de 40% */
+    max-width: 500px;
+}
+
+.lado-direito {
+    flex: 1;
+    /* Ocupa o espaço restante */
+}
+
+.formulario-transacao {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 1200px) {
+    .cadastro-titulo {
+        flex-direction: column;
+    }
+
+    .lado-esquerdo,
+    .lado-direito {
+        flex: 1;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .cadastro-titulo {
+        padding: 10px;
+    }
+}

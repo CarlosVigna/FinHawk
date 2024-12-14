@@ -1,10 +1,18 @@
 .rel-pagar-container {
     padding: 20px;
-    background-color: #c0bebe;
+    background-color: #ffebee; /* Mudando para um tom mais avermelhado para diferenciar */
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 1450px;
+    width: auto;
     margin: 0 auto;
+}
+
+.relatorio-box {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
 }
 
 .titulo-contas-pagar {
@@ -13,8 +21,8 @@
 }
 
 .titulo-contas-pagar h1 {
-    color: rgb(49, 48, 48);
-    font-size: 36px;
+    color: #2c3e50;
+    font-size: 2.5rem;
 }
 
 .filter-rel-container {
@@ -24,14 +32,15 @@
     justify-content: center;
     gap: 10px;
     width: 36%;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
 }
 
 .filter-rel-container label {
-    font-weight: bold; 
-    color: rgb(49, 48, 48); 
-    
+    font-weight: bold;
+    color: rgb(49, 48, 48);
 }
-
 
 .rel-table-hover {
     width: 100%;
@@ -47,7 +56,7 @@
 }
 
 .rel-table-hover th {
-    background-color: #2C3E50;
+    background-color: #e53935; /* Vermelho para diferenciar de contas a receber */
     color: #ffffff;
 }
 
@@ -65,26 +74,44 @@
 
 .cabecalho-container {
     display: flex;
-    flex-direction: column; 
-    align-items: flex-start; 
-    background-color: #2C3E50;
+    flex-direction: column;
+    align-items: flex-start;
     padding: 20px;
-    border-radius: 8px; 
-    color: #ffffff;
-    font-size: 1.1em; 
+    border-radius: 8px;
+    color: #2c3e50;
+    font-size: 1.1em;
     margin-top: 20px;
     width: 100%;
 }
 
 .cabecalho-container p {
-    margin: 5px 0; 
-    font-size: 1.em;
+    margin: 5px 0;
 }
 
 .cabecalho-container strong {
-    font-size: 1.em; 
+    font-size: 1.2em;
+    display: block;
+    margin-bottom: 10px;
 }
 
 .cabecalho-container span {
+    margin-left: 5px;
+}
+
+.totalizador-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: #e53935; /* Vermelho para diferenciar */
+    padding: 20px;
+    border-radius: 4px;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1.5em;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.totalizador-container span {
     margin-left: 5px;
 }

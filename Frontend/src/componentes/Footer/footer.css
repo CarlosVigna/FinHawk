@@ -13,6 +13,8 @@ footer {
 
 .footer-links {
   margin: 20px 0;
+  border-bottom: 1px solid #444;
+  padding-bottom: 20px;
 }
 
 .footer-links a {
@@ -46,4 +48,5 @@ footer {
 .footer-bottom {
   margin-top: 20px;
   font-size: 14px;
+  text-align: center;
 }

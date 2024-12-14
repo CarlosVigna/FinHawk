@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faRotate } from '@fortawesome/free-solid-svg-icons';
 import './listaTitulo.css';
 
-const ListaTitulo = ({ onEdit }) => {
+const ListaTitulo = ({ onEdit, refresh }) => {
     const [dados, setDados] = useState([]);
     const [filterTipo, setFilterTipo] = useState('Todos');
     const [filterStartDate, setFilterStartDate] = useState('');
@@ -73,8 +73,12 @@ const ListaTitulo = ({ onEdit }) => {
     };
 
     const handleEdit = (id) => {
-        const tituloParaEditar = dados.find((titulo) => titulo.id === id);
-        onEdit(tituloParaEditar);
+        console.log('Editando título:', id);
+        const tituloParaEditar = dados.find(titulo => titulo.id === id);
+        if (tituloParaEditar) {
+            console.log('Título encontrado:', tituloParaEditar);
+            onEdit(tituloParaEditar);
+        }
     };
 
     const filteredData = dados.filter((item) => {
@@ -160,12 +164,14 @@ const ListaTitulo = ({ onEdit }) => {
                                     <FontAwesomeIcon
                                         icon={faEdit}
                                         onClick={() => handleEdit(item.id)}
-                                        style={{ cursor: 'pointer', marginRight: '10px' }}
+                                        style={{ cursor: 'pointer', marginRight: '10px', color: '#fff' }}
+                                        title="Editar"
                                     />
                                     <FontAwesomeIcon
                                         icon={faTrash}
                                         onClick={() => handleDelete(item.id)}
-                                        style={{ cursor: 'pointer', color: 'red' }}
+                                        style={{ cursor: 'pointer', color: '#ff4444' }}
+                                        title="Excluir"
                                     />
                                 </td>
                             </tr>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './criarConta.css'
+import Select from 'react-select';
 
 const CriarConta = () => {
     const [descricao, setDescricao] = useState('');
@@ -84,45 +85,48 @@ const CriarConta = () => {
         }
     };
     return (
-        <div>
+        <div className="criar-conta-container">
             <h1>Criar Nova Conta</h1>
             <form onSubmit={handleSubmit}>
-                <div>
+                <div className="form-group">
                     <label>Descrição:</label>
                     <input
                         type="text"
+                        className="form-control no-inner-shadow"
                         value={descricao}
                         onChange={(e) => setDescricao(e.target.value)}
+                        placeholder="Insira a descrição da conta"
                         required
                     />
                 </div>
-                <div>
+                <div className="form-group">
                     <label>URL da Foto:</label>
                     <input
                         type="text"
+                        className="form-control no-inner-shadow"
                         value={foto}
                         onChange={(e) => setFoto(e.target.value)}
+                        placeholder="Insira a URL da foto"
                         required
                     />
                 </div>
-                <div>
-                    <label>Selecionar Usuários:</label>
-                    <div>
-                        {todosUsuarios.map(usuario => (
-                            <div key={usuario.id}>
-                                <input
-                                    type="checkbox"
-                                    id={`usuario-${usuario.id}`}
-                                    value={usuario.id}
-                                    checked={selectedUsuarios.includes(usuario.id)}
-                                    onChange={() => handleUsuarioSelect(usuario.id)}
-                                />
-                                <label htmlFor={`usuario-${usuario.id}`}>{usuario.nome}</label>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-                <button type="submit">Criar Conta</button>
+                <div className="form-group">
+  <label>Selecionar Usuários:</label>
+  <Select
+    isMulti
+    options={todosUsuarios.map(usuario => ({
+      value: usuario.id,
+      label: `${usuario.nome} (${usuario.email})`
+    }))}
+    value={selectedUsuarios.map(id => ({
+        value: id,
+        label: todosUsuarios.find(u => u.id === id)?.nome // encontra o nome pelo id
+      }))}
+    onChange={(selected) => setSelectedUsuarios(selected.map(item => item.value))}
+  />
+</div>
+                {error && <div className="erro-mensagem">{error}</div>}
+                <button type="submit" className="botao-enviar-cadastro">Criar Conta</button>
             </form>
         </div>
     );

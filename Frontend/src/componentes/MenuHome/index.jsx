@@ -1,52 +1,79 @@
-import { Link } from 'react-router-dom';
-import { Nav, NavDropdown } from 'react-bootstrap';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../pages/Login/authContext';
 import Botao from '../../componentes/Botao';
 import './menuHome.css';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 function MenuHome({ scrollToCadastro }) {
     const { isAuthenticated, logout } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const handleLogout = () => {
         logout();
         navigate('/login');
     };
 
+    const toggleDropdown = (e) => {
+        setIsDropdownOpen(!isDropdownOpen);
+        e.preventDefault();
+    };
+
+    const handleDropdownItemClick = () => {
+        setIsDropdownOpen(false); // Close the dropdown after item click
+    };
+
     return (
         <nav className='nav'>
-            <div className='nav-left'>
-                <Nav variant="tabs">
-                    <Nav.Link as={Link} to="/home">Página Inicial</Nav.Link>
-                    <Nav.Link as={Link} to="/sobre">Sobre</Nav.Link>
-                    {isAuthenticated && (
-                        <>
-
-
-                            <Nav.Link as={Link} to="/contas">Contas</Nav.Link>
-                            <Nav.Link as={Link} to="/cadastroTitulo">Cadastro de Títulos</Nav.Link>
-                            <Nav.Link as={Link} to="/cadastrarCategoria">Cadastro Categoria</Nav.Link>
-                            <NavDropdown title="Relatórios" id="filter-dropdown" className="nav-dropdown">
-                                <NavDropdown.Item as={Link} to="/relContasReceber">Contas a Receber</NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to="/relContasPagar">Contas a Pagar</NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to="/relRecebimentos">Recebimentos</NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to="/relPagamentos">Pagamentos</NavDropdown.Item>
-                                
-                            </NavDropdown>
-                        </>
-                    )}
-                </Nav>
-            </div>
-            <div className='botao-container'>
+            <ul className='nav-list'>
+                <li className={location.pathname === '/home' ? 'active' : ''}>
+                    <Link to="/home">Página Inicial</Link>
+                </li>
+                <li className={location.pathname === '/sobre' ? 'active' : ''}>
+                    <Link to="/sobre">Sobre</Link>
+                </li>
+                {isAuthenticated && (
+                    <>
+                        <li className={location.pathname === '/contas' ? 'active' : ''}>
+                            <Link to="/contas">Contas</Link>
+                        </li>
+                        <li className={location.pathname === '/cadastroTitulo' ? 'active' : ''}>
+                            <Link to="/cadastroTitulo">Cadastro de Títulos</Link>
+                        </li>
+                        <li className={location.pathname === '/cadastrarCategoria' ? 'active' : ''}>
+                            <Link to="/cadastrarCategoria">Cadastro Categoria</Link>
+                        </li>
+                        <li className={`dropdown ${location.pathname.startsWith('/rel') ? 'active' : ''} ${isDropdownOpen ? 'open' : ''}`}>
+                            <Link to="#" className="dropdown-toggle" onClick={toggleDropdown}>Relatórios</Link>
+                            <ul className={`dropdown-content ${isDropdownOpen ? 'open' : ''}`}>
+                                <li className={location.pathname === '/relContasReceber' ? 'active' : ''}>
+                                    <Link to="/relContasReceber" onClick={handleDropdownItemClick}>Contas a Receber</Link>
+                                </li>
+                                <li className={location.pathname === '/relContasPagar' ? 'active' : ''}>
+                                    <Link to="/relContasPagar" onClick={handleDropdownItemClick}>Contas a Pagar</Link>
+                                </li>
+                                <li className={location.pathname === '/relRecebimentos' ? 'active' : ''}>
+                                    <Link to="/relRecebimentos" onClick={handleDropdownItemClick}>Recebimentos</Link>
+                                </li>
+                                <li className={location.pathname === '/relPagamentos' ? 'active' : ''}>
+                                    <Link to="/relPagamentos" onClick={handleDropdownItemClick}>Pagamentos</Link>
+                                </li>
+                            </ul>
+                        </li>
+                    </>
+                )}
+            </ul>
+            <div className='buttons'>
                 {!isAuthenticated ? (
                     <Link to='/login'>
-                        <Botao texto="Login" className="botao-login" />
+                        <Botao texto="Login" />
                     </Link>
                 ) : (
-                    <Botao texto="Logout" className="botao-cadastrar" onClick={handleLogout} />
+                    <Botao texto="Logout" onClick={handleLogout} />
                 )}
-                <Botao texto="Cadastrar" className="botao-cadastrar" onClick={() => navigate('/cadastro')} />
+                <Botao texto="Cadastrar" onClick={() => navigate('/cadastro')} />
             </div>
         </nav>
     );

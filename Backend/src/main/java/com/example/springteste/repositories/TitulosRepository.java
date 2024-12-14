@@ -3,6 +3,7 @@ package com.example.springteste.repositories;
 
 import com.example.springteste.models.TitulosModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -24,4 +25,8 @@ public interface TitulosRepository extends JpaRepository<TitulosModel, Long> {
 
     @Query("SELECT t FROM TitulosModel t WHERE t.conta.id = :contaId AND t.categoria.tipo = 'Pagamento' AND t.status = 'Em aberto'")
     List<TitulosModel> findPagamentoAbertoByContaId(@Param("contaId") Long contaId);
+
+    @Modifying
+    @Query("DELETE FROM TitulosModel t WHERE t.conta.id = :contaId")
+    void deleteByContaId(Long contaId);
 }

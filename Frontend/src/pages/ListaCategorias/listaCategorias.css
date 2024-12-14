@@ -1,14 +1,11 @@
 .categoria-container {
     padding: 20px;
-    background-color: #8f8b8b;
+    background-color: #777777;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-left: 150px;
-    max-height: 450px;
-    overflow-y: auto; 
-    overflow-x: auto; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+    width: 100%;
     color: #ffffff;
-    
 }
 
 .titulo-categorias {
@@ -18,14 +15,16 @@
 }
 
 .titulo-categorias h1 {
-    color: rgb(255, 255, 255);
-    font-size: 36px;
+    color: #ffffff;
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .filter-container {
     margin-bottom: 20px;
     display: flex;
-    justify-content: left;
+    align-items: center;
     gap: 10px;
 }
 
@@ -52,6 +51,20 @@
     outline: none;
 }
 
+.botao-atualizar {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.botao-atualizar svg {
+    transition: transform 0.3s ease;
+}
+
+.botao-atualizar svg:hover {
+    transform: rotate(180deg);
+}
+
 .table-categorias {
     width: 100%;
     border-collapse: collapse;
@@ -62,11 +75,28 @@
     background-color: #ebf4f5; 
 }
 
+.table-categorias thead th {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ffffff;
+    background-color: #2f3031;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.table-categorias tbody tr {
+    background-color: #777777;
+}
+
+.table-categorias tbody tr:nth-child(even) {
+    background-color: #585757;
+}
 
 .table-categorias td {
     padding: 10px;
     text-align: left;
     border: 1px solid #ffffff;
+    color: #ffffff;
 }
 
 .table-categorias th {
@@ -88,4 +118,28 @@
 
 .table-categorias tr td {
     border-bottom: 1px solid #eaeaea;
+}
+
+.loading {
+    text-align: center;
+    padding: 10px;
+    color: #ffffff;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.erro-mensagem {
+    color: #ff4444;
+    text-align: center;
+    padding: 10px;
+    margin: 10px 0;
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+@media (max-width: 1200px) {
+    .categoria-container {
+        margin-top: 20px;
+    }
 }

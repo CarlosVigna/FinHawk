@@ -16,7 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -36,27 +38,44 @@ public class TitulosController {
 
     @PostMapping("/contas/{idConta}/titulos")
     @CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", allowCredentials = "true")
-    public ResponseEntity<String> saveTitulo(@PathVariable Long idConta, @RequestBody @Valid TitulosRecordDto titulosRecordDto) {
+    public ResponseEntity<Map<String, Object>> saveTitulo(@PathVariable Long idConta, 
+            @RequestBody @Valid TitulosRecordDto titulosRecordDto) {
+        Map<String, Object> response = new HashMap<>();
+        
+        try {
+            ContasModel conta = contasRepository.findById(idConta)
+                    .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
 
-        ContasModel conta = contasRepository.findById(idConta)
-                .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
+            CategoriasModel categoria = categoriasRepository.findById(titulosRecordDto.categoriaId())
+                    .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
 
-        CategoriasModel categoria = categoriasRepository.findById(titulosRecordDto.categoriaId())
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+            var titulosModel = new TitulosModel();
+            titulosModel.setDescricao(titulosRecordDto.descricao());
+            titulosModel.setValor(titulosRecordDto.valor());
+            titulosModel.setEmissao(titulosRecordDto.emissao());
+            titulosModel.setVencimento(titulosRecordDto.vencimento());
+            titulosModel.setCategoria(categoria);
+            titulosModel.setStatus(titulosRecordDto.status());
+            titulosModel.setConta(conta);
 
-        String sql = "EXEC sp_cadTitulo ?, ?, ?, ?, ?, ?, ?";
-        jdbcTemplate.update(sql,
-                titulosRecordDto.descricao(),
-                titulosRecordDto.emissao(),
-                titulosRecordDto.status(),
-                titulosRecordDto.valor(),
-                titulosRecordDto.vencimento(),
-                titulosRecordDto.categoriaId(),
-                idConta
-        );
+            TitulosModel savedTitulo = titulosRepository.save(titulosModel);
+            
+            response.put("message", "Título salvo com sucesso!");
+            response.put("success", true);
+            response.put("data", savedTitulo);
 
-        return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.APPLICATION_JSON)
-                .body("{\"message\":\"Título salvo com sucesso!\"}");
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(response);
+
+        } catch (Exception e) {
+            response.put("message", "Erro ao salvar título: " + e.getMessage());
+            response.put("success", false);
+            
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(response);
+        }
     }
 
     @GetMapping("/titulos")

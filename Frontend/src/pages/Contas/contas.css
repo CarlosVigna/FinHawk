@@ -2,30 +2,71 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 40px;
     background-color: #e6f7f9;
-    min-height: auto;
+    max-width: auto;
+    margin: 0 auto;
 }
 
 .titulo-contas {
-    color: #085659;
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 32px;
+    margin-bottom: 30px;
 }
 
 .cards-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
+    gap: 30px;
 }
 
-.titulo-contas {
-    color: #085659;
-    font-size: 28px;
-    font-weight: bold;
+.erro-mensagem {
+    color: red;
     text-align: center;
     margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
 }
+
+.sucesso-mensagem {
+    color: green;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.botao-criar-conta-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.botao-criar-conta {
+    padding: 12px 24px;
+    font-size: 16px;
+    background-color: #0199a1;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.botao-criar-conta:hover {
+    background-color: #017c7d;
+}
+
+.sem-contas {
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+}
+
+@media (max-width: 768px) {
+    .cards-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .botao-criar-conta {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+

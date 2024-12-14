@@ -4,20 +4,38 @@
   align-items: flex-start;
   padding: 20px;
   border-radius: 8px;
-  background-color: #ffffff;
-  max-width: 600px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  background-color: #f7f7f7;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
-form {
+.formulario.cadastro-usuario {
+  width: 100%;
+  max-width: 600px;
+}
+
+.formulario.login-form {
+  width: 600px;
+  max-width: none;
+}
+
+.formulario.login-form form {
+  width: 100%;
+}
+
+.formulario form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 20px;
-  padding: 30px;
-  border-radius: 8px;
-  background-color: #ffffff;
+  padding: 40px;
   width: 100%;
+}
+
+.formulario.cadastro-usuario form {
+  width: 100%;
+  max-width: 600px;
 }
 
 .header {
@@ -25,13 +43,16 @@ form {
   align-items: center;
   gap: 16px;
   color: #000000;
-  
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .formulario .header h2 {
-  color: #000000;
-  font-size: 1.5rem;
+  color: #333;
+  font-size: 32px;
   font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 h2 {
@@ -41,76 +62,78 @@ h2 {
 }
 
 .formulario .campos-container label {
-  color: #000000;
+  color: #555;
   font-weight: bold;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
 }
 
-input[type="email"],
-input[type="password"],
-input[type="password"] {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border: 1px solid #070707;
-  border-radius: 6px;
-  background-color: #ffffff;
-  color: #000000;
-  transition: border-color 0.3s ease;
-}
-
-input[type="email"]:focus,
-input[type="password"]:focus,
-input[type="password"]:focus {
-  border-color: #3498db;
-  outline: none;
-  box-shadow: 0 0 5px rgba(52, 152, 219, 0.25);
-}
-
-input[type="text"] {
-  width: 100% !important;
-  padding: 12px !important;
-  margin: 8px 0 !important;
-  border: 1px solid #070707 !important;
-  border-radius: 6px !important;
-  background-color: #ffffff !important;
-  color: #000000 !important;
-  transition: border-color 0.3s ease !important;
-  box-shadow: 2px 2px 2px rgb(124, 122, 122) !important;
-}
-
-input[type="text"]:focus {
-  border-color: #3498db !important;
-  outline: none !important;
-  box-shadow: 0 0 5px rgba(52, 152, 219, 0.25) !important;
-}
-
-input[type="text"]:hover {
-  border-color: #0199a1 !important;
-  outline: none !important;
-  box-shadow: 0 0 8px rgba(1, 153, 161, 0.6) !important;
-}
-
-input::placeholder {
-  color: #aaa;
-}
-
-.botao-container {
+.campos-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.botao-enviar-cadastro {
-  background-color: #2694dd;
-  color: white;
-  padding: 12px 30px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1.3rem;
-  transition: background-color 0.3s ease;
+.campo-select label {
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 
-.botao-enviar-cadastro:hover {
-  background-color: #2980b9;
+.botao-container .botao-padrao {
+  padding: 10px 20px;
+  margin: 0 10px;
+}
+
+.erro-mensagem {
+  color: red;
+  text-align: center;
+  margin-top: 15px;
+  font-size: 1rem;
+}
+
+.sucesso-mensagem {
+  color: green;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.campos-container.horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.campos-container.horizontal .campo-select,
+.campos-container.horizontal .campo-texto {
+  flex: 1 1 45%;
+  margin: 5px;
+}
+
+@media (max-width: 768px) {
+  .formulario {
+    padding: 20px;
+  }
+
+  .formulario.cadastro-usuario,
+  .formulario.login-form {
+    width: 90%;
+    max-width: 100%;
+  }
+
+  .formulario form {
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+
+form, 
+.formulario, 
+.formulario input, 
+.formulario select,
+.formulario button {
+    box-shadow: none !important;
+    -webkit-appearance: none !important; 
+    -moz-appearance: none !important; 
+    appearance: none !important; 
 }

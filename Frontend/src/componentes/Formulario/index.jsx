@@ -2,23 +2,24 @@ import CampoTexto from '../CampoTexto';
 import './formulario.css';
 import Botao from '../Botao';
 
-const Formulario = ({ titulo, campos, botaoTexto, handleInputChange, valores, onSubmit, className, layout }) => {
+const Formulario = ({ titulo, campos, botaoTexto, handleInputChange, valores, onSubmit, className, layout, customClass, erro, sucesso }) => {
     const handleSubmit = (e) => {
         e.preventDefault(); 
         onSubmit();
-
     };
     
     return (
-        <div className='formulario'>
+        <div className={`formulario ${customClass || ''}`}>
             <form onSubmit={handleSubmit}>
                 <div className='header'>
                     {titulo && <h2>{titulo}</h2>}
                 </div>
+                {erro && <p className='erro-mensagem'>{erro}</p>}
+                {sucesso && <p className='sucesso-mensagem'>{sucesso}</p>}
                 <div className={`campos-container ${layout}`}>
                     {campos.map((campo, index) => (
                         campo.type === "select" ? (
-                            <div key={index} className='campo-select'>
+                            <div key={index} className='campo-select form-control no-inner-shadow'>
                                 <label>{campo.label}</label>
                                 <select 
                                     name={campo.name} 
@@ -53,6 +54,8 @@ const Formulario = ({ titulo, campos, botaoTexto, handleInputChange, valores, on
                         className={className}
                     />
                 </div>
+                {erro && <p className='erro-mensagem'>{erro}</p>}
+                {sucesso && <p className='sucesso-mensagem'>{sucesso}</p>}
             </form>
         </div>
     );

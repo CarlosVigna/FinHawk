@@ -12,36 +12,26 @@ const Contas = () => {
 
     useEffect(() => {
         const fetchContas = async () => {
-            const token = localStorage.getItem('token');
-            console.log('Token:', token);
-
-            if (!token) {
-                setErro("Usuário não autenticado.");
-                setContas([]);
-                return;
-            }
-
             try {
-                const response = await fetch('http://localhost:8080/contas/usuario', {
+                const token = localStorage.getItem('token');
+                const response = await fetch('http://localhost:8080/contas', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
                     },
+                    credentials: 'include'
                 });
 
-                console.log('Resposta do servidor para contas:', response);
-
                 if (!response.ok) {
-                    throw new Error("Erro ao carregar contas.");
+                    throw new Error('Erro ao carregar contas.');
                 }
 
                 const data = await response.json();
-                console.log('Contas carregadas:', data);
                 setContas(data);
             } catch (error) {
+                setErro('Erro ao carregar contas: ' + error.message);
                 console.error('Erro ao buscar contas:', error);
-                setErro(error.message || "Erro ao conectar com o servidor.");
-                setContas([]);
             }
         };
 
@@ -65,25 +55,44 @@ const Contas = () => {
     };
 
     const handleExcluir = async (idConta) => {
-        const userConfirmed = window.confirm("Tem certeza que deseja excluir esta conta?");
+        const userConfirmed = window.confirm("ATENÇÃO: Excluir esta conta também removerá todos os títulos associados a ela. Deseja continuar?");
         if (!userConfirmed) return;
-    
+
+        setErro("");
+        setSucesso("");
+
         try {
+            const token = localStorage.getItem('token');
             const response = await fetch(`http://localhost:8080/contas/${idConta}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
                 },
+                credentials: 'include'
             });
-    
-            if (!response.ok) {
-                throw new Error("Erro ao excluir conta.");
+
+            let jsonData;
+            try {
+                const text = await response.text();
+                jsonData = text ? JSON.parse(text) : {};
+            } catch (parseError) {
+                throw new Error('Erro ao processar resposta do servidor');
             }
-    
-            setContas(contas.filter(conta => conta.id !== idConta));
-            setSucesso("Conta excluída com sucesso!");
+
+            if (!response.ok) {
+                throw new Error(jsonData.message || 'Erro ao excluir conta e seus títulos');
+            }
+
+            setContas(prevContas => prevContas.filter(conta => conta.id !== idConta));
+            setSucesso('Conta e seus títulos foram excluídos com sucesso');
         } catch (error) {
-            setErro(error.message || "Erro ao conectar com o servidor.");
+            setErro(error.message);
+        } finally {
+            setTimeout(() => {
+                setErro("");
+                setSucesso("");
+            }, 3000);
         }
     };
 
@@ -91,13 +100,14 @@ const Contas = () => {
         <div className='contas-container'>
             <h1 className='titulo-contas'>Minhas Contas</h1>
             {erro && <p style={{ color: 'red' }}>{erro}</p>}
+            {sucesso && <p style={{ color: 'green' }}>{sucesso}</p>}
             <div className="cards-container">
                 {contas.length > 0 ? (
                     contas.map(conta => (
-                        <Card 
-                            key={conta.id} 
-                            conta={conta} 
-                            onEntrar={handleEntrar} 
+                        <Card
+                            key={conta.id}
+                            conta={conta}
+                            onEntrar={handleEntrar}
                             onEditar={handleEditar}
                             onExcluir={handleExcluir}
                         />
