@@ -2,6 +2,7 @@ package com.example.springteste.controllers;
 
 import com.example.springteste.dtos.UsuariosRecordDto;
 import com.example.springteste.models.UsuariosModel;
+import com.example.springteste.service.UsuariosService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

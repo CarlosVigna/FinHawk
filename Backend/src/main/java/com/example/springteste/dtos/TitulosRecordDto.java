@@ -27,5 +27,8 @@ public record TitulosRecordDto(
     @NotNull(message = "O status é obrigatório")
     String status,
     
+    @NotNull(message = "O tipo é obrigatório")
+    String tipo,
+    
     Long contaId
 ) {}

@@ -16,11 +16,10 @@ public class ServicoAutenticacao implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // Aqui, 'username' é o email do usuário
+        
         UsuariosModel usuario = usuariosRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado com o e-mail: " + username));
 
-        // Retorna a instância de UsuariosModel, que implementa UserDetails
         return usuario;
     }
 }

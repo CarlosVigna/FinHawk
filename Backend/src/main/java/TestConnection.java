@@ -4,7 +4,6 @@ import java.sql.SQLException;
 
 public class TestConnection {
     public static void main(String[] args) {
-        // Configurações do SQL Server
         String url = "jdbc:sqlserver://localhost:1433;databaseName=Finances";
         String user = "sa";
         String password = "W6uvozax@@";

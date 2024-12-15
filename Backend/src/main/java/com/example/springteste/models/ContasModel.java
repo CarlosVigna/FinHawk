@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="contas")
+@Table(name = "contas")
 public class ContasModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -24,16 +24,13 @@ public class ContasModel implements Serializable {
 
     @Column(name = "foto_url")
     private String fotoUrl;
-    
+
     @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(
-            name = "usuarios_contas",
-            joinColumns = @JoinColumn(name = "id_conta"),
-            inverseJoinColumns = @JoinColumn(name = "id_usuario")
-    )
+    @JoinTable(name = "usuarios_contas", joinColumns = @JoinColumn(name = "id_conta"), inverseJoinColumns = @JoinColumn(name = "id_usuario"))
     @JsonManagedReference
     @JsonIgnore
     private Set<UsuariosModel> usuarios = new HashSet<>();
+
     public Set<UsuariosModel> getUsuarios() {
         return usuarios;
     }

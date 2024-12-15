@@ -44,10 +44,7 @@ public class ContasService {
             ContasModel conta = contasRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
             
-            // Primeiro, deletar todos os títulos associados à conta
             titulosRepository.deleteByContaId(id);
-            
-            // Verifica se a conta tem usuários associados
             if (conta.getUsuarios() != null) {
                 conta.getUsuarios().clear();
                 contasRepository.save(conta);

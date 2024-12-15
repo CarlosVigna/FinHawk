@@ -1,4 +1,4 @@
-package com.example.springteste.security;
+package com.example.springteste.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
