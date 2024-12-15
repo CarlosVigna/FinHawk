@@ -1,0 +1,106 @@
+.campo-texto label {
+    display: block; 
+    margin-bottom: 12px; 
+    font-weight: bold; 
+    color: #085659;
+    font-size: 1rem;
+}
+
+.campo-texto input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #ffffff;
+    color: #000000;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 1rem;
+}
+
+.campo-texto h1 {
+    color: rgb(255, 255, 255);
+}
+
+.campo-texto input:hover,
+.campo-texto input:focus {
+    border-color: #0199a1; 
+    outline: none; 
+}
+
+.campo-texto input:focus {
+    border-color: #0199a1;
+    outline: none;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="password"] {
+  width: 100%;
+  padding: 14px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #000000;
+  transition: border-color 0.3s ease;
+  font-size: 1rem;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="password"]:focus {
+  border-color: #0199a1;
+  outline: none;
+}
+
+input[type="text"] {
+  width: 100% !important;
+  padding: 14px !important;
+  margin: 8px 0 !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  transition: border-color 0.3s ease !important;
+  font-size: 1rem !important;
+}
+
+input[type="text"]:focus {
+  border-color: #0199a1 !important;
+  outline: none !important;
+}
+
+input[type="text"]:hover {
+  border-color: #0199a1 !important;
+  outline: none !important;
+}
+
+input::placeholder {
+  color: #aaa;
+}
+
+
+.titulo-contas {
+  color: #085659;
+  font-size: 28px; 
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.input-error {
+    border-color: red;
+}
+
+.input-success {
+    border-color: green;
+}
+
+.no-inner-shadow {
+  box-shadow: none !important;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}

@@ -1,0 +1,139 @@
+.formulario {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f7f7f7;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.formulario.cadastro-usuario {
+  width: 100%;
+  max-width: 600px;
+}
+
+.formulario.login-form {
+  width: 600px;
+  max-width: none;
+}
+
+.formulario.login-form form {
+  width: 100%;
+}
+
+.formulario form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  padding: 40px;
+  width: 100%;
+}
+
+.formulario.cadastro-usuario form {
+  width: 100%;
+  max-width: 600px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #000000;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.formulario .header h2 {
+  color: #333;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+h2 {
+  flex-grow: 1;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+.formulario .campos-container label {
+  color: #555;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.campos-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.campo-select label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.botao-container .botao-padrao {
+  padding: 10px 20px;
+  margin: 0 10px;
+}
+
+.erro-mensagem {
+  color: red;
+  text-align: center;
+  margin-top: 15px;
+  font-size: 1rem;
+}
+
+.sucesso-mensagem {
+  color: green;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.campos-container.horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.campos-container.horizontal .campo-select,
+.campos-container.horizontal .campo-texto {
+  flex: 1 1 45%;
+  margin: 5px;
+}
+
+@media (max-width: 768px) {
+  .formulario {
+    padding: 20px;
+  }
+
+  .formulario.cadastro-usuario,
+  .formulario.login-form {
+    width: 90%;
+    max-width: 100%;
+  }
+
+  .formulario form {
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+
+form,
+.formulario,
+.formulario input,
+.formulario select,
+.formulario button {
+  box-shadow: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+}

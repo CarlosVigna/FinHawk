@@ -1,0 +1,154 @@
+.contas-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    background-color: #e6f7f9;
+    max-width: auto;
+    margin: 0 auto;
+}
+
+.titulo-contas {
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.erro-mensagem {
+    color: red;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sucesso-mensagem {
+    color: green;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.botao-criar-conta-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 30px;
+}
+
+.botao-criar-conta {
+    padding: 14px 28px;
+    font-size: 16px;
+    background-color: #1ABC9C;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.botao-criar-conta:hover {
+    background-color: #16A085;
+}
+
+.sem-contas {
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+}
+
+.botoes-header {
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.botao-nova-conta {
+    background-color: #1ABC9C; 
+    color: #ffffff; 
+    border: none;
+    border-radius: 8px; 
+    padding: 14px 28px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 186.7px;
+    height: 46.4px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.2;
+    position: relative;
+    overflow: hidden;
+}
+
+.botao-nova-conta:hover {
+    background-color: #16A085; 
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    letter-spacing: 2px;
+}
+
+.botao-nova-conta:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.botao-nova-conta:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.5);
+}
+
+.botao-nova-conta::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.5s ease;
+}
+
+.botao-nova-conta:hover::before {
+    width: 200%;
+    height: 200%;
+}
+
+@media (max-width: 768px) {
+    .cards-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .botao-criar-conta {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .botoes-header {
+        padding: 0 20px;
+    }
+    
+    .botao-nova-conta {
+        width: 160px;
+        height: 44px;
+        font-size: 12px;
+        padding: 12px 24px;
+        letter-spacing: 1px;
+    }
+}
+
