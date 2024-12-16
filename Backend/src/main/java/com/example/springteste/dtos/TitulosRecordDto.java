@@ -3,6 +3,7 @@ package com.example.springteste.dtos;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Pattern;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -25,6 +26,7 @@ public record TitulosRecordDto(
     Long categoriaId,
     
     @NotNull(message = "O status é obrigatório")
+    @Pattern(regexp = "^(PENDENTE|RECEBIDO|PAGO)$", message = "Status deve ser PENDENTE, RECEBIDO ou PAGO")
     String status,
     
     @NotNull(message = "O tipo é obrigatório")

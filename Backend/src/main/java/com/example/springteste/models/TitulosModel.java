@@ -25,13 +25,16 @@ public class TitulosModel implements Serializable {
     private CategoriasModel categoria;
 
     private BigDecimal valor;
-    private String status;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private String status = "PENDENTE"; 
 
     @ManyToOne
     @JoinColumn(name = "conta_id")
     private ContasModel conta;
 
-    private String tipo; // Novo campo
+    private String tipo; 
 
     public TitulosModel() {
     }
