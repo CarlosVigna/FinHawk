@@ -18,7 +18,8 @@ const ContasPagas = () => {
                 return;
             }
 
-            const response = await fetch(`http://localhost:8080/titulos/pagos?contaId=${idConta}`, {
+            // Alterado para buscar apenas pagamentos com status PAGO
+            const response = await fetch(`http://localhost:8080/titulos?contaId=${idConta}&tipo=Pagamento&status=PAGO`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -78,6 +79,7 @@ const ContasPagas = () => {
                 <label htmlFor="startDate" className='rel-white-label'>Data Inicial:</label>
                 <input
                     type="date"
+                    className="form-control no-inner-shadow"
                     id="startDate"
                     value={filterStartDate}
                     onChange={handleFilterStartDateChange}
@@ -85,52 +87,54 @@ const ContasPagas = () => {
                 <label htmlFor="endDate" className="rel-white-label">Data Final:</label>
                 <input
                     type="date"
+                    className="form-control no-inner-shadow"
                     id="endDate"
                     value={filterEndDate}
                     onChange={handleFilterEndDateChange}
                 />
             </div>
 
-            <div className="cabecalho-container">
-                <strong>Relatório de Contas Pagas</strong>
-                <p>
-                    <strong>Período: </strong>
-                    {filterStartDate && filterEndDate
-                        ? `${new Date(filterStartDate).toLocaleDateString('pt-BR')} a ${new Date(filterEndDate).toLocaleDateString('pt-BR')}`
-                        : ' Nenhum período selecionado'}
-                </p>
-                <p><strong>Data de Geração:</strong> {new Date().toLocaleString('pt-BR')}</p>
-            </div>
+            <div className="relatorio-box">
+                <div className="cabecalho-container">
+                    <strong>Relatório de Contas Pagas</strong>
+                    <p>
+                        <strong>Período: </strong>
+                        {filterStartDate && filterEndDate
+                            ? `${new Date(filterStartDate).toLocaleDateString('pt-BR')} a ${new Date(filterEndDate).toLocaleDateString('pt-BR')}`
+                            : ' Nenhum período selecionado'}
+                    </p>
+                    <p><strong>Data de Geração:</strong> {new Date().toLocaleString('pt-BR')}</p>
+                </div>
 
-
-            <table className="rel-table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Núm. Doc.</th>
-                        <th scope="col">Data Emissão</th>
-                        <th scope="col">Venc.</th>
-                        <th scope="col">Categoria</th>
-                        <th scope="col">Valor Título (R$)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredData.map((item) => (
-                        <tr key={item.id}>
-                            <td>{item.id}</td>
-                            <td>{new Date(item.emissao).toLocaleDateString('pt-BR')}</td>
-                            <td>{new Date(item.vencimento).toLocaleDateString('pt-BR')}</td>
-                            <td>{item.categoria.nome}</td>
-                            <td>{Number(item.valor).toFixed(2).replace('.', ',')}</td>
-
+                <table className="rel-table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Núm. Doc.</th>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">Data Emissão</th>
+                            <th scope="col">Venc.</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Valor Título (R$)</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {filteredData.map((item) => (
+                            <tr key={item.id}>
+                                <td>{item.id}</td>
+                                <td>{item.descricao}</td>
+                                <td>{new Date(item.emissao).toLocaleDateString('pt-BR')}</td>
+                                <td>{new Date(item.vencimento).toLocaleDateString('pt-BR')}</td>
+                                <td>{item.categoria.nome}</td>
+                                <td>{Number(item.valor).toFixed(2).replace('.', ',')}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
 
-            <div className="totalizador-container">
-                <span>Total Recebido: R$ {totalValor.toFixed(2).replace('.', ',')}</span>
+                <div className="totalizador-container">
+                    <span>Total Pago: R$ {totalValor.toFixed(2).replace('.', ',')}</span>
+                </div>
             </div>
-
         </div>
     );
 };

@@ -1,10 +1,18 @@
 .rel-receber-container {
     padding: 20px;
-    background-color: #c0bebe;
+    background-color: #dff0d8;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 1450px;
+    width: auto;
     margin: 0 auto;
+}
+
+.relatorio-box {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
 }
 
 .titulo-contas-receber {
@@ -13,8 +21,8 @@
 }
 
 .titulo-contas-receber h1 {
-    color: rgb(49, 48, 48);
-    font-size: 36px;
+    color: #2c3e50;
+    font-size: 2.5rem;
 }
 
 .filter-rel-container {
@@ -24,51 +32,65 @@
     justify-content: center;
     gap: 10px;
     width: 36%;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
 }
 
 .filter-rel-container label {
-    font-weight: bold; 
-    color: rgb(49, 48, 48); 
-    
+    font-weight: bold;
+    color: rgb(49, 48, 48);
+
 }
-
-
 
 .rel-table-hover {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .rel-table-hover th,
 .rel-table-hover td {
-    padding: 10px;
+    padding: 12px;
     text-align: left;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
 }
 
 .rel-table-hover th {
-    background-color: #2C3E50;
+    background-color: #27ae60;
     color: #ffffff;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.rel-table-hover td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+    color: #333333;
+    font-weight: 500;
 }
 
 .rel-table-hover tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #f2f2f2;
+}
+
+.rel-table-hover tr:nth-child(odd) {
+    background-color: #ffffff;
 }
 
 .rel-table-hover tr:hover {
-    background-color: #d1d1d1;
-}
-
-.rel-table-hover tr td {
-    border-bottom: 1px solid #eaeaea;
+    background-color: #e8f5e9;
+    transition: background-color 0.2s ease;
 }
 
 .totalizador-container {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    background-color: #2C3E50;
+    background-color: #27ae60;
     padding: 20px;
     border-radius: 4px;
     color: #ffffff;

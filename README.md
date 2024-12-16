@@ -15,15 +15,15 @@ O sistema permite o gerenciamento básico de finanças pessoais, incluindo o cad
 ## Tecnologias Utilizadas
 - **Java** - Back-end utilizando o framework Spring Boot.
 - **React** - Front-end.
-- **PostgreSQL** - Banco de dados para gerenciamento de informações.
+- **SQL Server** - Banco de dados para gerenciamento de informações.
 - **CSS** - Design e personalização da interface.
 
 ## Equipe
-| Membro         | Função                  |
-|----------------|-------------------------|
-| Carlos         | Desenvolvimento Geral   |
-| Gustavo        | Desenvolvimento Geral   |
-| José Carlos    | Desenvolvimento Geral   |
-| Victor         | Desenvolvimento Geral   |
-| Welinton       | Desenvolvimento Geral   |
+| Membro         | Função                     |
+|----------------|----------------------------|
+| Carlos         | Desenvolvimento Geral      |
+| Gustavo        | Desenvolvimento Geral      |
+| José Carlos    | Desenvolvimento Geral      |
+| Victor         | Desenvolvimento Geral      |
+| Welinton       | Desenvolvimento Geral      |
 | GPT            | Suporte no Desenvolvimento |

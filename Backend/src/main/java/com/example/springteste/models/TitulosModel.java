@@ -31,6 +31,8 @@ public class TitulosModel implements Serializable {
     @JoinColumn(name = "conta_id")
     private ContasModel conta;
 
+    private String tipo; // Novo campo
+
     public TitulosModel() {
     }
 
@@ -44,7 +46,6 @@ public class TitulosModel implements Serializable {
         this.status = status;
         this.conta = conta;
     }
-
 
     public Long getId() {
         return id;
@@ -110,5 +111,12 @@ public class TitulosModel implements Serializable {
         this.conta = conta;
     }
 
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 
 }

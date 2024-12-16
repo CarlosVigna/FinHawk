@@ -85,7 +85,7 @@ function CadastroUsuario() {
     ];
 
     return (
-        <div className='contai-cadastro'>
+        <div className='container-cadastro form-control no-inner-shadow'>
             <Formulario 
                 titulo="Cadastro de Usuário"
                 campos={camposCadastro}
@@ -94,9 +94,11 @@ function CadastroUsuario() {
                 handleInputChange={handleInputChange}
                 valores={valores}
                 onSubmit={handleCadastro}
+                layout="vertical" 
+                customClass="cadastro-usuario"
+                erro={erro}
+                sucesso={sucesso}
             />
-            {erro && <p style={{ color: 'red' }}>{erro}</p>}
-            {sucesso && <p style={{ color: 'green' }}>{sucesso}</p>}
         </div>
     );
 }

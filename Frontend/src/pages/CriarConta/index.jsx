@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './criarConta.css'
+import Select from 'react-select';
 
 const CriarConta = () => {
     const [descricao, setDescricao] = useState('');
-    const [foto, setFoto] = useState('');
+    const [fotoUrl, setFotoUrl] = useState(''); // Alterado de foto para fotoUrl
     const [todosUsuarios, setTodosUsuarios] = useState([]);
     const [selectedUsuarios, setSelectedUsuarios] = useState([]);
     const navigate = useNavigate();
     const [error, setError] = useState(null);
-    
+
     useEffect(() => {
         const fetchUsuarios = async () => {
             try {
@@ -40,8 +41,8 @@ const CriarConta = () => {
 
             const isSelected = prevSelectedUsuarios.includes(usuarioId);
 
-            return isSelected 
-                ? prevSelectedUsuarios.filter(id => id !== usuarioId) 
+            return isSelected
+                ? prevSelectedUsuarios.filter(id => id !== usuarioId)
                 : [...prevSelectedUsuarios, usuarioId];
         });
     };
@@ -49,19 +50,13 @@ const CriarConta = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
-        const usuarioIdLogado = localStorage.getItem('id'); 
-    
-        const usuariosParaEnviar = selectedUsuarios.filter(id => id !== usuarioIdLogado);
-    
+
         const dadosConta = {
             descricao,
-            foto,
-            usuarios: usuariosParaEnviar, 
+            fotoUrl,
+            usuarios: selectedUsuarios
         };
-    
-        console.log("Dados a serem enviados:", dadosConta); 
-    
+
         try {
             const token = localStorage.getItem('token');
             const response = await fetch('http://localhost:8080/contas', {
@@ -72,57 +67,78 @@ const CriarConta = () => {
                 },
                 body: JSON.stringify(dadosConta),
             });
-    
+
             if (!response.ok) {
                 throw new Error("Erro ao criar conta.");
             }
-    
-            navigate('/contas');
+
+            const data = await response.json();
+            if (data.status === 'success') {
+                navigate('/contas');
+            } else {
+                throw new Error(data.message || "Erro ao criar conta");
+            }
         } catch (error) {
-            console.error("Erro ao criar conta:", error); 
-            alert(error.message);
+            console.error("Erro ao criar conta:", error);
+            setError(error.message);
         }
     };
+
     return (
-        <div>
+        <div className="criar-conta-container">
             <h1>Criar Nova Conta</h1>
             <form onSubmit={handleSubmit}>
-                <div>
+                <div className="form-group">
                     <label>Descrição:</label>
                     <input
                         type="text"
+                        className="form-control no-inner-shadow"
                         value={descricao}
                         onChange={(e) => setDescricao(e.target.value)}
+                        placeholder="Insira a descrição da conta"
                         required
                     />
                 </div>
-                <div>
+                <div className="form-group">
                     <label>URL da Foto:</label>
                     <input
                         type="text"
-                        value={foto}
-                        onChange={(e) => setFoto(e.target.value)}
+                        className="form-control no-inner-shadow"
+                        value={fotoUrl}
+                        onChange={(e) => setFotoUrl(e.target.value)}
+                        placeholder="Insira a URL da foto"
                         required
                     />
                 </div>
-                <div>
+                <div className="form-group">
                     <label>Selecionar Usuários:</label>
-                    <div>
-                        {todosUsuarios.map(usuario => (
-                            <div key={usuario.id}>
-                                <input
-                                    type="checkbox"
-                                    id={`usuario-${usuario.id}`}
-                                    value={usuario.id}
-                                    checked={selectedUsuarios.includes(usuario.id)}
-                                    onChange={() => handleUsuarioSelect(usuario.id)}
-                                />
-                                <label htmlFor={`usuario-${usuario.id}`}>{usuario.nome}</label>
-                            </div>
-                        ))}
-                    </div>
+                    <Select
+                        isMulti
+                        name="usuarios"
+                        options={todosUsuarios.map(usuario => ({
+                            value: usuario.id,
+                            label: usuario.nome
+                        }))}
+                        className="basic-multi-select"
+                        classNamePrefix="select"
+                        onChange={(selectedOptions) => {
+                            const ids = selectedOptions ? selectedOptions.map(option => option.value) : [];
+                            setSelectedUsuarios(ids);
+                        }}
+                        placeholder="Selecione os usuários"
+                    />
                 </div>
-                <button type="submit">Criar Conta</button>
+                {error && <div className="erro-mensagem">{error}</div>}
+                <div className="botoes-container">
+                    <button type="submit" className="botao-salvar">Criar Conta</button>
+                    <button 
+                        type="button" 
+                        className="botao-cancelar"
+                        onClick={() => navigate('/contas')}
+                    >
+                        Cancelar
+                    </button>
+                </div>
             </form>
         </div>
     );

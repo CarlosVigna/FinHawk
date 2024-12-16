@@ -1,0 +1,119 @@
+.criar-conta-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 40px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.criar-conta-container h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333333;
+    padding: 50px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #0199a1;
+    outline: none;
+}
+
+.usuarios-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.usuario-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.erro-mensagem {
+    color: red;
+    text-align: center;
+    margin-top: 15px;
+    font-size: 1rem;
+}
+
+.basic-multi-select {
+    margin-bottom: 20px;
+}
+
+.select__control {
+    border: 1px solid #cccccc !important;
+    border-radius: 4px !important;
+    min-height: 45px !important;
+}
+
+.select__control:hover {
+    border-color: #0199a1 !important;
+}
+
+.select__control--is-focused {
+    border-color: #0199a1 !important;
+    box-shadow: 0 0 0 1px #0199a1 !important;
+}
+
+.botoes-container {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.botao-salvar,
+.botao-cancelar {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.botao-salvar {
+    background-color: #28a745;
+    color: white;
+}
+
+.botao-salvar:hover {
+    background-color: #218838;
+}
+
+.botao-cancelar {
+    background-color: #dc3545;
+    color: white;
+}
+
+.botao-cancelar:hover {
+    background-color: #c82333;
+}
+
+@media (max-width: 768px) {
+    .criar-conta-container {
+        padding: 20px;
+    }
+}

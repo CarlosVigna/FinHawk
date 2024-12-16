@@ -1,7 +1,7 @@
-import './cadastroCategoria.css';
-import { useState } from 'react';
-import Formulario from '../../componentes/Formulario';
+import React, { useState } from 'react';
+import FormularioCategoria from '../../componentes/FormularioCategoria';
 import ListaCategorias from '../ListaCategorias';
+import './cadastroCategoria.css';
 
 const URL = "http://localhost:8080";
 
@@ -14,17 +14,17 @@ async function cadastrarCategoria(categoria) {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(categoria), 
+            body: JSON.stringify(categoria),
         });
-        
+
         if (!response.ok) {
             const errorData = await response.json();
-            console.error("Erro na API:", errorData); 
+            console.error("Erro na API:", errorData);
             throw new Error('Erro ao cadastrar categoria: ' + errorData.message);
         }
 
         const data = await response.json();
-        console.log("Resposta da API:", data); 
+        console.log("Resposta da API:", data);
         return data;
 
     } catch (error) {
@@ -33,7 +33,7 @@ async function cadastrarCategoria(categoria) {
     }
 }
 
-function CadastroCategoria() {
+const CadastroCategoria = () => {
     const [valores, setValores] = useState({
         nome: '',
         tipo: 'Recebimento',
@@ -41,6 +41,7 @@ function CadastroCategoria() {
 
     const [erro, setErro] = useState("");
     const [refresh, setRefresh] = useState(false);
+    const [sucesso, setSucesso] = useState(""); 
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -61,63 +62,58 @@ function CadastroCategoria() {
         }
 
         const novaCategoria = { nome, tipo };
-        
-        try {
-            const resposta = await cadastrarCategoria(novaCategoria);
-            console.log("Categoria cadastrada com sucesso:", resposta);
 
-            setRefresh(prev => !prev); 
+        try {
+            await cadastrarCategoria(novaCategoria);
+
 
             setValores({
                 nome: '',
-                tipo: 'Recebimento' 
+                tipo: 'Recebimento'
             });
-
-            setErro(""); 
+            setErro("");
+            setSucesso("Categoria cadastrada com sucesso!");
+            setRefresh(prev => !prev);
+            setTimeout(() => {
+                setSucesso("");
+            }, 3000);
 
         } catch (error) {
             setErro(error.message || "Erro ao cadastrar Categoria. Tente novamente.");
+            setSucesso("");
         }
     };
 
     const camposCadastro = [
         { label: "Nome:", placeholder: "Digite o nome da categoria", type: "text", name: "nome" },
-        { 
-            label: "Tipo:", 
-            type: "select", 
-            name: "tipo", 
+        {
+            label: "Tipo:",
+            type: "select",
+            name: "tipo",
             options: [
                 { value: "Recebimento", label: "Recebimentos" },
                 { value: "Pagamento", label: "Pagamentos" }
-            ] 
+            ]
         }
     ];
 
     return (
-        <div className='container-categoria'>
-            <div className='header-categoria'>
-            <Formulario 
-                titulo="Cadastro de Categoria"
-                campos={camposCadastro}
-                botaoTexto="Enviar Cadastro" 
-                className="botao-enviar-cadastro"
-                handleInputChange={handleInputChange}
-                valores={valores}
-                onSubmit={handleCadastro}
-            />
-            {erro && <p style={{ color: 'red' }}>{erro}</p>}
-
+        <div className="cadastro-categoria-vertical">
+            <div className="secao-superior">
+                <FormularioCategoria
+                    valores={valores}
+                    handleInputChange={handleInputChange}
+                    onSubmit={handleCadastro}
+                    erro={erro}
+                    sucesso={sucesso}
+                />
             </div>
-         
-            <div className='lista-categorias'>
-            <ListaCategorias refresh={refresh}/>
-
+            <div className="historico-container">
+                <h2 className="historico-titulo">Categorias Cadastradas</h2>
+                <ListaCategorias refresh={refresh} />
             </div>
-         </div>
-        
-
-        
+        </div>
     );
-}
+};
 
 export default CadastroCategoria;

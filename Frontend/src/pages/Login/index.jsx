@@ -90,8 +90,10 @@ const Login = () => {
                 valores={valores}
                 onSubmit={handleLogin}
                 disabled={isLoading}
+                customClass="login-form" 
+                layout="vertical" 
+                erro={erro}
             />
-            {erro && <p style={{ color: 'red' }}>{erro}</p>}
         </div>
     );
 };

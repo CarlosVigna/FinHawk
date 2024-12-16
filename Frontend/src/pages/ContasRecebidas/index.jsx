@@ -18,7 +18,8 @@ const ContasRecebidas = () => {
                 return;
             }
 
-            const response = await fetch(`http://localhost:8080/titulos/recebidos?contaId=${idConta}`, {
+            // Alterado para buscar apenas recebimentos com status RECEBIDO
+            const response = await fetch(`http://localhost:8080/titulos?contaId=${idConta}&tipo=Recebimento&status=RECEBIDO`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -58,7 +59,7 @@ const ContasRecebidas = () => {
         const startDate = filterStartDate ? new Date(filterStartDate) : null;
         const endDate = filterEndDate ? new Date(filterEndDate) : null;
 
-        
+
         const dateMatch = (!startDate || itemVenc >= startDate) && (!endDate || itemVenc <= endDate);
 
         return dateMatch;
@@ -66,18 +67,19 @@ const ContasRecebidas = () => {
 
     const totalValor = filteredData.reduce((total, item) => total + Number(item.valor), 0);
 
-    
+
 
     return (
         <div className='rel-recebidas-container'>
             <div className='titulo-contas-recebidas'>
                 <h1>Contas Recebidas</h1>
             </div>
-           
+
             <div className='filter-rel-container'>
                 <label htmlFor="startDate" className='rel-white-label'>Data Inicial:</label>
                 <input
                     type="date"
+                    className="form-control no-inner-shadow"
                     id="startDate"
                     value={filterStartDate}
                     onChange={handleFilterStartDateChange}
@@ -85,52 +87,56 @@ const ContasRecebidas = () => {
                 <label htmlFor="endDate" className="rel-white-label">Data Final:</label>
                 <input
                     type="date"
+                    className="form-control no-inner-shadow"
                     id="endDate"
                     value={filterEndDate}
                     onChange={handleFilterEndDateChange}
                 />
             </div>
 
-            <div className="cabecalho-container">
-                <strong>Relatório de Contas Recebidas</strong>
-                <p>
-                    <strong>Período: </strong>
-                    {filterStartDate && filterEndDate
-                        ? `${new Date(filterStartDate).toLocaleDateString('pt-BR')} a ${new Date(filterEndDate).toLocaleDateString('pt-BR')}`
-                        : ' Nenhum período selecionado'}
-                </p>
-                <p><strong>Data de Geração:</strong> {new Date().toLocaleString('pt-BR')}</p>
-            </div>
+            <div className="relatorio-box">
+                <div className="cabecalho-container">
+                    <strong>Relatório de Contas Recebidas</strong>
+                    <p>
+                        <strong>Período: </strong>
+                        {filterStartDate && filterEndDate
+                            ? `${new Date(filterStartDate).toLocaleDateString('pt-BR')} a ${new Date(filterEndDate).toLocaleDateString('pt-BR')}`
+                            : ' Nenhum período selecionado'}
+                    </p>
+                    <p><strong>Data de Geração:</strong> {new Date().toLocaleString('pt-BR')}</p>
+                </div>
 
 
-            <table className="rel-table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Núm. Doc.</th>
-                        <th scope="col">Data Emissão</th>
-                        <th scope="col">Venc.</th>
-                        <th scope="col">Categoria</th>
-                        <th scope="col">Valor Título (R$)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredData.map((item) => (
-                        <tr key={item.id}>
-                            <td>{item.id}</td>
-                            <td>{new Date(item.emissao).toLocaleDateString('pt-BR')}</td>
-                            <td>{new Date(item.vencimento).toLocaleDateString('pt-BR')}</td>
-                            <td>{item.categoria.nome}</td>
-                            <td>{Number(item.valor).toFixed(2).replace('.', ',')}</td>
-
+                <table className="rel-table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Núm. Doc.</th>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">Data Emissão</th>
+                            <th scope="col">Venc.</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Valor Título (R$)</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {filteredData.map((item) => (
+                            <tr key={item.id}>
+                                <td>{item.id}</td>
+                                <td>{item.descricao}</td>
+                                <td>{new Date(item.emissao).toLocaleDateString('pt-BR')}</td>
+                                <td>{new Date(item.vencimento).toLocaleDateString('pt-BR')}</td>
+                                <td>{item.categoria.nome}</td>
+                                <td>{Number(item.valor).toFixed(2).replace('.', ',')}</td>
 
-            <div className="totalizador-container">
-                <span>Total Recebido: R$ {totalValor.toFixed(2).replace('.', ',')}</span>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+
+                <div className="totalizador-container">
+                    <span>Total Recebido: R$ {totalValor.toFixed(2).replace('.', ',')}</span>
+                </div>
             </div>
-
         </div>
     );
 };

@@ -1,27 +1,18 @@
 .container-login {    
-        display: flex;
-        justify-content: center; 
-        align-items: flex-start;
-        height: 50vh; 
-        background-color: #898e8f;
-        max-width: 100%;
-        padding: 0;
-    }
-
-.botao-container {
     display: flex;
-    gap: 16px;
-    text-decoration: none;
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center;
+    height: 100%; 
+    min-height: 80vh; 
+    max-width: 100%;
+    padding: 40px; 
+    background: linear-gradient(to bottom, #1a1a1a, #333333);
 }
 
-.botao-login {
-    background-color: #0199a1; 
-    font-size: 16px; 
-    padding: 12px 24px;
-    text-decoration: none; 
-}
-
-.botao-login:hover {
-    background-color: #085659; 
-    text-decoration: none;
+.erro-mensagem {
+    margin-top: 20px; 
+    color: #dc3545;
+    font-weight: bold;
+    text-align: center;
 }

@@ -46,7 +46,7 @@ public class FiltroSeguranca extends OncePerRequestFilter {
         var authHeader = request.getHeader("Authorization");
         if (authHeader == null) return null;
         String token = authHeader.replace("Bearer ", "").trim();
-        System.out.println("Token: " + token);  // Adicione um log para verificar o token
+        System.out.println("Token: " + token);  
         return token;
     }
 }

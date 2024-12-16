@@ -1,331 +1,238 @@
 import React, { useState, useEffect } from 'react';
-import ListaTitulo from '../../pages/ListaTitulo';
-import CampoTexto from '../CampoTexto';
-import Botao from '../Botao';
 import './formularioTransacao.css';
 
-const FormularioTransacao = () => {
-    const [titulos, setTitulos] = useState([]);
-    const [descricao, setDescricao] = useState('');
-    const [tipoTransacao, setTipoTransacao] = useState('Recebimento');
-    const [valorTitulo, setValorTitulo] = useState(0);
-    const [dataEmissao, setDataEmissao] = useState('');
+const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
     const [categorias, setCategorias] = useState([]);
-    const [categoria, setCategoria] = useState('');
-    const [dataVencimento, setDataVencimento] = useState('');
-    const [statusTransacao, setStatusTransacao] = useState('Em Aberto');
-    const [numeroDocumento, setNumeroDocumento] = useState('');
-    const [error, setError] = useState(null);
-    const [tituloEditando, setTituloEditando] = useState(null);
-
-    
-    const formatarDataParaInput = (dataArray) => {
-        if (dataArray && dataArray.length === 3) {
-            const [ano, mes, dia] = dataArray;
-            return `${ano}-${String(mes).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
-        }
-        return ''; 
-    };
+    const [valores, setValores] = useState({
+        descricao: '',
+        valor: '',
+        emissao: '',
+        vencimento: '',
+        categoriaId: '',
+        status: 'Pendente',
+        tipo: ''
+    });
+    const [erro, setErro] = useState('');
+    const [sucesso, setSucesso] = useState('');
 
     useEffect(() => {
         const fetchCategorias = async () => {
             try {
                 const token = localStorage.getItem('token');
-                if (!token) {
-                    throw new Error('Token não encontrado. Faça login novamente.');
-                }
-
                 const response = await fetch('http://localhost:8080/categorias', {
-                    method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
+                        'Content-Type': 'application/json'
+                    }
                 });
-
                 if (!response.ok) {
-                    throw new Error(`Erro ao buscar categorias: ${response.statusText}`);
+                    throw new Error('Falha ao carregar categorias.');
                 }
-
                 const data = await response.json();
-                console.log('Categorias recebidas:', data);
-                if (Array.isArray(data)) {
-                    setCategorias(data);
-                } else {
-                    throw new Error('Categorias não retornaram como um array.');
-                }
+                setCategorias(data);
             } catch (error) {
-                console.error('Erro ao buscar categorias:', error);
-                setError(error.message);
+                setErro(error.message);
             }
         };
-
         fetchCategorias();
     }, []);
 
+
     useEffect(() => {
-        const fetchTitulos = async () => {
-            try {
-                const response = await fetch('http://localhost:8080/titulos');
-                if (!response.ok) {
-                    throw new Error('Erro ao buscar títulos');
-                }
-                const data = await response.json();
-                console.log('Títulos recebidos:', data);
-                setTitulos(data);
-            } catch (error) {
-                console.error('Erro ao buscar dados:', error);
-            }
-        };
+        if (tituloParaEditar) {
+            setValores({
+                descricao: tituloParaEditar.descricao || '',
+                valor: tituloParaEditar.valor || '',
+                emissao: tituloParaEditar.emissao ? tituloParaEditar.emissao.split('T')[0] : '',
+                vencimento: tituloParaEditar.vencimento ? tituloParaEditar.vencimento.split('T')[0] : '',
+                categoriaId: tituloParaEditar.categoria?.id || '',
+                status: tituloParaEditar.status || 'Pendente',
+                tipo: tituloParaEditar.tipo || ''
+            });
+        } else {
 
-        fetchTitulos();
-    }, []);
+            setValores({
+                descricao: '',
+                valor: '',
+                emissao: '',
+                vencimento: '',
+                categoriaId: '',
+                status: 'Pendente',
+                tipo: ''
+            });
+        }
+    }, [tituloParaEditar]);
 
-    const adicionarOuAtualizarTitulo = async (e) => {
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setValores(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
-
-        const idConta = localStorage.getItem('id');
-        const token = localStorage.getItem('token');
-        if (!idConta) {
-            alert('Nenhuma conta selecionada.');
-            return;
-        }
-
-        if (!valorTitulo || !dataEmissao || !dataVencimento || !categoria) {
-            alert('Por favor, preencha todos os campos obrigatórios.');
-            return;
-        }
-
-        const tituloData = {
-            descricao: descricao,
-            valor: valorTitulo,
-            emissao: dataEmissao,
-            vencimento: dataVencimento,
-            categoriaId: categoria,
-            status: statusTransacao,
-            contaId: idConta,
-        };
-
-        console.log('Dados do título a serem enviados:', tituloData);
+        setErro('');
+        setSucesso('');
 
         try {
-            let response;
-            if (tituloEditando) {
-                response = await fetch(`http://localhost:8080/titulos/${tituloEditando.id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    },
-                    body: JSON.stringify(tituloData),
-                });
-            } else {
-                response = await fetch(`http://localhost:8080/contas/${idConta}/titulos`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    },
-                    body: JSON.stringify(tituloData),
-                });
+            const token = localStorage.getItem('token');
+            const idConta = localStorage.getItem('id');
+
+            if (!token || !idConta) {
+                throw new Error('Dados de autenticação não encontrados.');
             }
 
-            if (response.ok) {
-                const resultado = await response.json();
-                console.log('Resposta da API:', resultado);
-                if (!tituloEditando) {
-                    setNumeroDocumento(resultado.numeroDocumento);
-                }
-                alert(tituloEditando ? 'Título atualizado com sucesso!' : 'Título cadastrado com sucesso');
-                resetarCamposTitulo();
-                fetchTitulos(); 
-                setError(null);
-            } else {
-                throw new Error('Erro ao salvar título');
+            const dadosParaEnviar = {
+                ...valores,
+                valor: parseFloat(valores.valor),
+                categoriaId: parseInt(valores.categoriaId),
+                emissao: valores.emissao,
+                vencimento: valores.vencimento,
+                contaId: parseInt(idConta)
+            };
+
+            const url = tituloParaEditar
+                ? `http://localhost:8080/titulos/${tituloParaEditar.id}`
+                : `http://localhost:8080/contas/${idConta}/titulos`;
+
+            const response = await fetch(url, {
+                method: tituloParaEditar ? 'PUT' : 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(dadosParaEnviar)
+            });
+
+            const data = await response.json();
+            if (response.status === 400) {
+                throw new Error(data.message || 'Erro de validação do servidor');
             }
+            if (!response.ok) {
+                throw new Error(data.message || 'Erro ao processar operação');
+            }
+
+            setSucesso(data.message);
+            if (onSave) onSave();
         } catch (error) {
-            console.error('Erro ao salvar o título:', error);
-            setError(error.message);
+            setErro(error.message);
         }
-    };
-
-    const resetarCamposTitulo = () => {
-        setDescricao('');
-        setValorTitulo(0);
-        setTipoTransacao('Recebimento');
-        setDataEmissao('');
-        setDataVencimento('');
-        setCategoria('');
-        setStatusTransacao('Em Aberto');
-        setNumeroDocumento('');
-        setError(null);
-        setTituloEditando(null);
-    };
-
-    const cancelarEdicao = () => {
-        
-        resetarCamposTitulo();
-    };
-
-    const statusOptions = tipoTransacao === 'Recebimento' ? ['Em Aberto', 'Recebido'] : ['Em Aberto', 'Pago'];
-
-    const handleEditar = (titulo) => {
-        console.log('Editando título:', titulo);
-
-        const dataEmissaoFormatada = formatarDataParaInput(titulo.emissao);
-        const dataVencimentoFormatada = formatarDataParaInput(titulo.vencimento);
-
-        
-        setTituloEditando(titulo);
-        setDescricao(titulo.descricao);
-        setTipoTransacao(titulo.categoria.tipo);
-        setValorTitulo(titulo.valor);
-        setDataEmissao(dataEmissaoFormatada); 
-        setDataVencimento(dataVencimentoFormatada);
-        setCategoria(titulo.categoria.id);
-        setStatusTransacao(titulo.status);
     };
 
     return (
-        <div className='container-transacao'>
-            <form onSubmit={adicionarOuAtualizarTitulo}>
-                <div className='titulo-transacao'>
-                    <h2>{tituloEditando ? 'Editar Título' : 'Lançamentos'}</h2>
+        <form className="formulario-horizontal" onSubmit={handleSubmit}>
+            {erro && <div className="error-message">{erro}</div>}
+            {sucesso && <div className="success-message">{sucesso}</div>}
+
+            <div className="linha-formulario">
+                <div className="campo-formulario tipo-transacao">
+                    <label htmlFor="tipo">Tipo de Transação</label>
+                    <select
+                        id="tipo"
+                        name="tipo"
+                        value={valores.tipo}
+                        onChange={handleInputChange}
+                        required
+                    >
+                        <option value="">Selecione o tipo</option>
+                        <option value="Recebimento">Recebimento</option>
+                        <option value="Pagamento">Pagamento</option>
+                    </select>
                 </div>
 
-                <CampoTexto
-                        label="Descrição"
-                        placeholder="Digite uma breve descrição"
+                <div className="campo-formulario descricao">
+                    <label htmlFor="descricao">Descrição</label>
+                    <input
                         type="text"
-                        onChange={(e) => {
-                            console.log('Alterado descricao do título:', e.target.value);
-                            setDescricao(e.target.value);
-                        }}
-                        valor={descricao}
+                        id="descricao"
                         name="descricao"
+                        value={valores.descricao}
+                        onChange={handleInputChange}
+                        placeholder="Digite a descrição"
                     />
+                </div>
 
-                <div className='grid-container'>
-                    <div className='tipo-transacao'>
-                        <label>Tipo de Transação:</label>
-                        <select
-                            name="tipoTransacao"
-                            value={tipoTransacao}
-                            onChange={(e) => {
-                                console.log('Alterado tipo de transação:', e.target.value);
-                                setTipoTransacao(e.target.value);
-                            }}
-                        >
-                            <option value="Recebimento">Recebimento</option>
-                            <option value="Pagamento">Pagamento</option>
-                        </select>
-                    </div>
-
-                    <CampoTexto
-                        label="Data de Emissão"
-                        placeholder="DD/MM/AAAA"
-                        type="date"
-                        onChange={(e) => {
-                            console.log('Alterado data de emissão:', e.target.value);
-                            setDataEmissao(e.target.value);
-                        }}
-                        valor={dataEmissao}  
-                        name="dataEmissao"
-                    />
-
-                    <CampoTexto
-                        label="Data de Vencimento"
-                        placeholder="DD/MM/AAAA"
-                        type="date"
-                        onChange={(e) => {
-                            console.log('Alterado data de vencimento:', e.target.value);
-                            setDataVencimento(e.target.value);
-                        }}
-                        valor={dataVencimento}  
-                        name="dataVencimento"
-                    />
-                    <div className='categoria-transacao'>
-                        <label>Categoria:</label>
-                        <select
-                            name="categoria"
-                            value={categoria}
-                            onChange={(e) => {
-                                console.log('Alterada categoria:', e.target.value);
-                                setCategoria(e.target.value);
-                            }}
-                        >
-                            <option value="">Selecione uma categoria</option>
-                            {categorias && categorias.length > 0 ? (
-                                categorias
-                                    .filter((cat) => cat.tipo === tipoTransacao)
-                                    .map((cat) => (
-                                        <option key={cat.id} value={cat.id}>
-                                            {cat.nome}
-                                        </option>
-                                    ))
-                            ) : (
-                                <option value="" disabled>Carregando categorias...</option>
-                            )}
-                        </select>
-                    </div>
-
-                    <CampoTexto
-                        label="Valor Título"
-                        placeholder="Digite o valor do título"
+                <div className="campo-formulario valor">
+                    <label htmlFor="valor">Valor R$</label>
+                    <input
                         type="number"
-                        onChange={(e) => {
-                            console.log('Alterado valor título:', e.target.value);
-                            setValorTitulo(parseFloat(e.target.value));
-                        }}
-                        valor={valorTitulo}
-                        name="valorTitulo"
-                    />
-
-                    <div className='status-transacao'>
-                        <label>Status:</label>
-                        <select
-                            name="statusTransacao"
-                            value={statusTransacao}
-                            onChange={(e) => {
-                                console.log('Alterado status de transação:', e.target.value);
-                                setStatusTransacao(e.target.value);
-                            }}
-                        >
-                            {statusOptions.map((option) => (
-                                <option key={option} value={option}>
-                                    {option}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-
-                <div className='botao-container'>
-                    <Botao
-                        texto={tituloEditando ? "ATUALIZAR TÍTULO" : "SALVAR TÍTULO"}
-                        className="botao-padrao botao-salvar"
-                        type="submit"
-                    />
-                    {tituloEditando && (
-                        <Botao
-                            texto="CANCELAR EDIÇÃO"
-                            className="botao-padrao botao-cancelar"
-                            onClick={cancelarEdicao}  
-                        />
-                    )}
-                    <Botao
-                        texto="SAIR"
-                        className="botao-padrao botao-sair"
-                        onClick={resetarCamposTitulo}
+                        id="valor"
+                        name="valor"
+                        value={valores.valor}
+                        onChange={handleInputChange}
+                        placeholder="0,00"
+                        step="0.01"
                     />
                 </div>
-            </form>
-
-            <div className="lista-titulo">
-                <ListaTitulo onEdit={handleEditar} />
             </div>
-        </div>
+
+            <div className="linha-formulario">
+                <div className="campo-formulario categoria">
+                    <label htmlFor="categoriaId">Categoria</label>
+                    <select
+                        id="categoriaId"
+                        name="categoriaId"
+                        value={valores.categoriaId}
+                        onChange={handleInputChange}
+                    >
+                        <option value="">Selecione uma categoria</option>
+                        {categorias.map(cat => (
+                            <option key={cat.id} value={cat.id}>{cat.nome}</option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="campo-formulario datas">
+                    <label htmlFor="emissao">Data de Emissão</label>
+                    <input
+                        type="date"
+                        id="emissao"
+                        name="emissao"
+                        value={valores.emissao}
+                        onChange={handleInputChange}
+                    />
+                </div>
+
+                <div className="campo-formulario datas">
+                    <label htmlFor="vencimento">Data de Vencimento</label>
+                    <input
+                        type="date"
+                        id="vencimento"
+                        name="vencimento"
+                        value={valores.vencimento}
+                        onChange={handleInputChange}
+                    />
+                </div>
+
+                <div className="campo-formulario status">
+                    <label htmlFor="status">Status</label>
+                    <select
+                        id="status"
+                        name="status"
+                        value={valores.status}
+                        onChange={handleInputChange}
+                    >
+                        <option value="Pendente">Pendente</option>
+                        <option value="Pago">Pago</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
+                </div>
+            </div>
+
+            <div className="botoes-formulario">
+                <button type="submit" className="botao-salvar">
+                    {tituloParaEditar ? 'Atualizar' : 'Cadastrar'}
+                </button>
+                {tituloParaEditar && (
+                    <button
+                        type="button"
+                        className="botao-cancelar"
+                        onClick={onCancel}
+                    >
+                        Cancelar
+                    </button>
+                )}
+            </div>
+        </form>
     );
 };
 
