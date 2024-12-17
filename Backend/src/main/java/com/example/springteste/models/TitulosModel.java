@@ -2,6 +2,7 @@ package com.example.springteste.models;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -25,18 +26,22 @@ public class TitulosModel implements Serializable {
     private CategoriasModel categoria;
 
     private BigDecimal valor;
-    private String status;
+
+    @Column(name = "status")
+    @Pattern(regexp = "^(PENDENTE|RECEBIDO|PAGO)$", message = "Status deve ser PENDENTE, RECEBIDO ou PAGO")
+    private String status = "PENDENTE";
 
     @ManyToOne
     @JoinColumn(name = "conta_id")
     private ContasModel conta;
 
-    private String tipo; // Novo campo
+    private String tipo;
 
     public TitulosModel() {
     }
 
-    public TitulosModel(Long id, String descricao, LocalDate vencimento, LocalDate emissao, CategoriasModel categoria, BigDecimal valor, String status, ContasModel conta) {
+    public TitulosModel(Long id, String descricao, LocalDate vencimento, LocalDate emissao, CategoriasModel categoria,
+            BigDecimal valor, String status, ContasModel conta) {
         this.id = id;
         this.descricao = descricao;
         this.vencimento = vencimento;

@@ -9,7 +9,7 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
         emissao: '',
         vencimento: '',
         categoriaId: '',
-        status: 'Pendente',
+        status: 'PENDENTE',
         tipo: ''
     });
     const [erro, setErro] = useState('');
@@ -46,7 +46,7 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                 emissao: tituloParaEditar.emissao ? tituloParaEditar.emissao.split('T')[0] : '',
                 vencimento: tituloParaEditar.vencimento ? tituloParaEditar.vencimento.split('T')[0] : '',
                 categoriaId: tituloParaEditar.categoria?.id || '',
-                status: tituloParaEditar.status || 'Pendente',
+                status: tituloParaEditar.status || 'PENDENTE',
                 tipo: tituloParaEditar.tipo || ''
             });
         } else {
@@ -57,7 +57,7 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                 emissao: '',
                 vencimento: '',
                 categoriaId: '',
-                status: 'Pendente',
+                status: 'PENDENTE',
                 tipo: ''
             });
         }
@@ -211,9 +211,9 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                         value={valores.status}
                         onChange={handleInputChange}
                     >
-                        <option value="Pendente">Pendente</option>
-                        <option value="Pago">Pago</option>
-                        <option value="Cancelado">Cancelado</option>
+                        <option value="PENDENTE">Pendente</option>
+                        <option value="RECEBIDO">Recebido</option>
+                        <option value="PAGO">Pago</option>
                     </select>
                 </div>
             </div>

@@ -77,3 +77,35 @@
   text-decoration: underline;
   color: #005bb5;
 }
+
+@media screen and (max-width: 768px) {
+    .sobre-container {
+        padding: 15px;
+        max-width: 95%;
+    }
+
+    .equipe-container {
+        gap: 10px;
+    }
+
+    .equipe-membro {
+        width: 100%;
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .equipe-membro img {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 10px;
+    }
+
+    .membro-info {
+        text-align: center;
+    }
+
+    .membro-info ul {
+        justify-content: center;
+    }
+}

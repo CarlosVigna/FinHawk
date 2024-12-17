@@ -26,8 +26,10 @@ html, body {
   display: flex;
   flex-direction: column; 
   min-height: 100vh;
+  overflow-x: hidden; /* Previne scroll horizontal indesejado */
 }
 
 main {
   flex: 1;
+  margin-top: 0; /* Remove espaço extra */
 }

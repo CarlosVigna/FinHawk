@@ -23,8 +23,10 @@ const ListaTitulo = ({ onEdit, refresh, tipoTransacao }) => {
             let url = `http://localhost:8080/titulos?contaId=${idConta}`;
             
             // Ajuste na lógica de filtro por tipo
-            if (tipoTransacao === 'Recebimento' || tipoTransacao === 'Pagamento') {
-                url += `&tipo=${tipoTransacao}`;
+            if (tipoTransacao === 'recebimentos') {
+                url += '&tipo=Recebimento';
+            } else if (tipoTransacao === 'pagamentos') {
+                url += '&tipo=Pagamento';
             }
 
             const response = await fetch(url, {

@@ -172,6 +172,7 @@
 
     .cadastro-titulo-vertical {
         padding: 10px;
+        gap: 15px;
     }
 
     .secao-superior,
@@ -186,11 +187,119 @@
     .filtros-data {
         flex-direction: column;
         align-items: stretch;
+        gap: 8px;
     }
 
     .formulario-horizontal {
         grid-template-columns: 1fr;
         gap: 25px;
         padding: 20px;
+    }
+
+    .secao-superior {
+        padding: 15px;
+        margin: 0;
+        border-radius: 12px;
+    }
+
+    .historico-container {
+        padding: 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }
+
+    .historico-titulo {
+        font-size: 20px;
+        padding: 10px 0;
+        margin-bottom: 15px;
+        border-bottom: 1px solid rgba(1, 153, 161, 0.2);
+    }
+
+    .botoes-filtro-container {
+        flex-direction: column;
+        padding: 8px;
+        margin: 10px 0;
+        gap: 8px;
+        background-color: transparent;
+    }
+
+    .botao-tipo {
+        width: 100%;
+        padding: 12px 15px;
+        font-size: 14px;
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .filtros-container {
+        flex-direction: column;
+        padding: 10px;
+        gap: 10px;
+        margin: 10px 0;
+        background-color: #f8f9fa;
+        border-radius: 6px;
+    }
+
+    .filtros-data input[type="date"] {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .filtros-data {
+        width: 100%;
+        padding: 5px 0;
+    }
+
+    .filtros-data input[type="date"] {
+        width: 100%;
+        height: 42px;
+        padding: 8px 12px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        background-color: white;
+    }
+
+    .filtros-data span {
+        display: block;
+        margin: 5px 0;
+        font-size: 14px;
+        color: #666;
+    }
+}
+
+@media (max-width: 480px) {
+    .cadastro-titulo-vertical {
+        padding: 5px;
+    }
+
+    .secao-superior {
+        padding: 12px;
+    }
+
+    .historico-container {
+        padding: 8px;
+        margin-top: 10px;
+    }
+
+    .historico-titulo {
+        font-size: 18px;
+        padding: 8px 0;
+    }
+
+    .botoes-filtro-container {
+        padding: 5px;
+        margin: 8px 0;
+    }
+
+    .botao-tipo {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .filtros-data input[type="date"] {
+        height: 40px;
+        font-size: 13px;
     }
 }
