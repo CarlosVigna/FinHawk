@@ -1,27 +1,30 @@
 :root {
-    --primary-color: #121414;  
-    --primary-light: #92dcdf; 
-    --accent-color: #00a6e0; 
+    --primary-color: #121414;
+    --primary-light: #92dcdf;
+    --accent-color: #00a6e0;
     --nav-background: #727475;
-    --nav-hover-background: rgba(255, 255, 255, 0.15);   
-    --nav-text-color: #fff;   
-    --button-background: #3498db; 
+    --nav-hover-background: rgba(255, 255, 255, 0.15);
+    --nav-text-color: #fff;
+    --button-background: #3498db;
     --font-family: 'Roboto', sans-serif;
     --transition-speed: 0.3s;
     --hover-opacity: 0.9;
+    --border-radius: 8px;
+    --box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 body {
     font-family: var(--font-family);
+    line-height: 1.6;
 }
 
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.2rem 2.5rem;
+    padding: 1rem 2rem;
     background-color: var(--nav-background);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--box-shadow);
     position: sticky;
     top: 0;
     z-index: 10;
@@ -33,23 +36,23 @@ nav {
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .nav-list li {
     font-weight: 500;
     text-transform: uppercase;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
 }
 
 .nav-list a {
     position: relative;
     text-decoration: none;
     color: var(--nav-text-color);
-    padding: 0.75rem 1rem;
-    border-radius: 5px;
+    padding: 0.7rem 0.9rem;
+    border-radius: var(--border-radius);
     transition: all var(--transition-speed) ease;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.4px;
 }
 
 .nav-list a::after {
@@ -57,7 +60,7 @@ nav {
     position: absolute;
     width: 0;
     height: 2px;
-    bottom: 0;
+    bottom: 4px;
     left: 50%;
     background-color: var(--primary-light);
     transition: all var(--transition-speed) ease;
@@ -66,7 +69,7 @@ nav {
 
 .nav-list a:hover::after,
 .nav-list .active a::after {
-    width: 80%;
+    width: 70%;
 }
 
 .nav-list li.active a {
@@ -85,13 +88,13 @@ nav {
     left: 0;
     min-width: 220px;
     background-color: var(--nav-background);
-    border-radius: 8px;
-    padding: 8px 0;
-    margin-top: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-radius: var(--border-radius);
+    padding: 10px 0;
+    margin-top: 6px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-10px);
+    transform: translateY(-12px);
     transition: all 0.25s cubic-bezier(0.3, 0, 0.3, 1);
     z-index: 100;
 }
@@ -105,6 +108,7 @@ nav {
     height: 12px;
     background-color: var(--nav-background);
     transform: rotate(45deg);
+    border-radius: 2px;
 }
 
 .dropdown:hover .dropdown-content,
@@ -127,7 +131,7 @@ nav {
 }
 
 .dropdown-content a {
-    padding: 12px 20px;
+    padding: 10px 20px;
     display: block;
     color: var(--nav-text-color);
     font-size: 0.9rem;
@@ -136,14 +140,14 @@ nav {
 }
 
 .dropdown-content a:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.08);
     padding-left: 24px;
 }
 
 .dropdown-toggle::after {
     content: '▾';
     display: inline-block;
-    margin-left: 8px;
+    margin-left: 6px;
     transition: transform 0.2s ease;
 }
 
@@ -153,56 +157,57 @@ nav {
 
 .buttons {
     display: flex;
-    gap: 1rem;
+    gap: 0.75rem;
 }
 
 .buttons button {
     background-color: var(--button-background);
     color: var(--nav-text-color);
     border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 5px;
+    padding: 0.6rem 1.25rem;
+    border-radius: var(--border-radius);
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 600;
     transition: all var(--transition-speed) ease;
     transform: scale(1);
+    letter-spacing: 0.5px;
 }
 
 .buttons button:hover {
     background-color: #2980b9;
-    transform: scale(1.05);
+    transform: scale(1.03);
     opacity: var(--hover-opacity);
 }
 
 .botao-container button.botao-login,
 .botao-container button.botao-cadastrar {
-color: var(--nav-text-color);
-border: none;
-padding: 10px 24px;
-border-radius: 8px;
-font-size: 14px;
-font-weight: 600;
-cursor: pointer;
-transition: all 0.3s ease;
-text-transform: uppercase;
-letter-spacing: 0.5px;
-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    color: var(--nav-text-color);
+    border: none;
+    padding: 8px 18px;
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: var(--box-shadow);
 }
 
 .botao-container button.botao-login:hover,
 .botao-container button.botao-cadastrar:hover {
-background-color: #1abc9c;
-color: #ffffff;
-transform: translateY(-2px);
-box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    background-color: #1abc9c;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Animação para o dropdown */
 @keyframes slideDown {
     from {
-        transform: translateY(-10px);
+        transform: translateY(-12px);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -213,3 +218,178 @@ box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
     animation: slideDown var(--transition-speed) ease forwards;
 }
 
+.menu-toggle {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    nav {
+        padding: 0;
+        min-height: 60px;
+        flex-wrap: wrap;
+    }
+
+    .nav-header {
+        width: 100%;
+        height: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1rem;
+        background-color: var(--nav-background);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        justify-content: flex-start;
+        padding-right: 180px;
+    }
+
+    .menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        padding: 0.4rem;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--button-background);
+        color: var(--nav-text-color);
+        font-size: 1.3rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all var(--transition-speed) ease;
+        margin: 0;
+    }
+
+    .menu-toggle:hover {
+        background-color: #2980b9;
+        transform: scale(1.05);
+        opacity: var(--hover-opacity);
+    }
+
+    .menu-toggle:active {
+        transform: scale(0.95);
+    }
+
+    .nav-list {
+        top: 60px;
+        margin-top: 0;
+        border-top: none;
+    }
+
+    .nav-list {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        gap: 0;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-list.active {
+        display: flex;
+    }
+
+    .nav-list li {
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-list li:last-child {
+        border-bottom: none;
+    }
+
+    .nav-list a {
+        padding: 0.8rem;
+        display: block;
+        width: 100%;
+    }
+
+    .dropdown-content {
+        position: static;
+        width: 100%;
+        margin-top: 0;
+        box-shadow: none;
+        opacity: 1;
+        visibility: visible;
+        display: none;
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .dropdown.open .dropdown-content {
+        display: block;
+    }
+
+    .dropdown-content a {
+        padding: 0.6rem 0.8rem;
+    }
+
+    .buttons {
+        width: 100%;
+        justify-content: center;
+        padding: 0.4rem;
+        gap: 0.5rem;
+        position: absolute;
+        top: 10px;
+        right: 0.5rem;
+        width: auto;
+        background: none;
+    }
+
+    .buttons button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+        min-width: 60px;
+    }
+
+    .buttons {
+        width: 100%;
+        justify-content: center;
+        padding: 0.8rem 0;
+        gap: 0.4rem;
+    }
+
+    .menu-toggle {
+        display: block;
+        position: absolute;
+        right: 0.8rem;
+        top: 0.8rem;
+        z-index: 1000;
+        background: none;
+        border: none;
+        color: var(--nav-text-color);
+        font-size: 1.3rem;
+        cursor: pointer;
+        padding: 0.4rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .buttons {
+        position: static;
+        margin-top: 0.4rem;
+        width: 100%;
+        padding: 0.4rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-header {
+        padding-right: 0.8rem;
+    }
+
+    .buttons button {
+        flex: 1;
+    }
+}
+
+/* Estilos para Desktop (maiores que 768px) */
+@media screen and (min-width: 769px) {
+    .nav-list {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        gap: 1rem;
+        width: auto;
+    }
+}

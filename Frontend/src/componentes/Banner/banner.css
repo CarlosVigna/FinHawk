@@ -66,3 +66,19 @@
 .banner p:hover {
     opacity: 0.9; 
 }
+
+@media screen and (max-width: 768px) {
+    .banner-container {
+        height: 180px;
+    }
+
+    .banner h1 {
+        font-size: 32px;
+        letter-spacing: 2px;
+    }
+
+    .banner p {
+        font-size: 16px;
+        padding: 0 15px;
+    }
+}

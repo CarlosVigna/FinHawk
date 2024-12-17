@@ -10,6 +10,7 @@ function MenuHome({ scrollToCadastro }) {
     const navigate = useNavigate();
     const location = useLocation();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const handleLogout = () => {
         logout();
@@ -38,6 +39,28 @@ function MenuHome({ scrollToCadastro }) {
         }
     };
 
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+        if (isDropdownOpen) setIsDropdownOpen(false);
+    };
+
+    const handleLinkClick = () => {
+        setIsMenuOpen(false);
+        setIsDropdownOpen(false);
+    };
+
+    useEffect(() => {
+        const closeMenu = (e) => {
+            if (!e.target.closest('nav') && isMenuOpen) {
+                setIsMenuOpen(false);
+                setIsDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener('click', closeMenu);
+        return () => document.removeEventListener('click', closeMenu);
+    }, [isMenuOpen]);
+
     useEffect(() => {
         document.addEventListener('click', closeDropdown);
         return () => document.removeEventListener('click', closeDropdown);
@@ -45,28 +68,43 @@ function MenuHome({ scrollToCadastro }) {
 
     return (
         <nav className='nav'>
-            <ul className='nav-list'>
+            <div className="nav-header">
+                {/* Logo ou título pode ir aqui */}
+                <button 
+                    className="menu-toggle" 
+                    onClick={toggleMenu} 
+                    aria-label="Menu"
+                    aria-expanded={isMenuOpen}
+                >
+                    {isMenuOpen ? '✕' : '☰'}
+                </button>
+            </div>
+
+            <ul className={`nav-list ${isMenuOpen ? 'active' : ''}`}>
                 <li className={isActive('/home') ? 'active' : ''}>
-                    <Link to="/home">Página Inicial</Link>
+                    <Link to="/home" onClick={handleLinkClick}>Página Inicial</Link>
                 </li>
                 <li className={isActive('/sobre') ? 'active' : ''}>
-                    <Link to="/sobre">Sobre</Link>
+                    <Link to="/sobre" onClick={handleLinkClick}>Sobre</Link>
                 </li>
                 {isAuthenticated && (
                     <>
                         <li className={isActive('/contas') ? 'active' : ''}>
-                            <Link to="/contas">Contas</Link>
+                            <Link to="/contas" onClick={handleLinkClick}>Contas</Link>
                         </li>
                         <li className={isActive('/cadastroTitulo') ? 'active' : ''}>
-                            <Link to="/cadastroTitulo">Cadastro de Títulos</Link>
+                            <Link to="/cadastroTitulo" onClick={handleLinkClick}>Cadastro de Títulos</Link>
                         </li>
                         <li className={isActive('/cadastrarCategoria') ? 'active' : ''}>
-                            <Link to="/cadastrarCategoria">Cadastro Categoria</Link>
+                            <Link to="/cadastrarCategoria" onClick={handleLinkClick}>Cadastro Categoria</Link>
                         </li>
                         <li className={`dropdown ${isActive('/rel') ? 'active' : ''} ${isDropdownOpen ? 'open' : ''}`}>
                             <Link to="#" 
                                 className="dropdown-toggle" 
-                                onClick={toggleDropdown}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setIsDropdownOpen(!isDropdownOpen);
+                                }}
                                 aria-expanded={isDropdownOpen}
                                 role="button"
                             >

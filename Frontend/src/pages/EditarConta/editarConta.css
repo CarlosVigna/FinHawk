@@ -134,3 +134,82 @@ button[type="submit"] {
 .botao-cancelar:hover {
     background-color: #c82333;
 }
+
+@media screen and (max-width: 768px) {
+    .editar-conta-container {
+        margin: 20px;
+        padding: 20px;
+        width: auto;
+        max-width: 100%;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .basic-multi-select {
+        margin-bottom: 25px;
+    }
+
+    .select__control {
+        min-height: 50px !important;
+    }
+
+    .select__value-container {
+        padding: 8px !important;
+    }
+
+    .select__input {
+        font-size: 16px !important;
+    }
+
+    .botoes-container {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .botao-salvar,
+    .botao-cancelar {
+        width: 100%;
+        padding: 14px;
+        font-size: 16px;
+        margin: 0;
+    }
+
+    .error-message {
+        padding: 12px;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .editar-conta-container {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+}
