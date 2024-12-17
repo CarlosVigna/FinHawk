@@ -70,6 +70,7 @@
 @media screen and (max-width: 768px) {
     .banner-container {
         height: 180px;
+        margin-top: 60px; /* Ajustado para remover espaço extra */
     }
 
     .banner h1 {
@@ -80,5 +81,37 @@
     .banner p {
         font-size: 16px;
         padding: 0 15px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .banner-container {
+        height: 150px;
+    }
+
+    .banner h1 {
+        font-size: 28px;
+    }
+
+    .banner p {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .banner-container {
+        height: 140px;
+        margin-top: 60px;
+    }
+
+    .banner h1 {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+
+    .banner p {
+        font-size: 13px;
+        padding: 0 10px;
+        line-height: 1.4;
     }
 }

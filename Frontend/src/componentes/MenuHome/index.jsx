@@ -23,7 +23,7 @@ function MenuHome({ scrollToCadastro }) {
     };
 
     const handleDropdownItemClick = () => {
-        setIsDropdownOpen(false); 
+        setIsDropdownOpen(false);
     };
 
     const isActive = (path) => {
@@ -70,9 +70,9 @@ function MenuHome({ scrollToCadastro }) {
         <nav className='nav'>
             <div className="nav-header">
                 {/* Logo ou título pode ir aqui */}
-                <button 
-                    className="menu-toggle" 
-                    onClick={toggleMenu} 
+                <button
+                    className="menu-toggle"
+                    onClick={toggleMenu}
                     aria-label="Menu"
                     aria-expanded={isMenuOpen}
                 >
@@ -80,27 +80,35 @@ function MenuHome({ scrollToCadastro }) {
                 </button>
             </div>
 
+            <div
+                className={`nav-overlay ${isMenuOpen ? 'active' : ''}`}
+                onClick={() => setIsMenuOpen(false)}
+            />
+
             <ul className={`nav-list ${isMenuOpen ? 'active' : ''}`}>
-                <li className={isActive('/home') ? 'active' : ''}>
-                    <Link to="/home" onClick={handleLinkClick}>Página Inicial</Link>
+                <li style={{ "--i": 1 }} className={isActive('/home') ? 'active' : ''}>
+                    <Link to="/home" onClick={handleLinkClick}>
+                        <i className="fas fa-home"></i>
+                        <span>Página Inicial</span>
+                    </Link>
                 </li>
-                <li className={isActive('/sobre') ? 'active' : ''}>
+                <li style={{ "--i": 2 }} className={isActive('/sobre') ? 'active' : ''}>
                     <Link to="/sobre" onClick={handleLinkClick}>Sobre</Link>
                 </li>
                 {isAuthenticated && (
                     <>
-                        <li className={isActive('/contas') ? 'active' : ''}>
+                        <li style={{ "--i": 3 }} className={isActive('/contas') ? 'active' : ''}>
                             <Link to="/contas" onClick={handleLinkClick}>Contas</Link>
                         </li>
-                        <li className={isActive('/cadastroTitulo') ? 'active' : ''}>
+                        <li style={{ "--i": 4 }} className={isActive('/cadastroTitulo') ? 'active' : ''}>
                             <Link to="/cadastroTitulo" onClick={handleLinkClick}>Cadastro de Títulos</Link>
                         </li>
-                        <li className={isActive('/cadastrarCategoria') ? 'active' : ''}>
+                        <li style={{ "--i": 5 }} className={isActive('/cadastrarCategoria') ? 'active' : ''}>
                             <Link to="/cadastrarCategoria" onClick={handleLinkClick}>Cadastro Categoria</Link>
                         </li>
-                        <li className={`dropdown ${isActive('/rel') ? 'active' : ''} ${isDropdownOpen ? 'open' : ''}`}>
-                            <Link to="#" 
-                                className="dropdown-toggle" 
+                        <li style={{ "--i": 6 }} className={`dropdown ${isActive('/rel') ? 'active' : ''} ${isDropdownOpen ? 'open' : ''}`}>
+                            <Link to="#"
+                                className="dropdown-toggle"
                                 onClick={(e) => {
                                     e.preventDefault();
                                     setIsDropdownOpen(!isDropdownOpen);
@@ -111,16 +119,16 @@ function MenuHome({ scrollToCadastro }) {
                                 Relatórios
                             </Link>
                             <ul className="dropdown-content" role="menu">
-                                <li className={isActive('/relContasReceber') ? 'active' : ''}>
+                                <li style={{ "--i": 7 }} className={isActive('/relContasReceber') ? 'active' : ''}>
                                     <Link to="/relContasReceber" onClick={handleDropdownItemClick}>Contas a Receber</Link>
                                 </li>
-                                <li className={isActive('/relContasPagar') ? 'active' : ''}>
+                                <li style={{ "--i": 8 }} className={isActive('/relContasPagar') ? 'active' : ''}>
                                     <Link to="/relContasPagar" onClick={handleDropdownItemClick}>Contas a Pagar</Link>
                                 </li>
-                                <li className={isActive('/relRecebimentos') ? 'active' : ''}>
+                                <li style={{ "--i": 9 }} className={isActive('/relRecebimentos') ? 'active' : ''}>
                                     <Link to="/relRecebimentos" onClick={handleDropdownItemClick}>Recebimentos</Link>
                                 </li>
-                                <li className={isActive('/relPagamentos') ? 'active' : ''}>
+                                <li style={{ "--i": 10 }} className={isActive('/relPagamentos') ? 'active' : ''}>
                                     <Link to="/relPagamentos" onClick={handleDropdownItemClick}>Pagamentos</Link>
                                 </li>
                             </ul>
