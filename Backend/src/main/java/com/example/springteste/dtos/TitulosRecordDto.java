@@ -9,28 +9,19 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record TitulosRecordDto(
-    @NotBlank(message = "A descrição é obrigatória")
-    String descricao,
-    
-    @NotNull(message = "O valor é obrigatório")
-    @Positive(message = "O valor deve ser maior que zero")
-    BigDecimal valor,
-    
-    @NotNull(message = "A data de emissão é obrigatória")
-    LocalDate emissao,
-    
-    @NotNull(message = "A data de vencimento é obrigatória")
-    LocalDate vencimento,
-    
-    @NotNull(message = "A categoria é obrigatória")
-    Long categoriaId,
-    
-    @NotNull(message = "O status é obrigatório")
-    @Pattern(regexp = "^(PENDENTE|RECEBIDO|PAGO)$", message = "Status deve ser PENDENTE, RECEBIDO ou PAGO")
-    String status,
-    
-    @NotNull(message = "O tipo é obrigatório")
-    String tipo,
-    
-    Long contaId
-) {}
+        @NotBlank(message = "A descrição é obrigatória") String descricao,
+
+        @NotNull(message = "O valor é obrigatório") @Positive(message = "O valor deve ser maior que zero") BigDecimal valor,
+
+        @NotNull(message = "A data de emissão é obrigatória") LocalDate emissao,
+
+        @NotNull(message = "A data de vencimento é obrigatória") LocalDate vencimento,
+
+        @NotNull(message = "A categoria é obrigatória") Long categoriaId,
+
+        @NotNull(message = "O status é obrigatório") @Pattern(regexp = "^(PENDENTE|RECEBIDO|PAGO)$", message = "Status deve ser PENDENTE, RECEBIDO ou PAGO") String status,
+
+        @NotNull(message = "O tipo é obrigatório") String tipo,
+
+        Long contaId) {
+}
