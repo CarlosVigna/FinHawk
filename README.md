@@ -22,8 +22,5 @@ O sistema permite o gerenciamento básico de finanças pessoais, incluindo o cad
 | Membro         | Função                     |
 |----------------|----------------------------|
 | Carlos         | Desenvolvimento Geral      |
-| Gustavo        | Desenvolvimento Geral      |
 | José Carlos    | Desenvolvimento Geral      |
-| Victor         | Desenvolvimento Geral      |
-| Welinton       | Desenvolvimento Geral      |
-| GPT            | Suporte no Desenvolvimento |
+
