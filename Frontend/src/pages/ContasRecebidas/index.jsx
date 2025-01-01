@@ -18,14 +18,18 @@ const ContasRecebidas = () => {
                 return;
             }
 
-            // Alterado para buscar apenas recebimentos com status RECEBIDO
-            const response = await fetch(`http://localhost:8080/titulos?contaId=${idConta}&tipo=Recebimento&status=RECEBIDO`, {
+            const url = `http://localhost:8080/titulos?contaId=${idConta}&tipo=Recebimento&status=RECEBIDO`;
+            console.log("URL da requisição:", url);
+
+            const response = await fetch(url, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 }
             });
+
+            console.log("Resposta do servidor:", response);
 
             if (!response.ok) {
                 throw new Error('Erro ao buscar dados');

@@ -41,7 +41,6 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
         fetchCategorias();
     }, []);
 
-
     useEffect(() => {
         if (tituloParaEditar) {
             setValores({
@@ -134,6 +133,8 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
         }
     };
 
+    const categoriasFiltradas = categorias.filter(cat => !valores.tipo || cat.tipo === valores.tipo);
+
     return (
         <form className="formulario-horizontal" onSubmit={handleSubmit}>
             {erro && <div className="error-message">{erro}</div>}
@@ -190,7 +191,7 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                         checked={valores.fixo}
                         onChange={handleInputChange}/>
                 </div>
-                
+
                   <div className="campo-formulario qntParcelas">
                       <label htmlFor="quantidadeParcelas">Qnt. Parcelas</label>
                       <input
@@ -236,19 +237,19 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                         </select>
                     </div>
             </div>
-                
+
                 <div className="linha-formulario">
-                
+
                 <div className="campo-formulario categoria">
                     <label htmlFor="categoriaId">Categoria</label>
                     <select
                         id="categoriaId"
-                        name="categoriaId"  
+                        name="categoriaId"
                         value={valores.categoriaId}
                         onChange={handleInputChange}
                     >
                         <option value="">Selecione uma categoria</option>
-                        {categorias.map(cat => (
+                        {categoriasFiltradas.map(cat => (
                             <option key={cat.id} value={cat.id}>{cat.nome}</option>
                         ))}
                     </select>
@@ -289,7 +290,7 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                         <option value="PAGO">Pago</option>
                     </select>
                 </div>
-            
+
             </div>
 
             <div className="botoes-formulario">
@@ -306,7 +307,7 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                     </button>
                 )}
             </div>
-            
+
         </form>
     );
 };

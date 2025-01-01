@@ -133,44 +133,59 @@ public class TitulosController {
     public ResponseEntity<List<TitulosModel>> getTitulosPorConta(
             @RequestParam Long contaId,
             @RequestParam(required = false) String tipo,
-            @RequestParam(required = false) String status) {
+            @RequestParam(required = false) String statusString) {
 
         List<TitulosModel> titulos;
 
-        if (tipo != null && status != null) {
-            titulos = titulosRepository.findByContaIdAndTipoAndStatus(contaId, tipo, status);
-        } else if (tipo != null) {
-            titulos = titulosRepository.findByContaIdAndTipo(contaId, tipo);
-        } else if (status != null) {
-            titulos = titulosRepository.findByContaIdAndStatus(contaId, status);
-        } else {
-            titulos = titulosRepository.findByContaId(contaId);
-        }
+        try {
+            TitulosModel.StatusTitulo status = null;
+            if (statusString != null && !statusString.trim().isEmpty()) {
+                status = TitulosModel.StatusTitulo.valueOf(statusString.toUpperCase());
+            }
 
-        return ResponseEntity.status(HttpStatus.OK).body(titulos);
+            if (tipo != null && status != null) {
+                titulos = titulosRepository.findByContaIdAndTipoAndStatus(contaId, tipo, status);
+            } else if (tipo != null) {
+                titulos = titulosRepository.findByContaIdAndTipo(contaId, tipo);
+            } else if (status != null) {
+                titulos = titulosRepository.findByContaIdAndStatus(contaId, status);
+            } else {
+                titulos = titulosRepository.findByContaId(contaId);
+            }
+
+            return ResponseEntity.status(HttpStatus.OK).body(titulos);
+
+        } catch (IllegalArgumentException e) {
+            System.err.println("Status inválido: " + statusString);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } catch (Exception e) {
+            System.err.println("Erro ao buscar títulos: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @GetMapping("/titulos/recebidos")
     public ResponseEntity<List<TitulosModel>> getTitulosRecebidos(@RequestParam Long contaId) {
-        List<TitulosModel> titulos = titulosRepository.findRecebimentosRecebidosByContaId(contaId);
+        List<TitulosModel> titulos = titulosRepository.findRecebimentosRecebidosByContaId(contaId, TitulosModel.StatusTitulo.RECEBIDO);
         return ResponseEntity.status(HttpStatus.OK).body(titulos);
     }
 
     @GetMapping("/titulos/pagos")
     public ResponseEntity<List<TitulosModel>> getTitulosPagos(@RequestParam Long contaId) {
-        List<TitulosModel> titulos = titulosRepository.findPagamentosPagosByContaId(contaId);
+        List<TitulosModel> titulos = titulosRepository.findPagamentosPagosByContaId(contaId, TitulosModel.StatusTitulo.PAGO);
         return ResponseEntity.status(HttpStatus.OK).body(titulos);
     }
 
     @GetMapping("/titulos/rec-aberto")
     public ResponseEntity<List<TitulosModel>> getTitulosRecAberto(@RequestParam Long contaId) {
-        List<TitulosModel> titulos = titulosRepository.findRecebimentosAbertoByContaId(contaId);
+        List<TitulosModel> titulos = titulosRepository.findRecebimentosAbertoByContaId(contaId, TitulosModel.StatusTitulo.PENDENTE);
         return ResponseEntity.status(HttpStatus.OK).body(titulos);
     }
 
     @GetMapping("/titulos/pag-aberto")
     public ResponseEntity<List<TitulosModel>> getTitulosPagAberto(@RequestParam Long contaId) {
-        List<TitulosModel> titulos = titulosRepository.findPagamentoAbertoByContaId(contaId);
+        List<TitulosModel> titulos = titulosRepository.findPagamentoAbertoByContaId(contaId, TitulosModel.StatusTitulo.PENDENTE);
         return ResponseEntity.status(HttpStatus.OK).body(titulos);
     }
 
