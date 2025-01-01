@@ -10,7 +10,11 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
         vencimento: '',
         categoriaId: '',
         status: 'PENDENTE',
-        tipo: ''
+        tipo: '',
+        fixo: false,
+        quantidadeParcelas: 1,
+        quantidadeRecorrencias: 1,
+        periodicidade: 'MENSAL'
     });
     const [erro, setErro] = useState('');
     const [sucesso, setSucesso] = useState('');
@@ -47,7 +51,12 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                 vencimento: tituloParaEditar.vencimento ? tituloParaEditar.vencimento.split('T')[0] : '',
                 categoriaId: tituloParaEditar.categoria?.id || '',
                 status: tituloParaEditar.status || 'PENDENTE',
-                tipo: tituloParaEditar.tipo || ''
+                tipo: tituloParaEditar.tipo || '',
+                fixo: tituloParaEditar.fixo || false,
+                quantidadeParcelas: tituloParaEditar.quantidadeParcelas || 1,
+                quantidadeRecorrencias: tituloParaEditar.quantidadeRecorrencias || 1,
+                periodicidade: tituloParaEditar.periodicidade || 'MENSAL'
+
             });
         } else {
 
@@ -58,14 +67,21 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                 vencimento: '',
                 categoriaId: '',
                 status: 'PENDENTE',
-                tipo: ''
+                tipo: '',
+                fixo: false,
+                quantidadeParcelas: 1,
+                quantidadeRecorrencias: 1,
+                periodicidade: 'MENSAL'
             });
         }
     }, [tituloParaEditar]);
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setValores(prev => ({ ...prev, [name]: value }));
+    const handleInputChange = (event) => {
+        const { name, value, type, checked } = event.target;
+        setValores(prev => ({
+            ...prev,
+            [name]: type === 'checkbox' ? checked : value
+        }));
     };
 
     const handleSubmit = async (e) => {
@@ -166,11 +182,68 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
             </div>
 
             <div className="linha-formulario">
+                <div className="campo-formulario fixo">
+                    <label htmlFor="fixo">Fixo</label>
+                    <input type="checkbox"
+                        id="fixo"
+                        name='fixo'
+                        checked={valores.fixo}
+                        onChange={handleInputChange}/>
+                </div>
+                
+                  <div className="campo-formulario qntParcelas">
+                      <label htmlFor="quantidadeParcelas">Qnt. Parcelas</label>
+                      <input
+                          type="number"
+                          id="quantidadeParcelas"
+                          name="quantidadeParcelas"
+                          value={valores.quantidadeParcelas}
+                          onChange={handleInputChange}
+                          disabled={valores.fixo} // Desabilita se "fixo" estiver marcado
+                          min="1" // Valor mínimo
+                      />
+                  </div>
+
+                  <div className="campo-formulario quantidadeRecorrencias">
+                      <label htmlFor="quantidadeRecorrencias">Qnt. Recorrências</label>
+                      <input
+                          type="number"
+                          id="quantidadeRecorrencias"
+                          name="quantidadeRecorrencias"
+                          value={valores.quantidadeRecorrencias}
+                          onChange={handleInputChange}
+                          disabled={!valores.fixo} // Desabilita se "fixo" NÃO estiver marcado
+                          min="1" // Valor mínimo
+                      />
+                  </div>
+
+
+
+                    <div className="campo-formulario periodicidade">
+                        <label htmlFor="periodicidade">Periodicidade</label>
+                        <select
+                            id="periodicidade"
+                            name="periodicidade"
+                            value={valores.periodicidade}
+                            onChange={handleInputChange}
+                            disabled={!valores.fixo} // Desabilita se "fixo" NÃO estiver marcado
+                        >
+                            <option value="MENSAL">MENSAL</option>
+                            <option value="BIMESTRAL">BIMESTRAL</option>
+                            <option value="TRIMESTRAL">TRIMESTRAL</option>
+                            <option value="SEMESTRAL">SEMESTRAL</option>
+                            <option value="ANUAL">ANUAL</option>
+                        </select>
+                    </div>
+            </div>
+                
+                <div className="linha-formulario">
+                
                 <div className="campo-formulario categoria">
                     <label htmlFor="categoriaId">Categoria</label>
                     <select
                         id="categoriaId"
-                        name="categoriaId"
+                        name="categoriaId"  
                         value={valores.categoriaId}
                         onChange={handleInputChange}
                     >
@@ -216,6 +289,7 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                         <option value="PAGO">Pago</option>
                     </select>
                 </div>
+            
             </div>
 
             <div className="botoes-formulario">
@@ -232,6 +306,7 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                     </button>
                 )}
             </div>
+            
         </form>
     );
 };

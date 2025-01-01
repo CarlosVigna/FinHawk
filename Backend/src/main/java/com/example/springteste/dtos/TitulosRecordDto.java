@@ -1,9 +1,7 @@
 package com.example.springteste.dtos;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Pattern;
+import com.example.springteste.models.TitulosModel;
+import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -19,9 +17,19 @@ public record TitulosRecordDto(
 
         @NotNull(message = "A categoria é obrigatória") Long categoriaId,
 
-        @NotNull(message = "O status é obrigatório") @Pattern(regexp = "^(PENDENTE|RECEBIDO|PAGO)$", message = "Status deve ser PENDENTE, RECEBIDO ou PAGO") String status,
+        @NotNull(message = "O status é obrigatório") TitulosModel.StatusTitulo status,
 
         @NotNull(message = "O tipo é obrigatório") String tipo,
 
-        Long contaId) {
-}
+        Long contaId,
+
+        boolean fixo, // Indica se é um título fixo (recorrente)
+
+        @Min(value = 1, message = "A quantidade de parcelas deve ser no mínimo 1") Integer quantidadeParcelas, // Para títulos regulares
+
+        @Min(value = 1, message = "A quantidade de recorrências deve ser no mínimo 1") Integer quantidadeRecorrencias, // Para títulos fixos
+
+        @NotNull(message = "A periodicidade é obrigatória") TitulosModel.Periodicidade periodicidade // Usado para títulos fixos
+
+
+) { }

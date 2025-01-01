@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TitulosRepository extends JpaRepository<TitulosModel, Long> {
@@ -36,4 +37,5 @@ public interface TitulosRepository extends JpaRepository<TitulosModel, Long> {
     @Modifying
     @Query("DELETE FROM TitulosModel t WHERE t.conta.id = :contaId")
     void deleteByContaId(Long contaId);
+
 }

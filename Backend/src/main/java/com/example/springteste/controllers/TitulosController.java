@@ -16,10 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 
 @RestController
 public class TitulosController {
@@ -38,8 +36,7 @@ public class TitulosController {
 
     @PostMapping("/contas/{idConta}/titulos")
     @CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", allowCredentials = "true")
-    public ResponseEntity<Map<String, Object>> saveTitulo(@PathVariable Long idConta,
-            @RequestBody @Valid TitulosRecordDto titulosRecordDto) {
+    public ResponseEntity<Map<String, Object>> saveTitulo(@PathVariable Long idConta, @RequestBody @Valid TitulosRecordDto titulosRecordDto) {
         Map<String, Object> response = new HashMap<>();
 
         try {
@@ -49,34 +46,86 @@ public class TitulosController {
             CategoriasModel categoria = categoriasRepository.findById(titulosRecordDto.categoriaId())
                     .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
 
-            var titulosModel = new TitulosModel();
-            titulosModel.setDescricao(titulosRecordDto.descricao());
-            titulosModel.setValor(titulosRecordDto.valor());
-            titulosModel.setEmissao(titulosRecordDto.emissao());
-            titulosModel.setVencimento(titulosRecordDto.vencimento());
-            titulosModel.setCategoria(categoria);
-            titulosModel.setStatus(titulosRecordDto.status());
-            titulosModel.setTipo(titulosRecordDto.tipo()); 
-            titulosModel.setConta(conta);
+            List<TitulosModel> titulosSalvos = new ArrayList<>();
 
-            TitulosModel savedTitulo = titulosRepository.save(titulosModel);
+            if (titulosRecordDto.fixo()) {
+                // Título fixo/recorrente
+                if (titulosRecordDto.quantidadeRecorrencias() != null) {
+                    titulosSalvos = gerarTitulosRecorrentes(titulosRecordDto, categoria, conta);
+                    response.put("message", "Títulos recorrentes salvos com sucesso!");
+                }
 
-            response.put("message", "Título salvo com sucesso!");
+            } else {
+                // Título regular (não fixo)
+                for (int i = 0; i < titulosRecordDto.quantidadeParcelas(); i++) {
+                    TitulosModel titulo = criarTitulo(titulosRecordDto, categoria, conta);
+                    titulo.setNumeroParcela(i + 1);
+                    titulo.setVencimento(titulo.getVencimento().plusMonths(i));
+                    titulosRepository.save(titulo);
+                    titulosSalvos.add(titulo);
+                }
+
+                response.put("message", "Título regular salvo com sucesso!");
+            }
+
             response.put("success", true);
-            response.put("data", savedTitulo);
+            response.put("data", titulosSalvos);
 
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(response);
+            return ResponseEntity.ok(response);
 
         } catch (Exception e) {
             response.put("message", "Erro ao salvar título: " + e.getMessage());
             response.put("success", false);
 
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(response);
+            return ResponseEntity.internalServerError().contentType(MediaType.APPLICATION_JSON).body(response); // Retorna 500 Internal Server Error
         }
+    }
+
+
+
+    private List<TitulosModel> gerarTitulosRecorrentes(TitulosRecordDto titulosRecordDto, CategoriasModel categoria, ContasModel conta) {
+        List<TitulosModel> titulos = new ArrayList<>();
+        LocalDate dataVencimento = titulosRecordDto.vencimento();
+        LocalDate dataEmissao = titulosRecordDto.emissao();
+
+
+        for (int i = 0; i < titulosRecordDto.quantidadeRecorrencias(); i++) {
+            TitulosModel titulo = criarTitulo(titulosRecordDto, categoria, conta);
+            titulo.setVencimento(dataVencimento);
+            titulo.setEmissao(dataEmissao);
+            titulosRepository.save(titulo);
+            titulos.add(titulo);
+
+            dataVencimento = calcularProximoVencimento(dataVencimento, titulosRecordDto.periodicidade());
+            dataEmissao = calcularProximoVencimento(dataEmissao, titulosRecordDto.periodicidade());
+
+        }
+        return titulos;
+    }
+
+    private LocalDate calcularProximoVencimento(LocalDate dataAtual, TitulosModel.Periodicidade periodicidade) {
+        switch (periodicidade) {
+            case MENSAL: return dataAtual.plusMonths(1);
+            case BIMESTRAL: return dataAtual.plusMonths(2);
+            case TRIMESTRAL: return dataAtual.plusMonths(3);
+            case SEMESTRAL: return dataAtual.plusMonths(6);
+            case ANUAL: return dataAtual.plusYears(1);
+            default: throw new IllegalArgumentException("Periodicidade inválida: " + periodicidade);
+        }
+    }
+
+
+    private TitulosModel criarTitulo(TitulosRecordDto titulosRecordDto, CategoriasModel categoria, ContasModel conta) {
+        var titulosModel = new TitulosModel();
+        BeanUtils.copyProperties(titulosRecordDto, titulosModel);
+        titulosModel.setConta(conta);
+        titulosModel.setCategoria(categoria);
+
+        if (titulosRecordDto.fixo()) {
+            titulosModel.setQuantidadeParcelas(titulosRecordDto.quantidadeRecorrencias()); // Define a quantidade de recorrências para títulos fixos
+        }
+
+        return titulosModel;
     }
 
     @GetMapping("/titulos")
