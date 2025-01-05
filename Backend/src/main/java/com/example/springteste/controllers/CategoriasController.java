@@ -23,8 +23,14 @@ public class CategoriasController {
 
     @GetMapping
     @CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", allowCredentials = "true")
-    public ResponseEntity<List<CategoriasModel>> getAllCategorias() {
-        return ResponseEntity.ok(categoriasRepository.findAll());
+    public ResponseEntity<List<CategoriasModel>> getAllCategorias(@RequestParam(required = false) String tipo) {
+        List<CategoriasModel> categorias;
+        if (tipo != null && !tipo.isEmpty()) {
+            categorias = categoriasRepository.findCategoriasByTipo(tipo);
+        } else {
+            categorias = categoriasRepository.findAll();
+        }
+        return ResponseEntity.ok(categorias);
     }
 
     @PostMapping
@@ -33,6 +39,15 @@ public class CategoriasController {
         var categoriasModel = new CategoriasModel();
         BeanUtils.copyProperties(categoriasRecordDto, categoriasModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(categoriasRepository.save(categoriasModel));
+    }
+
+    @GetMapping("/tipo")
+    @CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", allowCredentials = "true")
+    public ResponseEntity<List<CategoriasModel>> getCategoriasByTipo(
+            @RequestParam String tipo,
+            @RequestParam Long contaId) {
+        List<CategoriasModel> categorias = categoriasRepository.findCategoriasByTipoAndStatus(tipo, contaId);
+        return ResponseEntity.ok(categorias);
     }
 
 }
