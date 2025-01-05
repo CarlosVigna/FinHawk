@@ -1,6 +1,6 @@
 .rel-pagas-container {
     padding: 20px;
-    background-color: #8d3633;
+    background-color: #582727;
     border-radius: 0px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: auto;
@@ -71,14 +71,14 @@
 }
 
 .rel-table-hover th {
-    background-color: #8d3633;
+    background-color: #582727;
     color: #ffffff;
     font-weight: bold;
     font-size: 1.1em;
 }
 
 .rel-table-hover tr:nth-child(even) {
-    background-color: #ebc6c6;
+    background-color: #c4abab;
 }
 
 .rel-table-hover tr:nth-child(odd) {
@@ -94,7 +94,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    background-color: #8d3633;
+    background-color: #582727;
     padding: 20px;
     border-radius: 4px;
     color: #ffffff;

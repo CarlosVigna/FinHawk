@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './contasPagas.css';
 
-
 const ContasPagas = () => {
     const [dados, setDados] = useState([]);
     const [categorias, setCategorias] = useState([]);
@@ -9,6 +8,8 @@ const ContasPagas = () => {
     const [filterEndDate, setFilterEndDate] = useState('');
     const [filterCategoria, setFilterCategoria] = useState('');
     const [error, setError] = useState(null);
+    const [sortBy, setSortBy] = useState(null);
+    const [sortOrder, setSortOrder] = useState('asc');
 
     const fetchDados = async () => {
         try {
@@ -20,7 +21,6 @@ const ContasPagas = () => {
                 return;
             }
 
-            // Alterado para buscar apenas pagamentos com status PAGO
             const response = await fetch(`http://localhost:8080/titulos?contaId=${idConta}&tipo=Pagamento&status=PAGO`, {
                 method: 'GET',
                 headers: {
@@ -34,8 +34,6 @@ const ContasPagas = () => {
             }
 
             const data = await response.json();
-            console.log('Categorias recebidas da API:', data);
-
             setDados(data);
             setError(null);
         } catch (error) {
@@ -47,9 +45,7 @@ const ContasPagas = () => {
     const fetchCategorias = async () => {
         try {
             const token = localStorage.getItem('token');
-            const idConta = localStorage.getItem('id');
             const tipo = 'Pagamento';
-            console.log("ID da Conta:", idConta);
 
             const response = await fetch(`http://localhost:8080/categorias?tipo=${tipo}`, {
                 headers: {
@@ -62,8 +58,7 @@ const ContasPagas = () => {
             }
             const data = await response.json();
 
-            setCategorias([...data]);
-            console.log("Categorias após setCategorias:", data);
+            setCategorias(data);
         } catch (error) {
             console.error('Erro ao buscar categorias:', error);
         }
@@ -86,6 +81,14 @@ const ContasPagas = () => {
         setFilterCategoria(event.target.value);
     };
 
+    const handleSort = (column) => {
+        if (sortBy === column) {
+            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortBy(column);
+            setSortOrder('asc');
+        }
+    };
 
     const filteredData = dados.filter((item) => {
         const itemVenc = new Date(item.vencimento);
@@ -99,9 +102,37 @@ const ContasPagas = () => {
         return dateMatch && categoriaMatch;
     });
 
-    const totalValor = filteredData.reduce((total, item) => total + Number(item.valor), 0);
+    // Ordenação dos dados
+    let sortedData = [...filteredData];
+    if (sortBy) {
+        sortedData.sort((a, b) => {
+            let aValue, bValue;
 
+            if (sortBy === 'id' || sortBy === 'valor') {
+                aValue = Number(a[sortBy]);
+                bValue = Number(b[sortBy]);
+            } else if (sortBy === 'emissao' || sortBy === 'vencimento') {
+                aValue = new Date(a[sortBy]);
+                bValue = new Date(b[sortBy]);
+            } else if (sortBy === 'categoria') {
+                aValue = a.categoria.nome.toLowerCase();
+                bValue = b.categoria.nome.toLowerCase();
+            } else {
+                aValue = a[sortBy].toLowerCase();
+                bValue = b[sortBy].toLowerCase();
+            }
 
+            if (aValue < bValue) {
+                return sortOrder === 'asc' ? -1 : 1;
+            }
+            if (aValue > bValue) {
+                return sortOrder === 'asc' ? 1 : -1;
+            }
+            return 0;
+        });
+    }
+
+    const totalValor = sortedData.reduce((total, item) => total + Number(item.valor), 0);
 
     return (
         <div className='rel-pagas-container'>
@@ -134,7 +165,6 @@ const ContasPagas = () => {
                     onChange={handleFilterCategoriaChange}
                 >
                     <option value="">Todas</option>
-                    {console.log("Categorias no JSX:", categorias)}
                     {categorias.map((categoria) => (
                         <option key={categoria.id} value={categoria.nome}>
                             {categoria.nome}
@@ -145,7 +175,6 @@ const ContasPagas = () => {
 
             <div className="relatorio-box">
                 <div className="cabecalho-container">
-                    
                     <p>
                         <strong>Período: </strong>
                         {filterStartDate && filterEndDate
@@ -160,16 +189,34 @@ const ContasPagas = () => {
                 <table className="rel-table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">Núm. Doc.</th>
-                            <th scope="col">Descrição</th>
-                            <th scope="col">Data Emissão</th>
-                            <th scope="col">Venc.</th>
-                            <th scope="col">Categoria</th>
-                            <th scope="col">Valor Título (R$)</th>
+                            <th scope="col" onClick={() => handleSort('id')}>
+                                Núm. Doc.
+                                {sortBy === 'id' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
+                            </th>
+                            <th scope="col" onClick={() => handleSort('descricao')}>
+                                Descrição
+                                {sortBy === 'descricao' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
+                            </th>
+                            <th scope="col" onClick={() => handleSort('emissao')}>
+                                Data Emissão
+                                {sortBy === 'emissao' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
+                            </th>
+                            <th scope="col" onClick={() => handleSort('vencimento')}>
+                                Venc.
+                                {sortBy === 'vencimento' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
+                            </th>
+                            <th scope="col" onClick={() => handleSort('categoria')}>
+                                Categoria
+                                {sortBy === 'categoria' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
+                            </th>
+                            <th scope="col" onClick={() => handleSort('valor')}>
+                                Valor Título (R$)
+                                {sortBy === 'valor' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredData.map((item) => (
+                        {sortedData.map((item) => (
                             <tr key={item.id}>
                                 <td>{item.id}</td>
                                 <td>{item.descricao}</td>
