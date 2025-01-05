@@ -4,8 +4,10 @@ import './contasPagas.css';
 
 const ContasPagas = () => {
     const [dados, setDados] = useState([]);
+    const [categorias, setCategorias] = useState([]);
     const [filterStartDate, setFilterStartDate] = useState('');
     const [filterEndDate, setFilterEndDate] = useState('');
+    const [filterCategoria, setFilterCategoria] = useState('');
     const [error, setError] = useState(null);
 
     const fetchDados = async () => {
@@ -32,6 +34,8 @@ const ContasPagas = () => {
             }
 
             const data = await response.json();
+            console.log('Categorias recebidas da API:', data);
+
             setDados(data);
             setError(null);
         } catch (error) {
@@ -40,8 +44,34 @@ const ContasPagas = () => {
         }
     };
 
+    const fetchCategorias = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const idConta = localStorage.getItem('id');
+            const tipo = 'Pagamento';
+            console.log("ID da Conta:", idConta);
+
+            const response = await fetch(`http://localhost:8080/categorias?tipo=${tipo}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (!response.ok) {
+                throw new Error('Falha ao carregar categorias.');
+            }
+            const data = await response.json();
+
+            setCategorias([...data]);
+            console.log("Categorias após setCategorias:", data);
+        } catch (error) {
+            console.error('Erro ao buscar categorias:', error);
+        }
+    };
+
     useEffect(() => {
         fetchDados();
+        fetchCategorias();
     }, []);
 
     const handleFilterStartDateChange = (event) => {
@@ -52,6 +82,9 @@ const ContasPagas = () => {
         setFilterEndDate(event.target.value);
     };
 
+    const handleFilterCategoriaChange = (event) => {
+        setFilterCategoria(event.target.value);
+    };
 
 
     const filteredData = dados.filter((item) => {
@@ -59,22 +92,23 @@ const ContasPagas = () => {
         const startDate = filterStartDate ? new Date(filterStartDate) : null;
         const endDate = filterEndDate ? new Date(filterEndDate) : null;
 
-      
+        const categoriaMatch = !filterCategoria || item.categoria.nome === filterCategoria;
+
         const dateMatch = (!startDate || itemVenc >= startDate) && (!endDate || itemVenc <= endDate);
 
-        return dateMatch;
+        return dateMatch && categoriaMatch;
     });
 
     const totalValor = filteredData.reduce((total, item) => total + Number(item.valor), 0);
 
-    
+
 
     return (
         <div className='rel-pagas-container'>
             <div className='titulo-contas-pagas'>
-                <h1>Contas Pagas</h1>
+                <h1>Relatório de Contas Pagas</h1>
             </div>
-           
+
             <div className='filter-rel-container'>
                 <label htmlFor="startDate" className='rel-white-label'>Data Inicial:</label>
                 <input
@@ -92,18 +126,35 @@ const ContasPagas = () => {
                     value={filterEndDate}
                     onChange={handleFilterEndDateChange}
                 />
+                <label htmlFor="categoria" className="rel-white-label">Categoria:</label>
+                <select
+                    className="form-control no-inner-shadow"
+                    id="categoria"
+                    value={filterCategoria}
+                    onChange={handleFilterCategoriaChange}
+                >
+                    <option value="">Todas</option>
+                    {console.log("Categorias no JSX:", categorias)}
+                    {categorias.map((categoria) => (
+                        <option key={categoria.id} value={categoria.nome}>
+                            {categoria.nome}
+                        </option>
+                    ))}
+                </select>
             </div>
 
             <div className="relatorio-box">
                 <div className="cabecalho-container">
-                    <strong>Relatório de Contas Pagas</strong>
+                    
                     <p>
                         <strong>Período: </strong>
                         {filterStartDate && filterEndDate
                             ? `${new Date(filterStartDate).toLocaleDateString('pt-BR')} a ${new Date(filterEndDate).toLocaleDateString('pt-BR')}`
                             : ' Nenhum período selecionado'}
                     </p>
-                    <p><strong>Data de Geração:</strong> {new Date().toLocaleString('pt-BR')}</p>
+                    <p>
+                        <strong>Data de Geração:</strong> {new Date().toLocaleString('pt-BR')}
+                    </p>
                 </div>
 
                 <table className="rel-table-hover">

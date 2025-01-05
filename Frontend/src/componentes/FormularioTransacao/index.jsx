@@ -54,7 +54,8 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                 fixo: tituloParaEditar.fixo || false,
                 quantidadeParcelas: tituloParaEditar.quantidadeParcelas || 1,
                 quantidadeRecorrencias: tituloParaEditar.quantidadeRecorrencias || 1,
-                periodicidade: tituloParaEditar.periodicidade || 'MENSAL'
+                periodicidade: tituloParaEditar.periodicidade || 'MENSAL',
+                numeroParcela: tituloParaEditar.numeroParcela || 'UNICA'
 
             });
         } else {
@@ -70,7 +71,8 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                 fixo: false,
                 quantidadeParcelas: 1,
                 quantidadeRecorrencias: 1,
-                periodicidade: 'MENSAL'
+                periodicidade: 'MENSAL',
+                numeroParcela: 'UNICA'
             });
         }
     }, [tituloParaEditar]);
@@ -167,6 +169,16 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                         placeholder="Digite a descrição"
                     />
                 </div>
+                <div className="campo-formulario parcela">
+                    <label htmlFor="parcela">Parcela</label>
+                    <input
+                        type="text"
+                        id="parcela"
+                        name="parcela"
+                        value={valores.numeroParcela || 1} 
+                        readOnly 
+                    />
+                </div>
 
                 <div className="campo-formulario valor">
                     <label htmlFor="valor">Valor R$</label>
@@ -189,56 +201,56 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                         id="fixo"
                         name='fixo'
                         checked={valores.fixo}
-                        onChange={handleInputChange}/>
+                        onChange={handleInputChange} />
                 </div>
 
-                  <div className="campo-formulario qntParcelas">
-                      <label htmlFor="quantidadeParcelas">Qnt. Parcelas</label>
-                      <input
-                          type="number"
-                          id="quantidadeParcelas"
-                          name="quantidadeParcelas"
-                          value={valores.quantidadeParcelas}
-                          onChange={handleInputChange}
-                          disabled={valores.fixo} // Desabilita se "fixo" estiver marcado
-                          min="1" // Valor mínimo
-                      />
-                  </div>
+                <div className="campo-formulario qntParcelas">
+                    <label htmlFor="quantidadeParcelas">Qnt. Parcelas</label>
+                    <input
+                        type="number"
+                        id="quantidadeParcelas"
+                        name="quantidadeParcelas"
+                        value={valores.quantidadeParcelas}
+                        onChange={handleInputChange}
+                        disabled={valores.fixo} // Desabilita se "fixo" estiver marcado
+                        min="1" // Valor mínimo
+                    />
+                </div>
 
-                  <div className="campo-formulario quantidadeRecorrencias">
-                      <label htmlFor="quantidadeRecorrencias">Qnt. Recorrências</label>
-                      <input
-                          type="number"
-                          id="quantidadeRecorrencias"
-                          name="quantidadeRecorrencias"
-                          value={valores.quantidadeRecorrencias}
-                          onChange={handleInputChange}
-                          disabled={!valores.fixo} // Desabilita se "fixo" NÃO estiver marcado
-                          min="1" // Valor mínimo
-                      />
-                  </div>
+                <div className="campo-formulario quantidadeRecorrencias">
+                    <label htmlFor="quantidadeRecorrencias">Qnt. Recorrências</label>
+                    <input
+                        type="number"
+                        id="quantidadeRecorrencias"
+                        name="quantidadeRecorrencias"
+                        value={valores.quantidadeRecorrencias}
+                        onChange={handleInputChange}
+                        disabled={!valores.fixo} // Desabilita se "fixo" NÃO estiver marcado
+                        min="1" // Valor mínimo
+                    />
+                </div>
 
 
 
-                    <div className="campo-formulario periodicidade">
-                        <label htmlFor="periodicidade">Periodicidade</label>
-                        <select
-                            id="periodicidade"
-                            name="periodicidade"
-                            value={valores.periodicidade}
-                            onChange={handleInputChange}
-                            disabled={!valores.fixo} // Desabilita se "fixo" NÃO estiver marcado
-                        >
-                            <option value="MENSAL">MENSAL</option>
-                            <option value="BIMESTRAL">BIMESTRAL</option>
-                            <option value="TRIMESTRAL">TRIMESTRAL</option>
-                            <option value="SEMESTRAL">SEMESTRAL</option>
-                            <option value="ANUAL">ANUAL</option>
-                        </select>
-                    </div>
+                <div className="campo-formulario periodicidade">
+                    <label htmlFor="periodicidade">Periodicidade</label>
+                    <select
+                        id="periodicidade"
+                        name="periodicidade"
+                        value={valores.periodicidade}
+                        onChange={handleInputChange}
+                        disabled={!valores.fixo} // Desabilita se "fixo" NÃO estiver marcado
+                    >
+                        <option value="MENSAL">MENSAL</option>
+                        <option value="BIMESTRAL">BIMESTRAL</option>
+                        <option value="TRIMESTRAL">TRIMESTRAL</option>
+                        <option value="SEMESTRAL">SEMESTRAL</option>
+                        <option value="ANUAL">ANUAL</option>
+                    </select>
+                </div>
             </div>
 
-                <div className="linha-formulario">
+            <div className="linha-formulario">
 
                 <div className="campo-formulario categoria">
                     <label htmlFor="categoriaId">Categoria</label>

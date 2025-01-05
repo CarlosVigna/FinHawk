@@ -131,6 +131,7 @@ const ListaTitulo = ({ onEdit, refresh, tipoTransacao }) => {
                         <th scope="col">Venc.</th>
                         <th scope="col">Categoria</th>
                         <th scope="col">Valor Título (R$)</th>
+                        <th scope="col">Parcela</th>
                         <th scope="col">Status</th>
                         <th scope="col">Ações</th>
                     </tr>
@@ -145,6 +146,7 @@ const ListaTitulo = ({ onEdit, refresh, tipoTransacao }) => {
                             <td>{new Date(item.vencimento).toLocaleDateString('pt-BR')}</td>
                             <td>{item.categoria?.nome}</td>
                             <td>{Number(item.valor).toFixed(2).replace('.', ',')}</td>
+                            <td>{item.numeroParcela}</td>
                             <td>{item.status}</td>
                             <td>
                                 <FontAwesomeIcon
