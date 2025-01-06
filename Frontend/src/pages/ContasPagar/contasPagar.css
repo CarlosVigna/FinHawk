@@ -1,6 +1,7 @@
 .rel-pagar-container {
     padding: 20px;
-    background-color: #ffebee;
+    background-color: #822727;
+    min-height: 100vh;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: auto;
@@ -13,6 +14,8 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
+    width: 80%;
+    margin: 20px auto;
 }
 
 .titulo-contas-pagar {
@@ -21,7 +24,7 @@
 }
 
 .titulo-contas-pagar h1 {
-    color: #2c3e50;
+    color: #f0f0f0;
     font-size: 2.5rem;
 }
 
@@ -31,15 +34,24 @@
     display: flex;
     justify-content: center;
     gap: 10px;
-    width: 36%;
+    width: 50%;
     background-color: #ffffff;
-    padding: 15px;
+    padding: 18px;
     border-radius: 8px;
 }
 
 .filter-rel-container label {
     font-weight: bold;
-    color: rgb(49, 48, 48);
+    color: #000000;
+}
+
+.filter-rel-container select.form-control,
+.filter-rel-container input.form-control {
+    height: 40px;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
 }
 
 .rel-table-hover {
@@ -58,7 +70,8 @@
 }
 
 .rel-table-hover th {
-    background-color: #e53935;
+    background-color: #a31515;
+    border: 1px solid #822727;
     color: #ffffff;
     font-weight: bold;
     font-size: 1.1em;
@@ -73,15 +86,15 @@
 }
 
 .rel-table-hover tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #f8e6e6;
 }
 
 .rel-table-hover tr:nth-child(odd) {
-    background-color: #ffffff;
+    background-color: #fff0f0;
 }
 
 .rel-table-hover tr:hover {
-    background-color: #ffebee;
+    background-color: #ffcdd2;
     transition: background-color 0.2s ease;
 }
 
@@ -90,25 +103,25 @@
 }
 
 .cabecalho-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 20px;
-    border-radius: 8px;
-    color: #2c3e50;
-    font-size: 1.1em;
-    margin-top: 20px;
-    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #a31515;
+    color: #000000;
+    font-size: 1.3em;
+    margin-top: 0px;
+    background-color: #ffffff;
+}
+
+.cabecalho-container strong {
+    display: inline;
+    margin-bottom: 0;
 }
 
 .cabecalho-container p {
     margin: 5px 0;
-}
-
-.cabecalho-container strong {
-    font-size: 1.2em;
-    display: block;
-    margin-bottom: 10px;
 }
 
 .cabecalho-container span {
@@ -119,7 +132,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    background-color: #e53935;
+    background-color: #a31515;
     padding: 20px;
     border-radius: 4px;
     color: #ffffff;
@@ -133,6 +146,15 @@
     margin-left: 5px;
 }
 
+th {
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease;
+}
+
+th:hover {
+    opacity: 0.9;
+}
 
 @media screen and (max-width: 768px) {
 

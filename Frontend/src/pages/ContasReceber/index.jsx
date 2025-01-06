@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './contasReceber.css';
 
 const ContasReceber = () => {
     const [dados, setDados] = useState([]);

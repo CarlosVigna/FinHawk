@@ -5,6 +5,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: auto;
     margin: 0 auto;
+    min-height: 100vh;
 }
 
 .relatorio-box {
@@ -14,7 +15,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
     width: 80%;
-    margin: 20px auto; 
+    margin: 20px auto;
 }
 
 .titulo-contas-pagas {
@@ -33,7 +34,7 @@
     display: flex;
     justify-content: center;
     gap: 10px;
-    width: 40%;
+    width: 50%;
     background-color: #ffffff;
     padding: 18px;
     border-radius: 8px;
@@ -41,15 +42,24 @@
 
 .filter-rel-container label {
     font-weight: bold;
-    color: rgb(0, 0, 0);
+    color: #000000;
+}
+
+.filter-rel-container select.form-control,
+.filter-rel-container input.form-control {
+    height: 40px;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
 }
 
 .rel-table-hover {
     margin: 0 auto;
-    width: 100%; 
+    width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    font-size: 16px;
+    font-size: 14px;
     text-align: left;
     background-color: #ffffff;
     border: 1px solid #ddd;
@@ -63,22 +73,26 @@
 }
 
 .rel-table-hover td {
-    padding: 12px;
+    padding: 10px;
     text-align: left;
-    border: 1px solid #000000;
+    border: 1px solid #ddd;
     color: #333333;
     font-weight: 500;
 }
 
 .rel-table-hover th {
-    background-color: #582727;
+    background-color: #7a1f1f;
     color: #ffffff;
     font-weight: bold;
     font-size: 1.1em;
+    padding: 12px;
+    font-weight: 600;
+    text-align: left;
+    border: 1px solid #582727;
 }
 
 .rel-table-hover tr:nth-child(even) {
-    background-color: #c4abab;
+    background-color: #f8f0f0;
 }
 
 .rel-table-hover tr:nth-child(odd) {
@@ -86,7 +100,7 @@
 }
 
 .rel-table-hover tr:hover {
-    background-color: #d65d5d;
+    background-color: #ecd7d7;
     transition: background-color 0.2s ease;
 }
 
@@ -94,12 +108,12 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    background-color: #582727;
-    padding: 20px;
+    background-color: #7a1f1f;
+    padding: 15px 20px;
     border-radius: 4px;
     color: #ffffff;
     font-weight: bold;
-    font-size: 1.5em;
+    font-size: 1.2em;
     margin-top: 20px;
     width: 100%;
 }
@@ -107,16 +121,18 @@
 .totalizador-container span {
     margin-left: 5px;
 }
+
 .cabecalho-container {
     display: grid;
-    grid-template-columns: 1fr 1fr; 
-    grid-gap: 5px;
-    padding: 5px;
-    border-radius: 8px;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #7a1f1f;
     color: #000000;
     font-size: 1.3em;
     margin-top: 0px;
-    background-color: #ffffff; 
+    background-color: #ffffff;
 }
 
 .cabecalho-container p {
@@ -160,7 +176,7 @@
         margin-top: 15px;
     }
 
-  
+
     .rel-table-hover {
         display: block;
         overflow-x: auto;
@@ -216,18 +232,27 @@
 }
 
 .filter-rel-container select.form-control {
-    height: 55px; 
+    height: 55px;
     padding: 6px 12px;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E"); /* Substitua com o seu ícone de seta */
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 0.7em top 50%, 0 0;
     background-size: 0.65em auto, 100%;
-  }
-  
-  .filter-rel-container select.form-control::-ms-expand {
-    display: none; 
 }
 
+.filter-rel-container select.form-control::-ms-expand {
+    display: none;
+}
+
+th {
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease;
+}
+
+th:hover {
+    opacity: 0.9;
+}
