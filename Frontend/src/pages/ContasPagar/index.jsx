@@ -6,11 +6,9 @@ const ContasPagar = () => {
     const [dados, setDados] = useState([]);
     const [filterStartDate, setFilterStartDate] = useState('');
     const [filterEndDate, setFilterEndDate] = useState('');
-    const [filterCategoria, setFilterCategoria] = useState('');
-    const [categorias, setCategorias] = useState([]);
     const [error, setError] = useState(null);
-    const [sortBy, setSortBy] = useState(null);
-    const [sortOrder, setSortOrder] = useState('asc');
+    const [categorias, setCategorias] = useState([]);
+    const [filterCategoria, setFilterCategoria] = useState('');
 
 
     const fetchDados = async () => {
@@ -23,7 +21,8 @@ const ContasPagar = () => {
                 return;
             }
 
-            const response = await fetch(`http://localhost:8080/titulos?contaId=${idConta}&tipo=Pagamento&status=PENDENTE`, {
+            // Alteração na URL - agora busca títulos PENDENTES
+            const response = await fetch(`http://localhost:8080/titulos/pag-aberto?contaId=${idConta}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -47,30 +46,21 @@ const ContasPagar = () => {
     const fetchCategorias = async () => {
         try {
             const token = localStorage.getItem('token');
+            const tipo = 'Pagamento';
 
-            if (!token) {
-                setError('Token não encontrado. Faça login novamente.');
-                return;
-            }
-
-            const response = await fetch('http://localhost:8080/categorias', {
-                method: 'GET',
+            const response = await fetch(`http://localhost:8080/categorias?tipo=${tipo}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 }
             });
-
             if (!response.ok) {
-                throw new Error('Erro ao buscar categorias');
+                throw new Error('Falha ao carregar categorias.');
             }
-
             const data = await response.json();
             setCategorias(data);
-            setError(null);
         } catch (error) {
             console.error('Erro ao buscar categorias:', error);
-            setError(error.message);
         }
     };
 
@@ -91,14 +81,6 @@ const ContasPagar = () => {
         setFilterCategoria(event.target.value);
     };
 
-    const handleSort = (column) => {
-        if (sortBy === column) {
-            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-        } else {
-            setSortBy(column);
-            setSortOrder('asc');
-        }
-    };
 
     const filteredData = dados.filter((item) => {
         const itemVenc = new Date(item.vencimento);
@@ -111,32 +93,9 @@ const ContasPagar = () => {
         return dateMatch && categoriaMatch;
     });
 
-    let sortedData = [...filteredData];
-    if (sortBy) {
-        sortedData.sort((a, b) => {
-            let aValue, bValue;
+    const totalValor = filteredData.reduce((total, item) => total + Number(item.valor), 0);
 
-            if (sortBy === 'id' || sortBy === 'valor') {
-                aValue = Number(a[sortBy]);
-                bValue = Number(b[sortBy]);
-            } else if (sortBy === 'emissao' || sortBy === 'vencimento') {
-                aValue = new Date(a[sortBy]);
-                bValue = new Date(b[sortBy]);
-            } else if (sortBy === 'categoria') {
-                aValue = a.categoria.nome.toLowerCase();
-                bValue = b.categoria.nome.toLowerCase();
-            } else {
-                aValue = a[sortBy].toLowerCase();
-                bValue = b[sortBy].toLowerCase();
-            }
 
-            if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
-            if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
-            return 0;
-        });
-    }
-
-    const totalValor = sortedData.reduce((total, item) => total + Number(item.valor), 0);
 
     return (
         <div className='rel-pagar-container'>
@@ -190,34 +149,17 @@ const ContasPagar = () => {
                 <table className="rel-table-hover">
                     <thead>
                         <tr>
-                            <th scope="col" onClick={() => handleSort('id')}>
-                                Núm. Doc.
-                                {sortBy === 'id' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                            <th scope="col" onClick={() => handleSort('descricao')}>
-                                Descrição
-                                {sortBy === 'descricao' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                            <th scope="col" onClick={() => handleSort('emissao')}>
-                                Data Emissão
-                                {sortBy === 'emissao' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                            <th scope="col" onClick={() => handleSort('vencimento')}>
-                                Venc.
-                                {sortBy === 'vencimento' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                            <th scope="col" onClick={() => handleSort('categoria')}>
-                                Categoria
-                                {sortBy === 'categoria' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                            <th scope="col" onClick={() => handleSort('valor')}>
-                                Valor Título (R$)
-                                {sortBy === 'valor' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
+                            <th scope="col">Núm. Doc.</th>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">Data Emissão</th>
+                            <th scope="col">Venc.</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Valor Título (R$)</th>
+                            <th scope="col">Parcela</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {sortedData.map((item) => (
+                        {filteredData.map((item) => (
                             <tr key={item.id}>
                                 <td>{item.id}</td>
                                 <td>{item.descricao}</td>
@@ -225,6 +167,7 @@ const ContasPagar = () => {
                                 <td>{new Date(item.vencimento).toLocaleDateString('pt-BR')}</td>
                                 <td>{item.categoria.nome}</td>
                                 <td>{Number(item.valor).toFixed(2).replace('.', ',')}</td>
+                                <td>{item.numeroParcela || 1}/{item.quantidadeParcelas || 1}</td> { }
                             </tr>
                         ))}
                     </tbody>

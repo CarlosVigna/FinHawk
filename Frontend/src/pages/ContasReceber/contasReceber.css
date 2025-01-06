@@ -107,13 +107,13 @@
     margin-left: 5px;
 }
 
-.cabecalho-container-green {
+.cabecalho-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
     padding: 15px;
     margin-bottom: 20px;
-    border-bottom: 2px solid #388e3c;
+    border-bottom: 2px solid #000000;
     color: #000000;
     font-size: 1.3em;
     margin-top: 0px;

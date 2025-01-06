@@ -23,16 +23,28 @@ public interface TitulosRepository extends JpaRepository<TitulosModel, Long> {
     List<TitulosModel> findByContaIdAndStatus(@Param("contaId") Long contaId, @Param("status") StatusTitulo status);
 
     @Query("SELECT t FROM TitulosModel t WHERE t.conta.id = :contaId AND t.tipo = 'Recebimento' AND t.status = :status")
-    List<TitulosModel> findRecebimentosRecebidosByContaId(@Param("contaId") Long contaId, @Param("status") StatusTitulo status);
+    List<TitulosModel> findRecebimentosRecebidosByContaId(@Param("contaId") Long contaId,
+            @Param("status") StatusTitulo status);
 
     @Query("SELECT t FROM TitulosModel t WHERE t.conta.id = :contaId AND t.tipo = 'Pagamento' AND t.status = :status")
-    List<TitulosModel> findPagamentosPagosByContaId(@Param("contaId") Long contaId, @Param("status") StatusTitulo status);
+    List<TitulosModel> findPagamentosPagosByContaId(@Param("contaId") Long contaId,
+            @Param("status") StatusTitulo status);
 
     @Query("SELECT t FROM TitulosModel t WHERE t.conta.id = :contaId AND t.tipo = 'Recebimento' AND t.status = :status")
-    List<TitulosModel> findRecebimentosAbertoByContaId(@Param("contaId") Long contaId, @Param("status") StatusTitulo status);
+    List<TitulosModel> findRecebimentosAbertoByContaId(@Param("contaId") Long contaId,
+            @Param("status") StatusTitulo status);
 
     @Query("SELECT t FROM TitulosModel t WHERE t.conta.id = :contaId AND t.tipo = 'Pagamento' AND t.status = :status")
-    List<TitulosModel> findPagamentoAbertoByContaId(@Param("contaId") Long contaId, @Param("status") StatusTitulo status);
+    List<TitulosModel> findPagamentoAbertoByContaId(@Param("contaId") Long contaId,
+            @Param("status") StatusTitulo status);
+
+    @Query("SELECT t FROM TitulosModel t WHERE t.conta.id = :contaId AND t.tipo = 'Recebimento' AND t.status = :status")
+    List<TitulosModel> findRecebimentosByContaIdAndStatus(@Param("contaId") Long contaId,
+            @Param("status") StatusTitulo status);
+
+    @Query("SELECT t FROM TitulosModel t WHERE t.conta.id = :contaId AND t.tipo = 'Pagamento' AND t.status = :status")
+    List<TitulosModel> findPagamentosByContaIdAndStatus(@Param("contaId") Long contaId,
+            @Param("status") StatusTitulo status);
 
     @Modifying
     @Query("DELETE FROM TitulosModel t WHERE t.conta.id = :contaId")

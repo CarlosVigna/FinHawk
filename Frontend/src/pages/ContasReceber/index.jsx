@@ -21,7 +21,8 @@ const ContasReceber = () => {
                 return;
             }
 
-            const response = await fetch(`http://localhost:8080/titulos?contaId=${idConta}&tipo=Recebimento&status=RECEBIDO`, {
+            // Alteração na URL - agora busca títulos PENDENTES
+            const response = await fetch(`http://localhost:8080/titulos/rec-aberto?contaId=${idConta}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -173,7 +174,7 @@ const ContasReceber = () => {
             </div>
 
             <div className="relatorio-box-green">
-                <div className="cabecalho-container-green">
+                <div className="cabecalho-container">
                     <p>
                         <strong>Período: </strong>
                         {filterStartDate && filterEndDate
@@ -212,6 +213,7 @@ const ContasReceber = () => {
                                 Valor Título (R$)
                                 {sortBy === 'valor' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
                             </th>
+                            <th scope="col">Parcela</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -223,6 +225,7 @@ const ContasReceber = () => {
                                 <td>{new Date(item.vencimento).toLocaleDateString('pt-BR')}</td>
                                 <td>{item.categoria.nome}</td>
                                 <td>{Number(item.valor).toFixed(2).replace('.', ',')}</td>
+                                <td>{item.numeroParcela || 1}/{item.quantidadeParcelas || 1}</td>
                             </tr>
                         ))}
                     </tbody>

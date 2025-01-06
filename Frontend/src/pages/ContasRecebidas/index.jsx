@@ -6,11 +6,9 @@ const ContasRecebidas = () => {
     const [dados, setDados] = useState([]);
     const [filterStartDate, setFilterStartDate] = useState('');
     const [filterEndDate, setFilterEndDate] = useState('');
-    const [filterCategoria, setFilterCategoria] = useState('');
-    const [categorias, setCategorias] = useState([]);
     const [error, setError] = useState(null);
-    const [sortBy, setSortBy] = useState('');
-    const [sortOrder, setSortOrder] = useState('asc');
+    const [categorias, setCategorias] = useState([]);
+    const [filterCategoria, setFilterCategoria] = useState('');
 
     const fetchDados = async () => {
         try {
@@ -22,10 +20,8 @@ const ContasRecebidas = () => {
                 return;
             }
 
-            const url = `http://localhost:8080/titulos?contaId=${idConta}&tipo=Recebimento&status=RECEBIDO`;
-            console.log("URL da requisição:", url);
-
-            const response = await fetch(url, {
+            // Alteração na URL - agora busca títulos RECEBIDOS
+            const response = await fetch(`http://localhost:8080/titulos/recebidos?contaId=${idConta}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -51,35 +47,21 @@ const ContasRecebidas = () => {
     const fetchCategorias = async () => {
         try {
             const token = localStorage.getItem('token');
+            const tipo = 'Recebimento';
 
-            if (!token) {
-                setError('Token não encontrado. Faça login novamente.');
-                return;
-            }
-
-            const url = `http://localhost:8080/categorias`;
-            console.log("URL da requisição:", url);
-
-            const response = await fetch(url, {
-                method: 'GET',
+            const response = await fetch(`http://localhost:8080/categorias?tipo=${tipo}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 }
             });
-
-            console.log("Resposta do servidor:", response);
-
             if (!response.ok) {
-                throw new Error('Erro ao buscar categorias');
+                throw new Error('Falha ao carregar categorias.');
             }
-
             const data = await response.json();
             setCategorias(data);
-            setError(null);
         } catch (error) {
             console.error('Erro ao buscar categorias:', error);
-            setError(error.message);
         }
     };
 
@@ -100,28 +82,7 @@ const ContasRecebidas = () => {
         setFilterCategoria(event.target.value);
     };
 
-    const handleSort = (column) => {
-        const order = sortBy === column && sortOrder === 'asc' ? 'desc' : 'asc';
-        setSortBy(column);
-        setSortOrder(order);
-    };
-
-    const sortedData = [...dados].sort((a, b) => {
-        if (sortBy) {
-            const aValue = a[sortBy];
-            const bValue = b[sortBy];
-
-            if (aValue < bValue) {
-                return sortOrder === 'asc' ? -1 : 1;
-            }
-            if (aValue > bValue) {
-                return sortOrder === 'asc' ? 1 : -1;
-            }
-        }
-        return 0;
-    });
-
-    const filteredData = sortedData.filter((item) => {
+    const filteredData = dados.filter((item) => {
         const itemVenc = new Date(item.vencimento);
         const startDate = filterStartDate ? new Date(filterStartDate) : null;
         const endDate = filterEndDate ? new Date(filterEndDate) : null;
@@ -174,7 +135,7 @@ const ContasRecebidas = () => {
             </div>
 
             <div className="relatorio-box">
-                <div className="cabecalho-container-green">
+                <div className="cabecalho-container">
                     <p>
                         <strong>Período: </strong>
                         {filterStartDate && filterEndDate
@@ -188,30 +149,13 @@ const ContasRecebidas = () => {
                 <table className="rel-table-hover-recebidas">
                     <thead>
                         <tr>
-                            <th scope="col" onClick={() => handleSort('id')}>
-                                Núm. Doc.
-                                {sortBy === 'id' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                            <th scope="col" onClick={() => handleSort('descricao')}>
-                                Descrição
-                                {sortBy === 'descricao' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                            <th scope="col" onClick={() => handleSort('emissao')}>
-                                Data Emissão
-                                {sortBy === 'emissao' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                            <th scope="col" onClick={() => handleSort('vencimento')}>
-                                Venc.
-                                {sortBy === 'vencimento' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                            <th scope="col" onClick={() => handleSort('categoria')}>
-                                Categoria
-                                {sortBy === 'categoria' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                            <th scope="col" onClick={() => handleSort('valor')}>
-                                Valor Título (R$)
-                                {sortBy === 'valor' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
+                            <th scope="col">Núm. Doc.</th>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">Data Emissão</th>
+                            <th scope="col">Venc.</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Valor Título (R$)</th>
+                            <th scope="col">Parcela</th> { }
                         </tr>
                     </thead>
                     <tbody>
@@ -223,7 +167,7 @@ const ContasRecebidas = () => {
                                 <td>{new Date(item.vencimento).toLocaleDateString('pt-BR')}</td>
                                 <td>{item.categoria.nome}</td>
                                 <td>{Number(item.valor).toFixed(2).replace('.', ',')}</td>
-
+                                <td>{item.numeroParcela || 1}/{item.quantidadeParcelas || 1}</td> { }
                             </tr>
                         ))}
                     </tbody>

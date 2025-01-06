@@ -16,12 +16,8 @@ const ContasPagas = () => {
             const token = localStorage.getItem('token');
             const idConta = localStorage.getItem('id');
 
-            if (!token || !idConta) {
-                setError('Token ou ID da conta não encontrados. Faça login novamente.');
-                return;
-            }
-
-            const response = await fetch(`http://localhost:8080/titulos?contaId=${idConta}&tipo=Pagamento&status=PAGO`, {
+            // Alteração na URL - agora busca títulos PAGOS
+            const response = await fetch(`http://localhost:8080/titulos/pagos?contaId=${idConta}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -213,6 +209,7 @@ const ContasPagas = () => {
                                 Valor Título (R$)
                                 {sortBy === 'valor' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
                             </th>
+                            <th scope="col">Parcela</th> {/* Adicionar esta linha */}
                         </tr>
                     </thead>
                     <tbody>
@@ -224,6 +221,7 @@ const ContasPagas = () => {
                                 <td>{new Date(item.vencimento).toLocaleDateString('pt-BR')}</td>
                                 <td>{item.categoria.nome}</td>
                                 <td>{Number(item.valor).toFixed(2).replace('.', ',')}</td>
+                                <td>{item.numeroParcela || 1}/{item.quantidadeParcelas || 1}</td> { }
                             </tr>
                         ))}
                     </tbody>
