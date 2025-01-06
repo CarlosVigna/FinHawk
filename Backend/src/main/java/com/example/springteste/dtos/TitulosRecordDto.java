@@ -23,17 +23,18 @@ public record TitulosRecordDto(
 
         Long contaId,
 
-        Integer numeroParcela,
-
         boolean fixo, // Indica se é um título fixo (recorrente)
 
-        @Min(value = 1, message = "A quantidade de parcelas deve ser no mínimo 1") Integer quantidadeParcelas, // Para títulos regulares
+        @Min(value = 1, message = "A quantidade de parcelas deve ser no mínimo 1") Integer quantidadeParcelas, // Para
+                                                                                                               // títulos
+                                                                                                               // regulares
 
-        @Min(value = 1, message = "A quantidade de recorrências deve ser no mínimo 1") Integer quantidadeRecorrencias, // Para títulos fixos
+        @Min(value = 1, message = "A quantidade de recorrências deve ser no mínimo 1") Integer quantidadeRecorrencias, // Para
+                                                                                                                       // títulos
+                                                                                                                       // fixos
 
-        @NotNull(message = "A periodicidade é obrigatória") TitulosModel.Periodicidade periodicidade // Usado para títulos fixos
+        @NotNull(message = "A periodicidade é obrigatória") TitulosModel.Periodicidade periodicidade // Usado para
+                                                                                                     // títulos fixos
 
-
-
-
-) { }
+) {
+}

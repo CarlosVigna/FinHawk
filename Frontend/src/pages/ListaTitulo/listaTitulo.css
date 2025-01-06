@@ -127,11 +127,42 @@ table th {
     font-weight: 600;
 }
 
+th {
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease;
+    padding: 14px;
+    text-align: left;
+    border-bottom: 2px solid #2f3031;
+    background-color: #2f3031;
+    color: #fff;
+    font-weight: 600;
+}
+
+th:hover {
+    opacity: 0.9;
+    background-color: #3a3a3a;
+}
+
+th:last-child {
+    cursor: default;
+}
+
+th:last-child:hover {
+    opacity: 1;
+    background-color: #2f3031;
+}
+
 table td {
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #2f3031;
     color: #ecf0f1;
+}
+
+table th:nth-child(7),
+table td:nth-child(7) {
+    text-align: center;
 }
 
 table tbody tr:nth-child(even) {
@@ -177,6 +208,7 @@ table tbody tr:hover {
     display: flex;
     gap: 15px;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .campo-filtro {
@@ -227,6 +259,23 @@ table tbody tr:hover {
     transform: translateY(-1px);
 }
 
+.filtro-categoria {
+    padding: 8px 12px;
+    border: 1px solid #445566;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #777777;
+    transition: all 0.3s ease;
+    width: 200px;
+}
+
+.filtro-categoria:focus {
+    border-color: #0199a1;
+    box-shadow: 0 0 0 3px rgba(1, 153, 161, 0.1);
+    outline: none;
+}
+
 @media (max-width: 768px) {
     .filtros-historico {
         flex-direction: column;
@@ -264,27 +313,22 @@ table tbody tr:hover {
         -webkit-overflow-scrolling: touch;
         font-size: 14px;
         width: 100%;
-        /* Alterado para 100% */
     }
 
     table th,
     table td {
         padding: 8px;
-        /* Reduzi o padding para menos espaço */
         font-size: 0.9em;
         white-space: nowrap;
-        /* Impede que o texto quebre para a próxima linha */
     }
 
     table th:first-child,
     table td:first-child {
-        /* Estilo para coluna de ações */
         padding-left: 2px;
     }
 
     table th:last-child,
     table td:last-child {
-        /* Estilo para coluna de ações */
         padding-right: 2px;
     }
 
@@ -329,6 +373,10 @@ table tbody tr:hover {
         display: flex;
         justify-content: space-around;
         padding: 0 5px;
+    }
+
+    .filtro-categoria {
+        width: 100%;
     }
 }
 

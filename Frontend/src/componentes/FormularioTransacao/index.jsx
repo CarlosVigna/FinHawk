@@ -120,7 +120,14 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                 body: JSON.stringify(dadosParaEnviar)
             });
 
-            const data = await response.json();
+            const text = await response.text();
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (error) {
+                throw new Error('Resposta do servidor não é um JSON válido');
+            }
+
             if (response.status === 400) {
                 throw new Error(data.message || 'Erro de validação do servidor');
             }
@@ -175,8 +182,8 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                         type="text"
                         id="parcela"
                         name="parcela"
-                        value={valores.numeroParcela || 1} 
-                        readOnly 
+                        value={valores.numeroParcela || 1}
+                        readOnly
                     />
                 </div>
 

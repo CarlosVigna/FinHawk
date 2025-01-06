@@ -7,6 +7,8 @@ const ContasRecebidas = () => {
     const [filterStartDate, setFilterStartDate] = useState('');
     const [filterEndDate, setFilterEndDate] = useState('');
     const [error, setError] = useState(null);
+    const [categorias, setCategorias] = useState([]);
+    const [filterCategoria, setFilterCategoria] = useState('');
 
     const fetchDados = async () => {
         try {
@@ -18,10 +20,8 @@ const ContasRecebidas = () => {
                 return;
             }
 
-            const url = `http://localhost:8080/titulos?contaId=${idConta}&tipo=Recebimento&status=RECEBIDO`;
-            console.log("URL da requisição:", url);
-
-            const response = await fetch(url, {
+            // Alteração na URL - agora busca títulos RECEBIDOS
+            const response = await fetch(`http://localhost:8080/titulos/recebidos?contaId=${idConta}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -44,8 +44,30 @@ const ContasRecebidas = () => {
         }
     };
 
+    const fetchCategorias = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const tipo = 'Recebimento';
+
+            const response = await fetch(`http://localhost:8080/categorias?tipo=${tipo}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (!response.ok) {
+                throw new Error('Falha ao carregar categorias.');
+            }
+            const data = await response.json();
+            setCategorias(data);
+        } catch (error) {
+            console.error('Erro ao buscar categorias:', error);
+        }
+    };
+
     useEffect(() => {
         fetchDados();
+        fetchCategorias();
     }, []);
 
     const handleFilterStartDateChange = (event) => {
@@ -56,27 +78,27 @@ const ContasRecebidas = () => {
         setFilterEndDate(event.target.value);
     };
 
-
+    const handleFilterCategoriaChange = (event) => {
+        setFilterCategoria(event.target.value);
+    };
 
     const filteredData = dados.filter((item) => {
         const itemVenc = new Date(item.vencimento);
         const startDate = filterStartDate ? new Date(filterStartDate) : null;
         const endDate = filterEndDate ? new Date(filterEndDate) : null;
-
+        const categoriaMatch = !filterCategoria || item.categoria.nome === filterCategoria;
 
         const dateMatch = (!startDate || itemVenc >= startDate) && (!endDate || itemVenc <= endDate);
 
-        return dateMatch;
+        return dateMatch && categoriaMatch;
     });
 
     const totalValor = filteredData.reduce((total, item) => total + Number(item.valor), 0);
 
-
-
     return (
         <div className='rel-recebidas-container'>
             <div className='titulo-contas-recebidas'>
-                <h1>Contas Recebidas</h1>
+                <h1>Relatório de Contas Recebidas</h1>
             </div>
 
             <div className='filter-rel-container'>
@@ -96,11 +118,24 @@ const ContasRecebidas = () => {
                     value={filterEndDate}
                     onChange={handleFilterEndDateChange}
                 />
+                <label htmlFor="categoria" className="rel-white-label">Categoria:</label>
+                <select
+                    className="form-control no-inner-shadow"
+                    id="categoria"
+                    value={filterCategoria}
+                    onChange={handleFilterCategoriaChange}
+                >
+                    <option value="">Todas</option>
+                    {categorias.map((categoria) => (
+                        <option key={categoria.id} value={categoria.nome}>
+                            {categoria.nome}
+                        </option>
+                    ))}
+                </select>
             </div>
 
             <div className="relatorio-box">
                 <div className="cabecalho-container">
-                    <strong>Relatório de Contas Recebidas</strong>
                     <p>
                         <strong>Período: </strong>
                         {filterStartDate && filterEndDate
@@ -111,7 +146,7 @@ const ContasRecebidas = () => {
                 </div>
 
 
-                <table className="rel-table-hover">
+                <table className="rel-table-hover-recebidas">
                     <thead>
                         <tr>
                             <th scope="col">Núm. Doc.</th>
@@ -120,6 +155,7 @@ const ContasRecebidas = () => {
                             <th scope="col">Venc.</th>
                             <th scope="col">Categoria</th>
                             <th scope="col">Valor Título (R$)</th>
+                            <th scope="col">Parcela</th> { }
                         </tr>
                     </thead>
                     <tbody>
@@ -131,13 +167,13 @@ const ContasRecebidas = () => {
                                 <td>{new Date(item.vencimento).toLocaleDateString('pt-BR')}</td>
                                 <td>{item.categoria.nome}</td>
                                 <td>{Number(item.valor).toFixed(2).replace('.', ',')}</td>
-
+                                <td>{item.numeroParcela || 1}/{item.quantidadeParcelas || 1}</td> { }
                             </tr>
                         ))}
                     </tbody>
                 </table>
 
-                <div className="totalizador-container">
+                <div className="totalizador-container-recebidas">
                     <span>Total Recebido: R$ {totalValor.toFixed(2).replace('.', ',')}</span>
                 </div>
             </div>
