@@ -78,7 +78,11 @@ public class TitulosController {
             response.put("message", "Erro ao salvar título: " + e.getMessage());
             response.put("success", false);
 
-            return ResponseEntity.internalServerError().contentType(MediaType.APPLICATION_JSON).body(response);
+            return ResponseEntity.internalServerError().contentType(MediaType.APPLICATION_JSON).body(response); // Retorna
+                                                                                                                // 500
+                                                                                                                // Internal
+                                                                                                                // Server
+                                                                                                                // Error
         }
     }
 
@@ -126,7 +130,9 @@ public class TitulosController {
         titulosModel.setCategoria(categoria);
 
         if (titulosRecordDto.fixo()) {
-            titulosModel.setQuantidadeParcelas(titulosRecordDto.quantidadeRecorrencias());
+            titulosModel.setQuantidadeParcelas(titulosRecordDto.quantidadeRecorrencias()); // Define a quantidade de
+                                                                                           // recorrências para títulos
+                                                                                           // fixos
         }
 
         return titulosModel;
@@ -171,28 +177,28 @@ public class TitulosController {
 
     @GetMapping("/titulos/recebidos")
     public ResponseEntity<List<TitulosModel>> getTitulosRecebidos(@RequestParam Long contaId) {
-        List<TitulosModel> titulos = titulosRepository.findRecebimentosByContaIdAndStatus(contaId,
+        List<TitulosModel> titulos = titulosRepository.findRecebimentosRecebidosByContaId(contaId,
                 TitulosModel.StatusTitulo.RECEBIDO);
         return ResponseEntity.status(HttpStatus.OK).body(titulos);
     }
 
     @GetMapping("/titulos/pagos")
     public ResponseEntity<List<TitulosModel>> getTitulosPagos(@RequestParam Long contaId) {
-        List<TitulosModel> titulos = titulosRepository.findPagamentosByContaIdAndStatus(contaId,
+        List<TitulosModel> titulos = titulosRepository.findPagamentosPagosByContaId(contaId,
                 TitulosModel.StatusTitulo.PAGO);
         return ResponseEntity.status(HttpStatus.OK).body(titulos);
     }
 
     @GetMapping("/titulos/rec-aberto")
     public ResponseEntity<List<TitulosModel>> getTitulosRecAberto(@RequestParam Long contaId) {
-        List<TitulosModel> titulos = titulosRepository.findRecebimentosByContaIdAndStatus(contaId,
+        List<TitulosModel> titulos = titulosRepository.findRecebimentosAbertoByContaId(contaId,
                 TitulosModel.StatusTitulo.PENDENTE);
         return ResponseEntity.status(HttpStatus.OK).body(titulos);
     }
 
     @GetMapping("/titulos/pag-aberto")
     public ResponseEntity<List<TitulosModel>> getTitulosPagAberto(@RequestParam Long contaId) {
-        List<TitulosModel> titulos = titulosRepository.findPagamentosByContaIdAndStatus(contaId,
+        List<TitulosModel> titulos = titulosRepository.findPagamentoAbertoByContaId(contaId,
                 TitulosModel.StatusTitulo.PENDENTE);
         return ResponseEntity.status(HttpStatus.OK).body(titulos);
     }
