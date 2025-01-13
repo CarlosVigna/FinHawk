@@ -3,6 +3,7 @@ package com.example.springteste.controllers;
 
 import com.example.springteste.dtos.CategoriasRecordDto;
 import com.example.springteste.models.CategoriasModel;
+import com.example.springteste.models.TitulosModel;
 import com.example.springteste.repositories.CategoriasRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -46,8 +47,26 @@ public class CategoriasController {
     public ResponseEntity<List<CategoriasModel>> getCategoriasByTipo(
             @RequestParam String tipo,
             @RequestParam Long contaId) {
-        List<CategoriasModel> categorias = categoriasRepository.findCategoriasByTipoAndStatus(tipo, contaId);
-        return ResponseEntity.ok(categorias);
-    }
 
+        try {
+            // Validação do tipo
+            if (!tipo.equals("Pagamento") && !tipo.equals("Recebimento")) {
+                return ResponseEntity.badRequest().body(null);
+            }
+
+            // Converte a String para o enum correspondente
+            TitulosModel.StatusTitulo status = tipo.equals("Pagamento") ? TitulosModel.StatusTitulo.PAGO : TitulosModel.StatusTitulo.RECEBIDO;
+
+            List<CategoriasModel> categorias = categoriasRepository.findCategoriasByTipoAndStatus(tipo, status, contaId);
+            return ResponseEntity.ok(categorias);
+
+        } catch (Exception e) {
+            // Imprime a mensagem de erro e o stack trace no console de erro (System.err)
+            System.err.println("Erro ao buscar categorias por tipo e contaId: " + e.getMessage());
+            e.printStackTrace();
+
+            // Retorna uma resposta de erro 500 (Internal Server Error)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 }

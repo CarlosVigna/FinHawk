@@ -192,7 +192,7 @@ public class TitulosController {
     @PutMapping("/titulos/{id}")
     @CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", allowCredentials = "true")
     public ResponseEntity<Object> updateTitulo(@PathVariable(value = "id") Long id,
-            @RequestBody @Valid TitulosRecordDto titulosRecordDto) {
+                                               @RequestBody @Valid TitulosRecordDto titulosRecordDto) {
         Optional<TitulosModel> titulos0 = titulosRepository.findById(id);
         if (titulos0.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Título não encontrado");
@@ -203,7 +203,7 @@ public class TitulosController {
         titulosModel.setEmissao(titulosRecordDto.emissao());
         titulosModel.setVencimento(titulosRecordDto.vencimento());
         titulosModel.setStatus(titulosRecordDto.status());
-        titulosModel.setTipo(titulosRecordDto.tipo()); 
+        titulosModel.setTipo(titulosRecordDto.tipo());
 
         CategoriasModel categoria = categoriasRepository.findById(titulosRecordDto.categoriaId())
                 .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));

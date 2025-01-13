@@ -2,6 +2,7 @@ package com.example.springteste.repositories;
 
 
 import com.example.springteste.models.CategoriasModel;
+import com.example.springteste.models.TitulosModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,12 +15,12 @@ public interface CategoriasRepository extends JpaRepository<CategoriasModel, Lon
 
     @Query("SELECT DISTINCT c FROM CategoriasModel c " +
             "JOIN c.titulos t " +
-            "WHERE t.tipo = :tipo AND t.status = 'PAGO' AND t.conta.id = :contaId")
+            "WHERE t.tipo = :tipo AND t.status = :status AND t.conta.id = :contaId")
     List<CategoriasModel> findCategoriasByTipoAndStatus(
             @Param("tipo") String tipo,
+            @Param("status") TitulosModel.StatusTitulo status, // Mude o tipo do parâmetro para o enum correto
             @Param("contaId") Long contaId);
 
     @Query("SELECT c FROM CategoriasModel c WHERE c.tipo = :tipo")
     List<CategoriasModel> findCategoriasByTipo(@Param("tipo") String tipo);
-
 }
