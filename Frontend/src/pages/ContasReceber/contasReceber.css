@@ -1,220 +1,67 @@
-.rel-receber-container {
-    padding: 20px;
-    background-color: #275837; /* Verde escuro para o fundo */
-    border-radius: 0px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: auto;
-    margin: 0 auto;
+/* Container principal para o relatório de contas recebidas */
+.container-relatorio-receber {
+    padding: 25px;
+    background: linear-gradient(135deg, #535353, #000000); /* Gradiente em tons de vermelho */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    margin: 30px auto;
+    font-family: 'Arial', sans-serif;
 }
 
-.relatorio-box-green {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-    width: 80%;
-    margin: 20px auto; /* Centraliza o box */
+/* Caixa principal do relatório */
+.caixa-relatorio-receber {
+    background-color: rgb(255, 255, 255);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-top: 25px;
 }
 
-.titulo-contas-receber { /* Mudei para o título correto */
+/* Título principal do relatório */
+.titulo-contas-receber {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
-.titulo-contas-receber h1 { /* Mudei para o título correto */
-    color: #f0f0f0;
-    font-size: 2.5rem;
+.titulo-contas-receber h1 {
+    color: #f7f7f7;
+    font-size: 2.8rem;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+    margin-bottom: 5px;
 }
 
-.filter-rel-container {
-    margin: 0 auto;
-    margin-bottom: 25px;
-    display: flex;
+/* Container para os filtros do relatório */
+.container-filtro-receber {
+    margin: 0 auto 30px;
+    display: inline-flex;
     justify-content: center;
-    gap: 10px;
-    width: 40%;
-    background-color: #ffffff;
-    padding: 18px;
-    border-radius: 8px;
-}
-
-.filter-rel-container label {
-    font-weight: bold;
-    color: rgb(0, 0, 0);
-}
-
-.rel-table-hover-green { /* Adicionado o -green para a tabela */
-    margin: 0 auto;
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    font-size: 16px;
-    text-align: left;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-}
-
-.rel-table-hover-green th, /* Estilização para th */
-.rel-table-hover-green td { /* Estilização para td */
-    padding: 12px;
-    text-align: left;
-    border: 1px solid #275837; /* Verde escuro para as bordas */
-}
-
-.rel-table-hover-green td { /* Estilização específica para td */
-    color: #333333;
-    font-weight: 500;
-}
-
-.rel-table-hover-green th { /* Estilização específica para th */
-    background-color: #275837; /* Verde escuro para o cabeçalho */
-    color: #ffffff;
-    font-weight: bold;
-    font-size: 1.1em;
-}
-
-.rel-table-hover-green tr:nth-child(even) { /* Cor para linhas pares */
-    background-color: #e6f4ea; /* Verde claro para linhas pares */
-}
-
-.rel-table-hover-green tr:nth-child(odd) { /* Cor para linhas ímpares */
-    background-color: #f2faf4; /* Verde mais claro ainda para linhas ímpares */
-}
-
-.rel-table-hover-green tr:hover { /* Cor ao passar o mouse */
-    background-color: #b4e7bf; /* Verde mais claro para o hover */
-    transition: background-color 0.2s ease;
-}
-
-.totalizador-container-green { /* Adicionado -green para o totalizador */
-    display: flex;
-    justify-content: flex-end;
     align-items: center;
-    background-color: #275837; /* Verde escuro para o fundo */
+    gap: 45px;
+    background-color: #f8f8f8;
     padding: 20px;
-    border-radius: 4px;
-    color: #ffffff;
-    font-weight: bold;
-    font-size: 1.5em;
-    margin-top: 20px;
-    width: 100%;
-}
-
-.totalizador-container-green span { /* Estilização do span dentro do totalizador */
-    margin-left: 5px;
-}
-
-.cabecalho-container-green {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 5px;
-    padding: 5px;
     border-radius: 8px;
-    color: #000000;
-    font-size: 1.3em;
-    margin-top: 0px;
-    background-color: #ffffff;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.cabecalho-container p {
-    margin: 0;
-    font-size: 0.95em;
+.container-filtro-receber label {
+    font-weight: 600;
+    color: #333;
 }
 
-/* Media queries para responsividade */
-@media screen and (max-width: 768px) {
-    .rel-receber-container,
-    .rel-recebidas-container,
-    .rel-pagar-container,
-    .rel-pagas-container {
-        padding: 10px;
-        margin: 10px;
-    }
-
-    .titulo-contas-receber h1,
-    .titulo-contas-recebidas h1,
-    .titulo-contas-pagar h1,
-    .titulo-contas-pagas h1 {
-        font-size: 1.8rem;
-        margin-bottom: 15px;
-    }
-
-    .filter-rel-container {
-        width: 100%;
-        flex-direction: column;
-        padding: 12px;
-        gap: 8px;
-    }
-
-    .filter-rel-container input[type="date"] {
-        width: 100%;
-        height: 40px;
-        font-size: 16px;
-    }
-
-    .relatorio-box {
-        padding: 10px;
-        margin-top: 15px;
-    }
-
-    .rel-table-hover-green {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .rel-table-hover-green th,
-    .rel-table-hover-green td {
-        padding: 8px;
-        font-size: 0.9em;
-    }
-
-    .totalizador-container-green {
-        padding: 15px;
-        font-size: 1.2em;
-        flex-direction: column;
-        align-items: flex-end;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .rel-receber-container,
-    .rel-recebidas-container,
-    .rel-pagar-container,
-    .rel-pagas-container {
-        padding: 8px;
-        margin: 5px;
-    }
-
-    .titulo-contas-receber h1,
-    .titulo-contas-recebidas h1,
-    .titulo-contas-pagar h1,
-    .titulo-contas-pagas h1 {
-        font-size: 1.5rem;
-    }
-
-    .filter-rel-container {
-        padding: 8px;
-    }
-
-    .rel-table-hover-green th,
-    .rel-table-hover-green td {
-        padding: 6px;
-        font-size: 0.85em;
-    }
-
-    .totalizador-container-green {
-        padding: 12px;
-        font-size: 1.1em;
-    }
-}
-
-/* Estilos para o select (mantidos do seu código) */
-.filter-rel-container select.form-control {
+.container-filtro-receber input[type="date"],
+.container-filtro-receber select {
     height: 55px;
-    padding: 6px 12px;
+    width: 220px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.container-filtro-receber select {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -224,6 +71,156 @@
     background-size: 0.65em auto, 100%;
 }
 
-.filter-rel-container select.form-control::-ms-expand {
-    display: none;
+.container-filtro-receber input[type="date"]:focus,
+.container-filtro-receber select:focus {
+    border-color: #8b4545;
+    box-shadow: 0 0 0 2px rgba(139, 69, 69, 0.25);
+    outline: none;
+}
+
+/* Tabela para exibir os dados do relatório */
+.tabela-relatorio-receber {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tabela-relatorio-receber th,
+.tabela-relatorio-receber td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.tabela-relatorio-receber th {
+    background-color: #3b8a59;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s;
+}
+
+.tabela-relatorio-receber th:hover {
+    background-color: #2f4b3a;
+}
+
+.tabela-relatorio-receber th span {
+    display: inline-block;
+    transition: transform 0.3s;
+}
+
+.tabela-relatorio-receber th.asc span {
+    transform: rotate(180deg);
+}
+
+.tabela-relatorio-receber tbody tr:nth-child(even) {
+    background-color: #7a7a7a;
+}
+
+.tabela-relatorio-receber tbody tr:hover {
+    background-color: #2f4b3a;
+    transition: background-color 0.2s ease;
+}
+
+.tabela-relatorio-receber tbody {
+    background-color: #535353;
+}
+
+/* Container para o totalizador */
+.container-totalizador-receber {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: #3b8a59;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.container-totalizador-receber span {
+    margin-left: 10px;
+}
+
+/* Cabeçalho do relatório com informações do período e data de geração */
+.cabecalho-relatorio-receber {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #3b8a59;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.cabecalho-relatorio-receber p {
+    font-size: 1rem;
+    color: #ffffff;
+    margin: 0;
+}
+
+/* Media queries para responsividade */
+@media screen and (max-width: 768px) {
+    .container-relatorio-receber {
+        padding: 15px;
+        width: 95%;
+    }
+
+    .titulo-contas-receber h1 {
+        font-size: 2.2rem;
+    }
+
+    .container-filtro-receber {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .tabela-relatorio-receber th,
+    .tabela-relatorio-receber td {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .container-totalizador-receber {
+        font-size: 1.1rem;
+    }
+
+    .cabecalho-relatorio-receber {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container-relatorio-receber {
+        padding: 10px;
+    }
+
+    .titulo-contas-receber h1 {
+        font-size: 1.8rem;
+    }
+
+    .container-filtro-receber input[type="date"],
+    .container-filtro-receber select {
+        height: 40px;
+        font-size: 0.9rem;
+    }
+
+    .tabela-relatorio-receber th,
+    .tabela-relatorio-receber td {
+        padding: 8px;
+        font-size: 0.8rem;
+    }
+
+    .container-totalizador-receber {
+        font-size: 1rem;
+    }
 }

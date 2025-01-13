@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './contasReceber.css';
 
 const ContasReceber = () => {
     const [dados, setDados] = useState([]);
@@ -9,6 +10,7 @@ const ContasReceber = () => {
     const [error, setError] = useState(null);
     const [sortBy, setSortBy] = useState(null);
     const [sortOrder, setSortOrder] = useState('asc');
+    const [loading, setLoading] = useState(true);
 
     const fetchDados = async () => {
         try {
@@ -20,7 +22,7 @@ const ContasReceber = () => {
                 return;
             }
 
-            const response = await fetch(`http://localhost:8080/titulos?contaId=${idConta}&tipo=Recebimento&status=RECEBIDO`, {
+            const response = await fetch(`http://localhost:8080/titulos?contaId=${idConta}&tipo=Recebimento&status=PENDENTE`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -29,7 +31,8 @@ const ContasReceber = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Erro ao buscar dados');
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Erro ao buscar dados');
             }
 
             const data = await response.json();
@@ -38,28 +41,46 @@ const ContasReceber = () => {
         } catch (error) {
             console.error('Erro ao buscar dados:', error);
             setError(error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
     const fetchCategorias = async () => {
         try {
             const token = localStorage.getItem('token');
-            const tipo = 'Recebimento';
+            const idConta = localStorage.getItem('id');
 
-            const response = await fetch(`http://localhost:8080/categorias?tipo=${tipo}`, {
+            if (!token || !idConta) {
+                setError('Token ou ID da conta não encontrados. Faça login novamente.');
+                return;
+            }
+
+            const params = new URLSearchParams({
+                tipo: 'Recebimento',
+                contaId: idConta
+            });
+
+            const response = await fetch(`http://localhost:8080/categorias/tipo?${params.toString()}`, {
+                method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 }
             });
-            if (!response.ok) {
-                throw new Error('Falha ao carregar categorias.');
-            }
-            const data = await response.json();
 
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Falha ao carregar categorias.');
+            }
+
+            const data = await response.json();
             setCategorias(data);
+            console.log('Categorias recebidas:', data); // Adicionado para ver o que vem nas categorias
+            setError(null);
         } catch (error) {
             console.error('Erro ao buscar categorias:', error);
+            setError(error.message);
         }
     };
 
@@ -67,6 +88,10 @@ const ContasReceber = () => {
         fetchDados();
         fetchCategorias();
     }, []);
+
+    useEffect(() => {
+        console.log('Categorias no estado:', categorias); // Verificando o estado das categorias
+    }, [categorias]);
 
     const handleFilterStartDateChange = (event) => {
         setFilterStartDate(event.target.value);
@@ -95,7 +120,6 @@ const ContasReceber = () => {
         const endDate = filterEndDate ? new Date(filterEndDate) : null;
 
         const categoriaMatch = !filterCategoria || item.categoria.nome === filterCategoria;
-
         const dateMatch = (!startDate || itemVenc >= startDate) && (!endDate || itemVenc <= endDate);
 
         return dateMatch && categoriaMatch;
@@ -133,12 +157,12 @@ const ContasReceber = () => {
     const totalValor = sortedData.reduce((total, item) => total + Number(item.valor), 0);
 
     return (
-        <div className='rel-receber-container'>
+        <div className='container-relatorio-receber'>
             <div className='titulo-contas-receber'>
-                <h1>Relatório de Contas a Receber</h1>
+                <h1>Relatório de Contas à Receber</h1>
             </div>
 
-            <div className='filter-rel-container'>
+            <div className='container-filtro-receber'>
                 <label htmlFor="startDate" className='rel-white-label'>Data Inicial:</label>
                 <input
                     type="date"
@@ -171,66 +195,70 @@ const ContasReceber = () => {
                 </select>
             </div>
 
-            <div className="relatorio-box-green">
-                <div className="cabecalho-container-green">
-                    <p>
-                        <strong>Período: </strong>
-                        {filterStartDate && filterEndDate
-                            ? `${new Date(filterStartDate).toLocaleDateString('pt-BR')} a ${new Date(filterEndDate).toLocaleDateString('pt-BR')}`
-                            : ' Nenhum período selecionado'}
-                    </p>
-                    <p>
-                        <strong>Data de Geração:</strong> {new Date().toLocaleString('pt-BR')}
-                    </p>
-                </div>
+            {loading ? (
+                <div>Carregando...</div>
+            ) : (
+                <div className="caixa-relatorio-receber">
+                    <div className="cabecalho-relatorio-receber">
+                        <p>
+                            <strong>Período: </strong>
+                            {filterStartDate && filterEndDate
+                                ? `${new Date(filterStartDate).toLocaleDateString('pt-BR')} a ${new Date(filterEndDate).toLocaleDateString('pt-BR')}`
+                                : ' Nenhum período selecionado'}
+                        </p>
+                        <p>
+                            <strong>Data de Geração:</strong> {new Date().toLocaleString('pt-BR')}
+                        </p>
+                    </div>
 
-                <table className="rel-table-hover-green">
-                    <thead>
-                        <tr>
-                            <th scope="col" onClick={() => handleSort('id')}>
-                                Núm. Doc.
-                                {sortBy === 'id' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                            <th scope="col" onClick={() => handleSort('descricao')}>
-                                Descrição
-                                {sortBy === 'descricao' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                            <th scope="col" onClick={() => handleSort('emissao')}>
-                                Data Emissão
-                                {sortBy === 'emissao' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                            <th scope="col" onClick={() => handleSort('vencimento')}>
-                                Venc.
-                                {sortBy === 'vencimento' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                            <th scope="col" onClick={() => handleSort('categoria')}>
-                                Categoria
-                                {sortBy === 'categoria' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                            <th scope="col" onClick={() => handleSort('valor')}>
-                                Valor Título (R$)
-                                {sortBy === 'valor' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {sortedData.map((item) => (
-                            <tr key={item.id}>
-                                <td>{item.id}</td>
-                                <td>{item.descricao}</td>
-                                <td>{new Date(item.emissao).toLocaleDateString('pt-BR')}</td>
-                                <td>{new Date(item.vencimento).toLocaleDateString('pt-BR')}</td>
-                                <td>{item.categoria.nome}</td>
-                                <td>{Number(item.valor).toFixed(2).replace('.', ',')}</td>
+                    <table className="tabela-relatorio-receber">
+                        <thead>
+                            <tr>
+                                <th scope="col" onClick={() => handleSort('id')}>
+                                    Núm. Doc.
+                                    {sortBy === 'id' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th scope="col" onClick={() => handleSort('descricao')}>
+                                    Descrição
+                                    {sortBy === 'descricao' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th scope="col" onClick={() => handleSort('emissao')}>
+                                    Data Emissão
+                                    {sortBy === 'emissao' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th scope="col" onClick={() => handleSort('vencimento')}>
+                                    Venc.
+                                    {sortBy === 'vencimento' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th scope="col" onClick={() => handleSort('categoria')}>
+                                    Categoria
+                                    {sortBy === 'categoria' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th scope="col" onClick={() => handleSort('valor')}>
+                                    Valor Título (R$)
+                                    {sortBy === 'valor' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {sortedData.map((item) => (
+                                <tr key={item.id}>
+                                    <td>{item.id}</td>
+                                    <td>{item.descricao}</td>
+                                    <td>{new Date(item.emissao).toLocaleDateString('pt-BR')}</td>
+                                    <td>{new Date(item.vencimento).toLocaleDateString('pt-BR')}</td>
+                                    <td>{item.categoria.nome}</td>
+                                    <td>{Number(item.valor).toFixed(2).replace('.', ',')}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
 
-                <div className="totalizador-container-green">
-                    <span>Total a Receber: R$ {totalValor.toFixed(2).replace('.', ',')}</span>
+                    <div className="container-totalizador-receber">
+                        <span>Total à Receber: R$ {totalValor.toFixed(2).replace('.', ',')}</span>
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };

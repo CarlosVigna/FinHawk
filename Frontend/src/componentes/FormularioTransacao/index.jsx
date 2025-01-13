@@ -55,7 +55,7 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                 quantidadeParcelas: tituloParaEditar.quantidadeParcelas || 1,
                 quantidadeRecorrencias: tituloParaEditar.quantidadeRecorrencias || 1,
                 periodicidade: tituloParaEditar.periodicidade || 'MENSAL',
-                numeroParcela: tituloParaEditar.numeroParcela || 'UNICA'
+                numeroParcela: tituloParaEditar.numeroParcela || 1
 
             });
         } else {
@@ -72,7 +72,7 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                 quantidadeParcelas: 1,
                 quantidadeRecorrencias: 1,
                 periodicidade: 'MENSAL',
-                numeroParcela: 'UNICA'
+                numeroParcela: 1
             });
         }
     }, [tituloParaEditar]);
@@ -119,17 +119,14 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                 },
                 body: JSON.stringify(dadosParaEnviar)
             });
+            const data = await response.json(); // Parseia a resposta para JSON
 
-            const data = await response.json();
-            if (response.status === 400) {
-                throw new Error(data.message || 'Erro de validação do servidor');
+            if (data.success) {
+                setSucesso(data.message);
+                if (onSave) onSave(data.data); // Envie os dados atualizados para onSave
+            } else {
+                setErro(data.message);
             }
-            if (!response.ok) {
-                throw new Error(data.message || 'Erro ao processar operação');
-            }
-
-            setSucesso(data.message);
-            if (onSave) onSave();
         } catch (error) {
             setErro(error.message);
         }
@@ -175,8 +172,8 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                         type="text"
                         id="parcela"
                         name="parcela"
-                        value={valores.numeroParcela || 1} 
-                        readOnly 
+                        value={valores.numeroParcela || 1}
+                        readOnly
                     />
                 </div>
 

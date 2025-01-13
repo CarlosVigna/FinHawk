@@ -10,6 +10,7 @@ const ContasPagas = () => {
     const [error, setError] = useState(null);
     const [sortBy, setSortBy] = useState(null);
     const [sortOrder, setSortOrder] = useState('asc');
+    const [loading, setLoading] = useState(true);
 
     const fetchDados = async () => {
         try {
@@ -30,7 +31,8 @@ const ContasPagas = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Erro ao buscar dados');
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Erro ao buscar dados');
             }
 
             const data = await response.json();
@@ -39,28 +41,45 @@ const ContasPagas = () => {
         } catch (error) {
             console.error('Erro ao buscar dados:', error);
             setError(error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
     const fetchCategorias = async () => {
         try {
             const token = localStorage.getItem('token');
-            const tipo = 'Pagamento';
+            const idConta = localStorage.getItem('id');
 
-            const response = await fetch(`http://localhost:8080/categorias?tipo=${tipo}`, {
+            if (!token || !idConta) {
+                setError('Token ou ID da conta não encontrados. Faça login novamente.');
+                return;
+            }
+
+            const params = new URLSearchParams({
+                tipo: 'Pagamento',
+                contaId: idConta
+            });
+
+            const response = await fetch(`http://localhost:8080/categorias/tipo?${params.toString()}`, {
+                method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 }
             });
-            if (!response.ok) {
-                throw new Error('Falha ao carregar categorias.');
-            }
-            const data = await response.json();
 
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Falha ao carregar categorias.');
+            }
+
+            const data = await response.json();
             setCategorias(data);
+            setError(null);
         } catch (error) {
             console.error('Erro ao buscar categorias:', error);
+            setError(error.message);
         }
     };
 
@@ -96,13 +115,11 @@ const ContasPagas = () => {
         const endDate = filterEndDate ? new Date(filterEndDate) : null;
 
         const categoriaMatch = !filterCategoria || item.categoria.nome === filterCategoria;
-
         const dateMatch = (!startDate || itemVenc >= startDate) && (!endDate || itemVenc <= endDate);
 
         return dateMatch && categoriaMatch;
     });
 
-    // Ordenação dos dados
     let sortedData = [...filteredData];
     if (sortBy) {
         sortedData.sort((a, b) => {
@@ -135,12 +152,12 @@ const ContasPagas = () => {
     const totalValor = sortedData.reduce((total, item) => total + Number(item.valor), 0);
 
     return (
-        <div className='rel-pagas-container'>
+        <div className='container-relatorio-pagas'>
             <div className='titulo-contas-pagas'>
                 <h1>Relatório de Contas Pagas</h1>
             </div>
 
-            <div className='filter-rel-container'>
+            <div className='container-filtro-pagas'>
                 <label htmlFor="startDate" className='rel-white-label'>Data Inicial:</label>
                 <input
                     type="date"
@@ -173,66 +190,70 @@ const ContasPagas = () => {
                 </select>
             </div>
 
-            <div className="relatorio-box">
-                <div className="cabecalho-container">
-                    <p>
-                        <strong>Período: </strong>
-                        {filterStartDate && filterEndDate
-                            ? `${new Date(filterStartDate).toLocaleDateString('pt-BR')} a ${new Date(filterEndDate).toLocaleDateString('pt-BR')}`
-                            : ' Nenhum período selecionado'}
-                    </p>
-                    <p>
-                        <strong>Data de Geração:</strong> {new Date().toLocaleString('pt-BR')}
-                    </p>
-                </div>
+            {loading ? (
+                <div>Carregando...</div>
+            ) : (
+                <div className="caixa-relatorio-pagas">
+                    <div className="cabecalho-relatorio-pagas">
+                        <p>
+                            <strong>Período: </strong>
+                            {filterStartDate && filterEndDate
+                                ? `${new Date(filterStartDate).toLocaleDateString('pt-BR')} a ${new Date(filterEndDate).toLocaleDateString('pt-BR')}`
+                                : ' Nenhum período selecionado'}
+                        </p>
+                        <p>
+                            <strong>Data de Geração:</strong> {new Date().toLocaleString('pt-BR')}
+                        </p>
+                    </div>
 
-                <table className="rel-table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col" onClick={() => handleSort('id')}>
-                                Núm. Doc.
-                                {sortBy === 'id' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                            <th scope="col" onClick={() => handleSort('descricao')}>
-                                Descrição
-                                {sortBy === 'descricao' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                            <th scope="col" onClick={() => handleSort('emissao')}>
-                                Data Emissão
-                                {sortBy === 'emissao' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                            <th scope="col" onClick={() => handleSort('vencimento')}>
-                                Venc.
-                                {sortBy === 'vencimento' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                            <th scope="col" onClick={() => handleSort('categoria')}>
-                                Categoria
-                                {sortBy === 'categoria' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                            <th scope="col" onClick={() => handleSort('valor')}>
-                                Valor Título (R$)
-                                {sortBy === 'valor' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {sortedData.map((item) => (
-                            <tr key={item.id}>
-                                <td>{item.id}</td>
-                                <td>{item.descricao}</td>
-                                <td>{new Date(item.emissao).toLocaleDateString('pt-BR')}</td>
-                                <td>{new Date(item.vencimento).toLocaleDateString('pt-BR')}</td>
-                                <td>{item.categoria.nome}</td>
-                                <td>{Number(item.valor).toFixed(2).replace('.', ',')}</td>
+                    <table className="tabela-relatorio-pagas">
+                        <thead>
+                            <tr>
+                                <th scope="col" onClick={() => handleSort('id')}>
+                                    Núm. Doc.
+                                    {sortBy === 'id' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th scope="col" onClick={() => handleSort('descricao')}>
+                                    Descrição
+                                    {sortBy === 'descricao' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th scope="col" onClick={() => handleSort('emissao')}>
+                                    Data Emissão
+                                    {sortBy === 'emissao' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th scope="col" onClick={() => handleSort('vencimento')}>
+                                    Venc.
+                                    {sortBy === 'vencimento' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th scope="col" onClick={() => handleSort('categoria')}>
+                                    Categoria
+                                    {sortBy === 'categoria' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th scope="col" onClick={() => handleSort('valor')}>
+                                    Valor Título (R$)
+                                    {sortBy === 'valor' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {sortedData.map((item) => (
+                                <tr key={item.id}>
+                                    <td>{item.id}</td>
+                                    <td>{item.descricao}</td>
+                                    <td>{new Date(item.emissao).toLocaleDateString('pt-BR')}</td>
+                                    <td>{new Date(item.vencimento).toLocaleDateString('pt-BR')}</td>
+                                    <td>{item.categoria.nome}</td>
+                                    <td>{Number(item.valor).toFixed(2).replace('.', ',')}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
 
-                <div className="totalizador-container">
-                    <span>Total Pago: R$ {totalValor.toFixed(2).replace('.', ',')}</span>
+                    <div className="container-totalizador-pagas">
+                        <span>Total Pago: R$ {totalValor.toFixed(2).replace('.', ',')}</span>
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };
