@@ -22,12 +22,12 @@ const EditarConta = () => {
             try {
                 const token = localStorage.getItem('token');
                 
-                const contaResponse = await fetch(`http://localhost:8080/contas/${id}`, {
+                const contaResponse = await fetch(`${import.meta.env.VITE_API_URL}/contas/${id}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 
                 
-                const usuariosResponse = await fetch('http://localhost:8080/usuarios', {
+                const usuariosResponse = await fetch(`${import.meta.env.VITE_API_URL}/usuarios`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
 
@@ -61,7 +61,7 @@ const EditarConta = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:8080/contas/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/contas/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

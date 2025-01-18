@@ -16,7 +16,7 @@ const ListaCategorias = ({ refresh }) => {
             if (!token) {
                 throw new Error('Token não encontrado. Faça login novamente.');
             }
-            const response = await fetch('http://localhost:8080/categorias', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/categorias`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

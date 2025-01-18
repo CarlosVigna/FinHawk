@@ -20,9 +20,9 @@ const ListaTitulo = ({ onEdit, refresh, tipoTransacao }) => {
                 return;
             }
 
-            let url = `http://localhost:8080/titulos?contaId=${idConta}`;
+            let url = `${import.meta.env.VITE_API_URL}/titulos?contaId=${idConta}`;
             
-            // Ajuste na lógica de filtro por tipo
+            
             if (tipoTransacao === 'recebimentos') {
                 url += '&tipo=Recebimento';
             } else if (tipoTransacao === 'pagamentos') {
@@ -41,7 +41,7 @@ const ListaTitulo = ({ onEdit, refresh, tipoTransacao }) => {
             }
 
             const data = await response.json();
-            console.log('Títulos recebidos:', data); // Debug
+            console.log('Títulos recebidos:', data); 
             setTitulos(data);
         } catch (error) {
             setError(error.message);
@@ -57,7 +57,7 @@ const ListaTitulo = ({ onEdit, refresh, tipoTransacao }) => {
         if (window.confirm('Tem certeza que deseja excluir este item?')) {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`http://localhost:8080/titulos/${id}`, {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/titulos/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`,

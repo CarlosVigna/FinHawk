@@ -3,12 +3,10 @@ import FormularioCategoria from '../../componentes/FormularioCategoria';
 import ListaCategorias from '../ListaCategorias';
 import './cadastroCategoria.css';
 
-const URL = "http://localhost:8080";
-
 async function cadastrarCategoria(categoria) {
     try {
         const token = localStorage.getItem('token');
-        const response = await fetch(URL + "/categorias", {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/categorias`, {
             method: "POST",
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -41,7 +39,7 @@ const CadastroCategoria = () => {
 
     const [erro, setErro] = useState("");
     const [refresh, setRefresh] = useState(false);
-    const [sucesso, setSucesso] = useState(""); 
+    const [sucesso, setSucesso] = useState("");
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -65,7 +63,6 @@ const CadastroCategoria = () => {
 
         try {
             await cadastrarCategoria(novaCategoria);
-
 
             setValores({
                 nome: '',

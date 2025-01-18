@@ -15,7 +15,7 @@ const ListaTitulo = ({ onEdit, refresh, tipoTransacao, filtroData }) => {
                 return;
             }
 
-            let url = `http://localhost:8080/titulos?contaId=${idConta}`;
+            let url = `${import.meta.env.VITE_API_URL}/titulos?contaId=${idConta}`;
             
             if (tipoTransacao && tipoTransacao !== 'todos') {
                 url += `&tipo=${encodeURIComponent(tipoTransacao)}`;

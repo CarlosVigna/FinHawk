@@ -22,7 +22,7 @@ const ContasRecebidas = () => {
                 return;
             }
 
-            const response = await fetch(`http://localhost:8080/titulos?contaId=${idConta}&tipo=Recebimento&status=RECEBIDO`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/titulos?contaId=${idConta}&tipo=Recebimento&status=RECEBIDO`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -61,7 +61,7 @@ const ContasRecebidas = () => {
                 contaId: idConta
             });
 
-            const response = await fetch(`http://localhost:8080/categorias/tipo?${params.toString()}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/categorias/tipo?${params.toString()}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -76,7 +76,7 @@ const ContasRecebidas = () => {
 
             const data = await response.json();
             setCategorias(data);
-            console.log('Categorias recebidas:', data); // Adicionado para ver o que vem nas categorias
+            console.log('Categorias recebidas:', data);
             setError(null);
         } catch (error) {
             console.error('Erro ao buscar categorias:', error);
@@ -90,7 +90,7 @@ const ContasRecebidas = () => {
     }, []);
 
     useEffect(() => {
-        console.log('Categorias no estado:', categorias); // Verificando o estado das categorias
+        console.log('Categorias no estado:', categorias); 
     }, [categorias]);
 
     const handleFilterStartDateChange = (event) => {

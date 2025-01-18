@@ -8,7 +8,7 @@ const ContaDetails = () => {
 
     useEffect(() => {
         const fetchConta = async () => {
-            const response = await fetch(`http://localhost:8080/contas/${id}/usuarios`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/contas/${id}/usuarios`, {
                 method: 'GET',
                 credentials: 'include',
             });

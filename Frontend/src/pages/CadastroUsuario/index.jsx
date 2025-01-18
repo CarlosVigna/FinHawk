@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Formulario from '../../componentes/Formulario';
 import './cadastroUsuario.css';
 
-const URL = "http://localhost:8080";
+const URL = `${import.meta.env.VITE_API_URL}`;
 
 async function cadastrarUsuario(usuario) {
     console.log("Enviando dados para o backend:", usuario);  

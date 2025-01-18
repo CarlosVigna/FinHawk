@@ -22,7 +22,7 @@ const ContasPagas = () => {
                 return;
             }
 
-            const response = await fetch(`http://localhost:8080/titulos?contaId=${idConta}&tipo=Pagamento&status=PAGO`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/titulos?contaId=${idConta}&tipo=Pagamento&status=PAGO`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -61,7 +61,7 @@ const ContasPagas = () => {
                 contaId: idConta
             });
 
-            const response = await fetch(`http://localhost:8080/categorias/tipo?${params.toString()}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/categorias/tipo?${params.toString()}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

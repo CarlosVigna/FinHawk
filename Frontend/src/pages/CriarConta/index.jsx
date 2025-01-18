@@ -5,7 +5,7 @@ import Select from 'react-select';
 
 const CriarConta = () => {
     const [descricao, setDescricao] = useState('');
-    const [fotoUrl, setFotoUrl] = useState(''); // Alterado de foto para fotoUrl
+    const [fotoUrl, setFotoUrl] = useState('');
     const [todosUsuarios, setTodosUsuarios] = useState([]);
     const [selectedUsuarios, setSelectedUsuarios] = useState([]);
     const navigate = useNavigate();
@@ -15,7 +15,7 @@ const CriarConta = () => {
         const fetchUsuarios = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch('http://localhost:8080/usuarios', {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/usuarios`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -59,7 +59,7 @@ const CriarConta = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:8080/contas', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/contas`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,

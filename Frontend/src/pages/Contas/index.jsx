@@ -14,7 +14,7 @@ const Contas = () => {
         const fetchContas = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch('http://localhost:8080/contas', {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/contas`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -63,7 +63,7 @@ const Contas = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:8080/contas/${idConta}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/contas/${idConta}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,

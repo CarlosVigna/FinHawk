@@ -19,7 +19,7 @@ const ContasPagar = () => {
                 return;
             }
 
-            const response = await fetch(`http://localhost:8080/titulos?contaId=${idConta}&tipo=Pagamento&status=PENDENTE`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/titulos?contaId=${idConta}&tipo=Pagamento&status=PENDENTE`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

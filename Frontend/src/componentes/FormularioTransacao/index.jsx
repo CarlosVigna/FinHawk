@@ -23,18 +23,27 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
         const fetchCategorias = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch('http://localhost:8080/categorias', {
+                console.log("Token obtido do localStorage:", token);
+
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/categorias`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     }
                 });
+
+                console.log("Resposta da API para /categorias:", response);
+
                 if (!response.ok) {
                     throw new Error('Falha ao carregar categorias.');
                 }
+
                 const data = await response.json();
+                console.log("Dados recebidos da API:", data);
+
                 setCategorias(data);
             } catch (error) {
+                console.error("Erro ao buscar categorias:", error);
                 setErro(error.message);
             }
         };
@@ -43,6 +52,7 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
 
     useEffect(() => {
         if (tituloParaEditar) {
+            console.log("Editando título:", tituloParaEditar);
             setValores({
                 descricao: tituloParaEditar.descricao || '',
                 valor: tituloParaEditar.valor || '',
@@ -56,10 +66,9 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                 quantidadeRecorrencias: tituloParaEditar.quantidadeRecorrencias || 1,
                 periodicidade: tituloParaEditar.periodicidade || 'MENSAL',
                 numeroParcela: tituloParaEditar.numeroParcela || 1
-
             });
         } else {
-
+            console.log("Inicializando valores padrão para criação de título.");
             setValores({
                 descricao: '',
                 valor: '',
@@ -79,6 +88,7 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
 
     const handleInputChange = (event) => {
         const { name, value, type, checked } = event.target;
+        console.log(`Mudança detectada: ${name} = ${type === 'checkbox' ? checked : value}`);
         setValores(prev => ({
             ...prev,
             [name]: type === 'checkbox' ? checked : value
@@ -93,6 +103,8 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
         try {
             const token = localStorage.getItem('token');
             const idConta = localStorage.getItem('id');
+            console.log("Token para envio:", token);
+            console.log("ID da conta para envio:", idConta);
 
             if (!token || !idConta) {
                 throw new Error('Dados de autenticação não encontrados.');
@@ -107,9 +119,13 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                 contaId: parseInt(idConta)
             };
 
+            console.log("Dados que serão enviados para a API:", dadosParaEnviar);
+
             const url = tituloParaEditar
-                ? `http://localhost:8080/titulos/${tituloParaEditar.id}`
-                : `http://localhost:8080/contas/${idConta}/titulos`;
+                ? `${import.meta.env.VITE_API_URL}/${tituloParaEditar.id}`
+                : `${import.meta.env.VITE_API_URL}/contas/${idConta}/titulos`;
+
+            console.log("URL para envio:", url);
 
             const response = await fetch(url, {
                 method: tituloParaEditar ? 'PUT' : 'POST',
@@ -119,15 +135,20 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
                 },
                 body: JSON.stringify(dadosParaEnviar)
             });
-            const data = await response.json(); // Parseia a resposta para JSON
+
+            console.log("Resposta da API:", response);
+
+            const data = await response.json();
+            console.log("Dados recebidos após envio:", data);
 
             if (data.success) {
                 setSucesso(data.message);
-                if (onSave) onSave(data.data); // Envie os dados atualizados para onSave
+                if (onSave) onSave(data.data);
             } else {
                 setErro(data.message);
             }
         } catch (error) {
+            console.error("Erro ao enviar dados:", error);
             setErro(error.message);
         }
     };
@@ -320,5 +341,7 @@ const FormularioTransacao = ({ tituloParaEditar, onSave, onCancel }) => {
         </form>
     );
 };
+
+
 
 export default FormularioTransacao;
