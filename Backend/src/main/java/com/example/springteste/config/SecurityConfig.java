@@ -1,6 +1,5 @@
 package com.example.springteste.config;
 
-import com.example.springteste.service.UsuariosService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,9 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import com.example.springteste.security.SecurityFilter;
-
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -29,11 +25,13 @@ public class SecurityConfig {
     @Value("${FRONTEND_URL}")
     private String frontendUrl;
 
-    @Autowired
-    private SecurityFilter securityFilter;
 
     @Autowired
-    private UsuariosService usuariosService;
+    private AutenticacaoService autenticacaoService;
+
+
+    @Autowired
+    private FiltroSeguranca filtroSeguranca;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -45,7 +43,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**", "/usuarios/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(filtroSeguranca, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
@@ -57,7 +55,7 @@ public class SecurityConfig {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(usuariosService);
+        authProvider.setUserDetailsService(autenticacaoService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
