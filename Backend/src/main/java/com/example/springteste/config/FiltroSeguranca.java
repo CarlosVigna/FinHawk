@@ -19,7 +19,7 @@ import java.io.IOException;
 
 @Component
 public class FiltroSeguranca extends OncePerRequestFilter {
-    @Value("${api.security.token.secret}") // ALTERADO AQUI
+    @Value("${api.security.token.secret}")
     private String secret;
 
     @Autowired
