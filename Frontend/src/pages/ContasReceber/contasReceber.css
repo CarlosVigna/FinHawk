@@ -1,0 +1,226 @@
+/* Container principal para o relatório de contas recebidas */
+.container-relatorio-receber {
+    padding: 25px;
+    background: linear-gradient(135deg, #535353, #000000); /* Gradiente em tons de vermelho */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    margin: 30px auto;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Caixa principal do relatório */
+.caixa-relatorio-receber {
+    background-color: rgb(255, 255, 255);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-top: 25px;
+}
+
+/* Título principal do relatório */
+.titulo-contas-receber {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.titulo-contas-receber h1 {
+    color: #f7f7f7;
+    font-size: 2.8rem;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+    margin-bottom: 5px;
+}
+
+/* Container para os filtros do relatório */
+.container-filtro-receber {
+    margin: 0 auto 30px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 45px;
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container-filtro-receber label {
+    font-weight: 600;
+    color: #333;
+}
+
+.container-filtro-receber input[type="date"],
+.container-filtro-receber select {
+    height: 55px;
+    width: 220px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.container-filtro-receber select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.7em top 50%, 0 0;
+    background-size: 0.65em auto, 100%;
+}
+
+.container-filtro-receber input[type="date"]:focus,
+.container-filtro-receber select:focus {
+    border-color: #8b4545;
+    box-shadow: 0 0 0 2px rgba(139, 69, 69, 0.25);
+    outline: none;
+}
+
+/* Tabela para exibir os dados do relatório */
+.tabela-relatorio-receber {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tabela-relatorio-receber th,
+.tabela-relatorio-receber td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.tabela-relatorio-receber th {
+    background-color: #3b8a59;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s;
+}
+
+.tabela-relatorio-receber th:hover {
+    background-color: #2f4b3a;
+}
+
+.tabela-relatorio-receber th span {
+    display: inline-block;
+    transition: transform 0.3s;
+}
+
+.tabela-relatorio-receber th.asc span {
+    transform: rotate(180deg);
+}
+
+.tabela-relatorio-receber tbody tr:nth-child(even) {
+    background-color: #7a7a7a;
+}
+
+.tabela-relatorio-receber tbody tr:hover {
+    background-color: #2f4b3a;
+    transition: background-color 0.2s ease;
+}
+
+.tabela-relatorio-receber tbody {
+    background-color: #535353;
+}
+
+/* Container para o totalizador */
+.container-totalizador-receber {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: #3b8a59;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.container-totalizador-receber span {
+    margin-left: 10px;
+}
+
+/* Cabeçalho do relatório com informações do período e data de geração */
+.cabecalho-relatorio-receber {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #3b8a59;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.cabecalho-relatorio-receber p {
+    font-size: 1rem;
+    color: #ffffff;
+    margin: 0;
+}
+
+/* Media queries para responsividade */
+@media screen and (max-width: 768px) {
+    .container-relatorio-receber {
+        padding: 15px;
+        width: 95%;
+    }
+
+    .titulo-contas-receber h1 {
+        font-size: 2.2rem;
+    }
+
+    .container-filtro-receber {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .tabela-relatorio-receber th,
+    .tabela-relatorio-receber td {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .container-totalizador-receber {
+        font-size: 1.1rem;
+    }
+
+    .cabecalho-relatorio-receber {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container-relatorio-receber {
+        padding: 10px;
+    }
+
+    .titulo-contas-receber h1 {
+        font-size: 1.8rem;
+    }
+
+    .container-filtro-receber input[type="date"],
+    .container-filtro-receber select {
+        height: 40px;
+        font-size: 0.9rem;
+    }
+
+    .tabela-relatorio-receber th,
+    .tabela-relatorio-receber td {
+        padding: 8px;
+        font-size: 0.8rem;
+    }
+
+    .container-totalizador-receber {
+        font-size: 1rem;
+    }
+}

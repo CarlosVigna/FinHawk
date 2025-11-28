@@ -1,0 +1,111 @@
+.sobre-container {
+  padding: 30px;
+  font-family: Arial, sans-serif;
+  max-width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.sobre-container p,
+.sobre-container ul {
+  text-align: justify;
+}
+
+.sobre-introducao,
+.sobre-tecnologias,
+.sobre-contatos {
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+.sobre-tecnologias ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+.equipe-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.equipe-membro {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background-color: #f9f9f9;
+  width: calc(33.33% - 20px);
+}
+
+.equipe-membro img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 0 15px;
+}
+
+.membro-info {
+  flex: 1;
+}
+
+.membro-info p {
+  margin: 0 0 10px;
+}
+
+.membro-info ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 10px;
+}
+
+.membro-info a {
+  color: #0073e6;
+  text-decoration: none;
+}
+
+.membro-info a:hover {
+  text-decoration: underline;
+  color: #005bb5;
+}
+
+@media screen and (max-width: 768px) {
+    .sobre-container {
+        padding: 15px;
+        max-width: 95%;
+    }
+
+    .equipe-container {
+        gap: 10px;
+    }
+
+    .equipe-membro {
+        width: 100%;
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .equipe-membro img {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 10px;
+    }
+
+    .membro-info {
+        text-align: center;
+    }
+
+    .membro-info ul {
+        justify-content: center;
+    }
+}

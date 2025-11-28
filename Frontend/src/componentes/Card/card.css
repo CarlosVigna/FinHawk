@@ -1,0 +1,114 @@
+.contas-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #e6f7f9, #ffffff);
+    min-height: 100vh;
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    width: 300px;
+    min-height: 400px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+.card h1 {
+    color: #085659;
+    font-size: 1.5rem;
+    margin: 15px 0;
+    text-align: center;
+    font-weight: 600;
+}
+
+.card ul {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+    width: 100%;
+}
+
+.card li {
+    padding: 8px 12px;
+    margin: 5px 0;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    color: #495057;
+    font-size: 0.95rem;
+}
+
+.imagem-card {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.botao-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.botao-container .botao-padrao {
+    flex: 1;
+    padding: 10px;
+    font-size: 0.9rem;
+}
+
+.card-botoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+    width: 100%;
+    justify-content: center;
+}
+
+.card-botoes button {
+    flex: 1 1 30%;
+    margin: 5px;
+}
+
+@media (max-width: 768px) {
+    .card {
+        width: 100%;
+        max-width: 340px;
+    }
+
+    .botao-container {
+        flex-direction: column;
+    }
+
+    .botao-container .botao-padrao {
+        width: 100%;
+        margin: 5px 0;
+    }
+}

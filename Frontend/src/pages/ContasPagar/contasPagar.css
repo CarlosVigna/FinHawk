@@ -1,0 +1,235 @@
+.rel-pagar-container {
+    padding: 20px;
+    background-color: #ffebee;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: auto;
+    margin: 0 auto;
+}
+
+.relatorio-box {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.titulo-contas-pagar {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.titulo-contas-pagar h1 {
+    color: #2c3e50;
+    font-size: 2.5rem;
+}
+
+.filter-rel-container {
+    margin: 0 auto;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 36%;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.filter-rel-container label {
+    font-weight: bold;
+    color: rgb(49, 48, 48);
+}
+
+.rel-table-hover {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.rel-table-hover th,
+.rel-table-hover td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.rel-table-hover th {
+    background-color: #e53935;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.rel-table-hover td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+    color: #333333;
+    font-weight: 500;
+}
+
+.rel-table-hover tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.rel-table-hover tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+.rel-table-hover tr:hover {
+    background-color: #ffebee;
+    transition: background-color 0.2s ease;
+}
+
+.rel-table-hover tr td {
+    border-bottom: 1px solid #eaeaea;
+}
+
+.cabecalho-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    border-radius: 8px;
+    color: #2c3e50;
+    font-size: 1.1em;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.cabecalho-container p {
+    margin: 5px 0;
+}
+
+.cabecalho-container strong {
+    font-size: 1.2em;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.cabecalho-container span {
+    margin-left: 5px;
+}
+
+.totalizador-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: #e53935;
+    padding: 20px;
+    border-radius: 4px;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1.5em;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.totalizador-container span {
+    margin-left: 5px;
+}
+
+
+@media screen and (max-width: 768px) {
+
+    .rel-receber-container,
+    .rel-recebidas-container,
+    .rel-pagar-container,
+    .rel-pagas-container {
+        padding: 10px;
+        margin: 10px;
+    }
+
+    .titulo-contas-receber h1,
+    .titulo-contas-recebidas h1,
+    .titulo-contas-pagar h1,
+    .titulo-contas-pagas h1 {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+    }
+
+    .filter-rel-container {
+        width: 100%;
+        flex-direction: column;
+        padding: 12px;
+        gap: 8px;
+    }
+
+    .filter-rel-container input[type="date"] {
+        width: 100%;
+        height: 40px;
+        font-size: 16px;
+    }
+
+    .relatorio-box {
+        padding: 10px;
+        margin-top: 15px;
+    }
+
+    .cabecalho-container {
+        padding: 12px;
+        font-size: 0.9em;
+    }
+
+    .rel-table-hover {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .rel-table-hover th,
+    .rel-table-hover td {
+        padding: 8px;
+        font-size: 0.9em;
+    }
+
+    .totalizador-container {
+        padding: 15px;
+        font-size: 1.2em;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+}
+
+@media screen and (max-width: 480px) {
+
+    .rel-receber-container,
+    .rel-recebidas-container,
+    .rel-pagar-container,
+    .rel-pagas-container {
+        padding: 8px;
+        margin: 5px;
+    }
+
+    .titulo-contas-receber h1,
+    .titulo-contas-recebidas h1,
+    .titulo-contas-pagar h1,
+    .titulo-contas-pagas h1 {
+        font-size: 1.5rem;
+    }
+
+    .filter-rel-container {
+        padding: 8px;
+    }
+
+    .cabecalho-container {
+        padding: 8px;
+        font-size: 0.85em;
+    }
+
+    .rel-table-hover th,
+    .rel-table-hover td {
+        padding: 6px;
+        font-size: 0.85em;
+    }
+
+    .totalizador-container {
+        padding: 12px;
+        font-size: 1.1em;
+    }
+}

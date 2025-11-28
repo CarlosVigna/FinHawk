@@ -1,0 +1,235 @@
+:root {
+    --primary-color: #b4e6e7; 
+    --primary-dark: #dee7e7;  
+    --secondary-color: #28a745; 
+    --secondary-dark: #218838;  
+    --hover-color: #ECF0F1;
+    --text-color: #121414;      
+    --hover-scale: 1.05;        
+    --transition-speed: 0.3s;   
+    
+}
+
+button, .botao-padrao {
+    display: inline-block;
+    padding: 14px 28px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: none;
+    color: var(--text-color);
+    background-color: var(--primary-color);
+    cursor: pointer;
+    transition: background-color var(--transition-speed), transform var(--transition-speed), box-shadow var(--transition-speed);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+}
+
+.botao-card {
+    background-color: var(--primary-color);
+}
+
+.botao-card:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.botao-salvar, .botao-procurar, .botao-enviar, .botao-cadastrar, .botao-login {
+    background-color: var(--primary-color);
+}
+
+.botao-salvar:hover, .botao-procurar:hover, .botao-enviar:hover, .botao-cadastrar:hover, .botao-login:hover {
+    background-color: var(--primary-dark);
+    transform: scale(var(--hover-scale));
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.botao-enviar-cadastro {
+    background-color: var(--secondary-color);
+    color: #fff;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.3rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.botao-enviar-cadastro:hover {
+    background-color: var(--secondary-dark);
+    transform: scale(var(--hover-scale));
+}
+
+button:active, 
+.botao-padrao:active, 
+.botao-salvar:active, 
+.botao-procurar:active, 
+.botao-enviar:active, 
+.botao-cadastrar:active, 
+.botao-login:active, 
+.botao-enviar-cadastro:active {
+    transform: scale(1);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:focus, 
+.botao-padrao:focus, 
+.botao-salvar:focus, 
+.botao-procurar:focus, 
+.botao-enviar:focus, 
+.botao-cadastrar:focus, 
+.botao-login:focus, 
+.botao-enviar-cadastro:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(1, 153, 161, 0.5);
+}
+
+@media (max-width: 768px) {
+    button, .botao-padrao {
+        width: 100%;
+        padding: 16px;
+        font-size: 18px;
+    }
+}
+
+button:active, 
+.botao-padrao:active {
+    transform: scale(0.95); 
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.botao-padrao {
+    background-color: var(--primary-color);
+    transition: background-color var(--transition-speed), transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.botao-padrao:hover {
+    background-color: #028090;
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.botao-padrao:active {
+    transform: scale(1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.botao-enviar {
+    background-color: #007bff;
+}
+
+
+.botao-container {
+    display: flex;
+    gap: 16px;
+    text-decoration: none;
+}
+
+.botao-login {
+    background-color: #0199a1; 
+    font-size: 16px; 
+    padding: 12px 24px;
+    text-decoration: none; 
+}
+
+.botao-login:hover {
+    background-color: #085659; 
+    text-decoration: none;
+}
+
+.botao-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .botao-enviar-cadastro {
+    background-color: #2694dd;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.3rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .botao-enviar-cadastro:hover {
+    background-color: #2980b9;
+  }
+  
+  .botao-container .botao-login {
+    background-color: #0199a1;
+    color: #fff;
+    padding: 12px 30px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .botao-container .botao-login:hover {
+    background-color: #017a80;
+  }
+
+  .botao-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.botao-container .botao-padrao {
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+}
+
+.botao-padrao.botao-salvar {
+    background-color: #0199a1;
+    color: #fff;
+}
+
+.botao-padrao.botao-salvar:hover {
+    background-color: #017c7d;
+}
+
+.botao-padrao.botao-sair {
+    background-color: #ccc;
+    color: #333;
+}
+
+.botao-padrao.botao-sair:hover {
+    background-color: #aaa;
+}
+
+.button-primary {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color var(--transition-speed), transform var(--transition-speed);
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.button-primary:hover {
+    background-color: var(--hover-color);
+    transform: scale(var(--hover-scale));
+}
+
+.botao-salvar {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.botao-salvar:hover {
+    background-color: #218838;
+    transform: scale(var(--hover-scale));
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}

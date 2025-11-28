@@ -1,0 +1,233 @@
+/* Container principal para o relatório de contas pagas */
+.container-relatorio-pagas {
+    padding: 25px;
+    background: linear-gradient(135deg, #535353, #000000); /* Gradiente em tons de vermelho */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    margin: 30px auto;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Caixa principal do relatório */
+.caixa-relatorio-pagas {
+    background-color: rgb(255, 255, 255);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-top: 25px;
+}
+
+/* Título principal do relatório */
+.titulo-contas-pagas {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+select#categoria option {
+    color: #000000; /* Cor do texto */
+    background-color: #ffffff; /* Cor de fundo */
+}
+
+
+
+.titulo-contas-pagas h1 {
+    color: #f7f7f7;
+    font-size: 2.8rem;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+    margin-bottom: 5px;
+}
+
+/* Container para os filtros do relatório */
+.container-filtro-pagas {
+    margin: 0 auto 30px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 45px;
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container-filtro-pagas label {
+    font-weight: 600;
+    color: #333;
+}
+
+.container-filtro-pagas input[type="date"],
+.container-filtro-pagas select {
+    height: 55px;
+    width: 220px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.container-filtro-pagas select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.7em top 50%, 0 0;
+    background-size: 0.65em auto, 100%;
+}
+
+.container-filtro-pagas input[type="date"]:focus,
+.container-filtro-pagas select:focus {
+    border-color: #b16262;
+    box-shadow: 0 0 0 2px rgba(139, 69, 69, 0.25);
+    outline: none;
+}
+
+/* Tabela para exibir os dados do relatório */
+.tabela-relatorio-pagas {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tabela-relatorio-pagas th,
+.tabela-relatorio-pagas td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.tabela-relatorio-pagas th {
+    background-color: #df5d5d;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s;
+}
+
+.tabela-relatorio-pagas th:hover {
+    background-color: #af3c3c;
+}
+
+.tabela-relatorio-pagas th span {
+    display: inline-block;
+    transition: transform 0.3s;
+}
+
+.tabela-relatorio-pagas th.asc span {
+    transform: rotate(180deg);
+}
+
+.tabela-relatorio-pagas tbody tr:nth-child(even) {
+    background-color: #7a7a7a;
+}
+
+.tabela-relatorio-pagas tbody tr:hover {
+    background-color: #af3c3c;
+    transition: background-color 0.2s ease;
+}
+
+.tabela-relatorio-pagas tbody {
+    background-color: #535353;
+}
+
+/* Container para o totalizador */
+.container-totalizador-pagas {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: #df5d5d;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.container-totalizador-pagas span {
+    margin-left: 10px;
+}
+
+/* Cabeçalho do relatório com informações do período e data de geração */
+.cabecalho-relatorio-pagas {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #df5d5d;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.cabecalho-relatorio-pagas p {
+    font-size: 1rem;
+    color: #ffffff;
+    margin: 0;
+}
+
+/* Media queries para responsividade */
+@media screen and (max-width: 768px) {
+    .container-relatorio-pagas {
+        padding: 15px;
+        width: 95%;
+    }
+
+    .titulo-contas-pagas h1 {
+        font-size: 2.2rem;
+    }
+
+    .container-filtro-pagas {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .tabela-relatorio-pagas th,
+    .tabela-relatorio-pagas td {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .container-totalizador-pagas {
+        font-size: 1.1rem;
+    }
+
+    .cabecalho-relatorio-pagas {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container-relatorio-pagas {
+        padding: 10px;
+    }
+
+    .titulo-contas-pagas h1 {
+        font-size: 1.8rem;
+    }
+
+    .container-filtro-pagas input[type="date"],
+    .container-filtro-pagas select {
+        height: 40px;
+        font-size: 0.9rem;
+    }
+
+    .tabela-relatorio-pagas th,
+    .tabela-relatorio-pagas td {
+        padding: 8px;
+        font-size: 0.8rem;
+    }
+
+    .container-totalizador-pagas {
+        font-size: 1rem;
+    }
+}

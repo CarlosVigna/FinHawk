@@ -1,0 +1,215 @@
+.editar-conta-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"] {
+    width: calc(100% - 100px); 
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.usuarios-lista {
+    margin-bottom: 15px;
+}
+
+.user-input {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
+.user-input input {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.remove-button, .add-button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #007bff; 
+    color: white;
+
+}
+
+.remove-button {
+    background-color: #dc3545;
+    margin-left:10px; 
+}
+
+button[type="submit"] {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+.basic-multi-select {
+    margin-bottom: 20px;
+}
+
+.select__control {
+    border: 1px solid #ccc !important;
+    border-radius: 4px !important;
+    min-height: 45px !important;
+}
+
+.select__control:hover {
+    border-color: #0199a1 !important;
+}
+
+.select__control--is-focused {
+    border-color: #0199a1 !important;
+    box-shadow: 0 0 0 1px #0199a1 !important;
+}
+
+.botoes-container {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.botao-salvar,
+.botao-cancelar {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.botao-salvar {
+    background-color: #28a745;
+    color: white;
+}
+
+.botao-salvar:hover {
+    background-color: #218838;
+}
+
+.botao-cancelar {
+    background-color: #dc3545;
+    color: white;
+}
+
+.botao-cancelar:hover {
+    background-color: #c82333;
+}
+
+@media screen and (max-width: 768px) {
+    .editar-conta-container {
+        margin: 20px;
+        padding: 20px;
+        width: auto;
+        max-width: 100%;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .basic-multi-select {
+        margin-bottom: 25px;
+    }
+
+    .select__control {
+        min-height: 50px !important;
+    }
+
+    .select__value-container {
+        padding: 8px !important;
+    }
+
+    .select__input {
+        font-size: 16px !important;
+    }
+
+    .botoes-container {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .botao-salvar,
+    .botao-cancelar {
+        width: 100%;
+        padding: 14px;
+        font-size: 16px;
+        margin: 0;
+    }
+
+    .error-message {
+        padding: 12px;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .editar-conta-container {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+}

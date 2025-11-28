@@ -1,0 +1,438 @@
+.categoria-container {
+    padding: 20px;
+    background-color: #777777;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+    width: 100%;
+    color: #ffffff;
+}
+
+.titulo-categorias {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.titulo-categorias h1 {
+    color: #ffffff;
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.filter-container {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-container label {
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+}
+
+.filter-container select,
+.filter-container input[type="date"] {
+    padding: 10px;
+    margin-right: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    background-color: #f8f9fa;
+    width: 150px;
+    box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.05);
+    transition: border-color 0.3s ease;
+}
+
+.filter-container select:focus,
+.filter-container input[type="date"]:focus {
+    border-color: #80bdff;
+    outline: none;
+}
+
+.botao-atualizar {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.botao-atualizar svg {
+    transition: transform 0.3s ease;
+}
+
+.botao-atualizar svg:hover {
+    transform: rotate(180deg);
+}
+
+.table-categorias {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.table-categorias thead {
+    background-color: #ebf4f5;
+}
+
+.table-categorias thead th {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ffffff;
+    background-color: #2f3031;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.table-categorias tbody tr {
+    background-color: #777777;
+}
+
+.table-categorias tbody tr:nth-child(even) {
+    background-color: #585757;
+}
+
+.table-categorias td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+}
+
+.table-categorias th {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #fffefe;
+    background-color: #2f3031;
+    color: #ffffff;
+}
+
+.table-categorias tr:nth-child(even) {
+    background-color: #585757;
+}
+
+.table-categorias tr:hover {
+    background-color: #80bdff;
+    transition: background-color 0.2s ease;
+}
+
+.table-categorias tr td {
+    border-bottom: 1px solid #eaeaea;
+}
+
+.loading {
+    text-align: center;
+    padding: 10px;
+    color: #ffffff;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.erro-mensagem {
+    color: #ff4444;
+    text-align: center;
+    padding: 10px;
+    margin: 10px 0;
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+@media (max-width: 1200px) {
+    .categoria-container {
+        margin-top: 20px;
+    }
+}
+
+.table-container {
+    padding: 25px;
+    background-color: #777777;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    height: fit-content;
+    overflow-x: auto;
+    color: #ecf0f1;
+    margin-top: 10px;
+}
+
+.filtros-historico {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #2f3031;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.botoes-tipo-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+
+.botao-tipo {
+    padding: 12px 40px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #f0f0f0;
+    color: #333;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.botao-tipo:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #017c7d;
+    color: white;
+}
+
+.botao-tipo.ativo {
+    background-color: #0199a1;
+    color: white;
+}
+
+.botao-filtrar {
+    padding: 8px 16px;
+    background-color: #0199a1;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.botao-filtrar:hover {
+    background-color: #017c7d;
+    transform: translateY(-1px);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: transparent;
+}
+
+table th {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 2px solid #2f3031;
+    background-color: #2f3031;
+    color: #fff;
+    font-weight: 600;
+}
+
+table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #2f3031;
+    color: #ecf0f1;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #585757;
+}
+
+table tbody tr:hover {
+    background-color: #3a516b;
+    transition: background-color 0.2s ease;
+}
+
+.acoes-cell {
+    display: flex;
+    gap: 10px;
+}
+
+@media (max-width: 768px) {
+    .categoria-container {
+        padding: 12px;
+        margin: 10px;
+        border-radius: 6px;
+    }
+
+    .titulo-categorias h1 {
+        font-size: 20px;
+        margin-bottom: 12px;
+    }
+
+    .filter-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .filter-container select {
+        width: 100%;
+        height: 45px;
+        font-size: 16px;
+    }
+
+    .table-container {
+        padding: 10px;
+        margin: 5px 0;
+        overflow-x: auto;
+    }
+
+    .table-categorias {
+        min-width: 500px; /* Garante scroll horizontal */
+        font-size: 14px;
+    }
+
+    .table-categorias th,
+    .table-categorias td {
+        padding: 10px 8px;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .table-categorias thead th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        font-size: 13px;
+    }
+
+    .acoes-cell {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        padding: 5px;
+    }
+
+    .acoes-cell svg {
+        font-size: 18px;
+        padding: 5px;
+    }
+
+    .loading {
+        padding: 15px;
+        font-size: 14px;
+    }
+
+    .erro-mensagem {
+        font-size: 13px;
+        padding: 10px;
+        margin: 8px 0;
+    }
+
+    .table-categorias {
+        min-width: 600px; 
+    }
+
+    .table-categorias td,
+    .table-categorias th {
+        padding: 12px 8px;
+        font-size: 14px;
+    }
+
+    .botao-atualizar {
+        width: 100%;
+        justify-content: center;
+        padding: 12px;
+        margin: 10px 0;
+    }
+
+    .botoes-tipo-container {
+        flex-direction: column;
+        width: 100%;
+        padding: 10px;
+        gap: 8px;
+        margin-bottom: 15px;
+    }
+
+    .botao-tipo {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 45px;
+        margin: 0;
+    }
+
+    .botao-tipo.ativo {
+        transform: scale(1);
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .botao-filtrar {
+        width: 100%;
+        height: 45px;
+        justify-content: center;
+        font-size: 14px;
+        padding: 10px;
+        margin-top: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .categoria-container {
+        padding: 8px;
+        margin: 5px;
+    }
+
+    .titulo-categorias h1 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .table-categorias th,
+    .table-categorias td {
+        padding: 8px 6px;
+        font-size: 12px;
+    }
+
+    .acoes-cell {
+        gap: 10px;
+    }
+
+    .acoes-cell svg {
+        font-size: 16px;
+    }
+
+    .categoria-container {
+        padding: 10px;
+        margin: 8px;
+    }
+
+    .titulo-categorias h1 {
+        font-size: 20px;
+    }
+
+    .table-categorias td,
+    .table-categorias th {
+        padding: 10px 6px;
+        font-size: 13px;
+    }
+
+    .botoes-tipo-container {
+        padding: 8px;
+        gap: 6px;
+    }
+
+    .botao-tipo {
+        height: 40px;
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    .botao-filtrar {
+        height: 40px;
+        font-size: 13px;
+    }
+}
